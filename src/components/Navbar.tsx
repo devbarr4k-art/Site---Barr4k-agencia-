@@ -23,8 +23,9 @@ export default function Navbar() {
 
   return (
     <header
-      className={`fixed inset-x-0 top-0 z-50 transition-all duration-300 ${
-        scrolled || open ? "bg-ink/80 backdrop-blur-md border-b border-white/10" : "bg-transparent"
+      // borda sempre presente (só muda de cor) pra não piscar branca na transição
+      className={`fixed inset-x-0 top-0 z-50 border-b transition-[background-color,border-color,backdrop-filter] duration-300 ${
+        scrolled || open ? "bg-ink/80 backdrop-blur-md border-white/10" : "bg-transparent border-transparent"
       }`}
     >
       <div className="mx-auto flex h-20 max-w-7xl 2xl:max-w-[1440px] items-center justify-between px-4 sm:px-6 lg:px-8">
