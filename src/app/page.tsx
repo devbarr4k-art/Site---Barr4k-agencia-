@@ -194,11 +194,12 @@ function Brands() {
         </div>
         <div className="lg:col-span-6 grid grid-cols-2 gap-x-8 gap-y-10 items-center">
           {brands.slice(0, 7).map((b, i) => (
-            <Reveal key={b.name} delay={i * 60} className={i === 6 ? "col-span-2 sm:col-span-1" : ""}>
+            <Reveal key={b.name} delay={i * 60}>
               <BrandLogo b={b} />
             </Reveal>
           ))}
-          <Reveal delay={420} className="col-span-2 flex items-center gap-10">
+          {/* paiN, All Star e Gamdom na coluna da direita, ao lado da keydrop */}
+          <Reveal delay={420} className="flex flex-wrap items-center gap-x-5 gap-y-3 sm:gap-x-8">
             {brands.slice(7).map((b) => (
               <BrandLogo key={b.name} b={b} />
             ))}
@@ -232,10 +233,11 @@ function BrandLogo({ b, maxH, hidden }: { b: (typeof brands)[number]; maxH?: num
       className="group inline-block py-1"
     >
       <span
-        className="block bg-white/90 transition-all duration-300 group-hover:bg-amber group-hover:scale-110 group-hover:drop-shadow-[0_0_18px_rgba(242,162,12,0.55)] group-focus-visible:bg-amber"
+        className="block h-[calc(var(--h)*0.72)] sm:h-[var(--h)] bg-white/90 transition-all duration-300 group-hover:bg-amber group-hover:scale-110 group-hover:drop-shadow-[0_0_18px_rgba(242,162,12,0.55)] group-focus-visible:bg-amber"
         style={{
-          height: h,
-          width: h * b.ratio,
+          // no celular a logo fica 72% do tamanho (cabe nas 2 colunas)
+          ["--h" as string]: `${h}px`,
+          aspectRatio: b.ratio,
           WebkitMask: `url(${b.logo}) center / contain no-repeat`,
           mask: `url(${b.logo}) center / contain no-repeat`,
         }}
