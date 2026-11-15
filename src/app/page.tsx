@@ -280,16 +280,18 @@ function Stats() {
 }
 
 /* ───────────── FRAMEWORK ───────────── */
-// grade 2x2 solta: cada arte inclinada e flutuando no seu ritmo; cantos dos quadradinhos
-const GFX = [
-  { rot: "-rotate-3", float: "float-a", corner: "-left-3 -top-3", mt: "" },
-  { rot: "rotate-2", float: "float-b", corner: "-right-3 -top-3", mt: "mt-10 sm:mt-14" },
-  { rot: "rotate-2", float: "float-b", corner: "-right-3 -bottom-3", mt: "-mt-2" },
-  { rot: "-rotate-2", float: "float-a", corner: "-left-3 -bottom-3", mt: "mt-8 sm:mt-12" },
-];
+// cantos onde ficam os quadradinhos de cada arte (sempre metade pra fora, metade em cima)
+const CORNER_A = ["-left-3 -top-3", "-right-3 -top-3", "-right-3 -bottom-3", "-left-3 -top-3"];
+const CORNER_B = ["-right-3 -bottom-3 hidden", "-right-3 -bottom-3", "-left-3 -top-3 hidden", "-left-3 -bottom-3"];
 
 function Framework() {
   // posições medidas no slide do PDF (em % da área da colagem); z = quem fica na frente, como no slide
+  const pos = [
+    { left: "4.4%", top: "13.1%", width: "53.6%", z: 2 },
+    { left: "46.7%", top: "0%", width: "53.3%", z: 3 },
+    { left: "49.9%", top: "48.6%", width: "35.2%", z: 1 },
+    { left: "0%", top: "62.8%", width: "44.8%", z: 1 },
+  ];
   return (
     <section id="framework" className="relative overflow-hidden bg-ink py-24 lg:py-32">
       <Blobs variant="left" />
@@ -307,14 +309,18 @@ function Framework() {
           </Reveal>
         </div>
         <Reveal delay={150} className="lg:col-span-7">
-          <div className="mx-auto grid w-full max-w-[540px] grid-cols-2 items-start gap-5 sm:gap-7">
+          <div className="relative mx-auto aspect-[698/846] w-full max-w-[540px]">
             {graphics.map((g, i) => (
-              <div key={g.src} className={`${GFX[i].mt} ${GFX[i].float}`} style={{ animationDelay: `${i * -1.3}s` }}>
-                <div className={`group relative ${GFX[i].rot} transition-transform duration-500 hover:rotate-0 hover:scale-[1.06]`}>
-                  <Image src={g.src} alt={g.alt} width={600} height={600} quality={90} className="h-auto w-full ring-1 ring-white/70 shadow-2xl shadow-black/70" />
-                  {/* quadradinhos do site por cima de um canto da arte (igual às fotos do time) */}
-                  <PixelCluster variant={i % 2 ? "b" : "a"} size={14} className={`absolute z-10 ${GFX[i].corner}`} />
-                </div>
+              <div
+                key={g.src}
+                className="group absolute hover:!z-30"
+                style={{ left: pos[i].left, top: pos[i].top, width: pos[i].width, zIndex: pos[i].z }}
+              >
+                <Image src={g.src} alt={g.alt} width={600} height={600} quality={90} className="h-auto w-full ring-1 ring-white/70 shadow-2xl shadow-black/70 transition-[box-shadow,filter] duration-300 group-hover:ring-2 group-hover:ring-amber group-hover:brightness-110" />
+                {/* no hover a arte só vem pra frente, sem sair do lugar: o pedaço que ela cobre casa com a arte de baixo */}
+                {/* quadradinhos do site por cima dos cantos da arte (igual às fotos do time) */}
+                <PixelCluster variant={i % 2 ? "b" : "a"} size={14} className={`absolute z-10 ${CORNER_A[i]}`} />
+                <PixelCluster variant={i % 2 ? "a" : "b"} size={14} className={`absolute z-10 ${CORNER_B[i]}`} />
               </div>
             ))}
           </div>
