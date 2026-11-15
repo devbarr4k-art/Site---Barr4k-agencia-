@@ -51,9 +51,9 @@ export const brands = [
   { name: "Clash.gg", logo: "/img/brands/clash.png", h: 30, ratio: 480 / 92, url: "https://clash.gg" },
   { name: "CSGOSKINS", logo: "/img/brands/csgoskins.png", h: 28, ratio: 475 / 84, url: "https://csgoskins.gg" },
   { name: "Keydrop", logo: "/img/brands/keydrop.png", h: 36, ratio: 481 / 110, url: "https://key-drop.com" },
-  { name: "paiN Gaming", logo: "/img/brands/pain.png", h: 44, ratio: 135 / 101, url: "https://paingaming.com.br" },
-  { name: "All Star League", logo: "/img/brands/allstar.png", h: 58, ratio: 182 / 179, url: "#" },
-  { name: "Partner", logo: "/img/brands/brand3.png", h: 46, ratio: 115 / 134, url: "#" },
+  { name: "paiN Gaming", logo: "/img/brands/pain-v2.png", h: 44, ratio: 149 / 101, url: "https://paingaming.com.br" },
+  { name: "All Star League", logo: "/img/brands/allstar-v2.png", h: 58, ratio: 161 / 151, url: "#" },
+  { name: "Gamdom", logo: "/img/brands/gamdom.png", h: 50, ratio: 115 / 145, url: "https://gamdom.com" },
 ];
 
 export const stats = [
@@ -63,11 +63,12 @@ export const stats = [
   { prefix: "+", value: 150, suffix: "", label: "Streamers" },
 ];
 
+// Ordem = posição na colagem do Framework (igual ao slide do PDF)
 export const graphics = [
-  { src: "/img/gfx/gfx-1.jpg", alt: "Get exclusive skins campaign" },
-  { src: "/img/gfx/gfx-2.jpg", alt: "Degen apparel campaign" },
-  { src: "/img/gfx/gfx-3.jpg", alt: "New cases campaign" },
-  { src: "/img/gfx/gfx-4.jpg", alt: "Fallen x Zenith limited edition" },
+  { src: "/img/gfx/skins.jpg", alt: "Get exclusive skins campaign" },
+  { src: "/img/gfx/degen.jpg", alt: "Degen apparel campaign" },
+  { src: "/img/gfx/cases.jpg", alt: "New cases campaign" },
+  { src: "/img/gfx/fallen.jpg", alt: "Fallen x Zenith limited edition" },
 ];
 
 export const cases = [

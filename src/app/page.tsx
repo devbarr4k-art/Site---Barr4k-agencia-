@@ -279,12 +279,12 @@ function Stats() {
 
 /* ───────────── FRAMEWORK ───────────── */
 function Framework() {
-  // posições medidas no slide do PDF (em % da área da colagem); z = quem fica na frente
+  // posições medidas no slide do PDF (em % da área da colagem); z = quem fica na frente, como no slide
   const pos = [
-    { left: "8%", top: "15%", width: "39%", z: 1 },
-    { left: "45%", top: "3.5%", width: "47%", z: 3 },
-    { left: "46%", top: "48%", width: "30%", z: 4 },
-    { left: "4%", top: "66%", width: "42%", z: 2 },
+    { left: "4.4%", top: "13.1%", width: "53.6%", z: 2 },
+    { left: "46.7%", top: "0%", width: "53.3%", z: 3 },
+    { left: "49.9%", top: "48.6%", width: "35.2%", z: 1 },
+    { left: "0%", top: "62.8%", width: "44.8%", z: 1 },
   ];
   return (
     <section id="framework" className="relative overflow-hidden bg-ink py-24 lg:py-32">
@@ -303,7 +303,7 @@ function Framework() {
           </Reveal>
         </div>
         <Reveal delay={150} className="lg:col-span-7">
-          <div className="relative mx-auto aspect-[250/290] w-full max-w-[580px]">
+          <div className="relative mx-auto aspect-[698/846] w-full max-w-[540px]">
             {graphics.map((g, i) => (
               <div
                 key={g.src}
@@ -314,13 +314,12 @@ function Framework() {
               </div>
             ))}
             {/* quadradinhos brancos em volta, como no slide */}
-            <PixelCluster variant="a" size={16} className="absolute left-[4%] top-[12%] z-10" />
-            <PixelCluster variant="d" size={16} className="absolute left-[3%] top-[30%] z-10" />
-            <PixelCluster variant="c" size={16} className="absolute left-[40%] top-[-1%] z-10" />
-            <PixelCluster variant="b" size={16} className="absolute right-[-2%] top-[22%] z-10" />
-            <PixelCluster variant="a" size={16} className="absolute left-[73%] top-[66%] z-10" />
-            <PixelCluster variant="b" size={16} className="absolute left-[0%] top-[63%] z-10" />
-            <PixelCluster variant="c" size={16} className="absolute left-[36%] bottom-[-3%] z-10" />
+            <PixelCluster variant="a" size={16} className="absolute left-[-5%] top-[10%] z-10" />
+            <PixelCluster variant="c" size={16} className="absolute left-[36%] top-[-4%] z-10" />
+            <PixelCluster variant="b" size={16} className="absolute right-[-5%] top-[2%] z-10" />
+            <PixelCluster variant="a" size={16} className="absolute left-[80%] top-[70%] z-10" />
+            <PixelCluster variant="b" size={16} className="absolute left-[-5%] top-[63%] z-10" />
+            <PixelCluster variant="c" size={16} className="absolute left-[47%] top-[93%] z-10" />
           </div>
         </Reveal>
       </div>
