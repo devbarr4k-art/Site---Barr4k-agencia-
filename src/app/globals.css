@@ -1,0 +1,163 @@
+@import "tailwindcss";
+
+@theme inline {
+  --font-sans: var(--font-archivo);
+  --font-serif: var(--font-instrument);
+
+  /* Paleta tirada do deck da BB Agency */
+  --color-ink: #020a1c;
+  --color-navy: #061433;
+  --color-navy-2: #0b1d48;
+  --color-royal: #1a4fe6;
+  --color-sky: #3d7bff;
+  --color-amber: #f2a20c;
+  --color-amber-2: #ffc247;
+  --color-paper: #f4f2ec;
+}
+
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: 5rem;
+}
+
+body {
+  background: var(--color-ink);
+  color: var(--color-paper);
+  overflow-x: hidden;
+}
+
+::selection {
+  background: var(--color-amber);
+  color: var(--color-ink);
+}
+
+@layer components {
+/* Títulos estilo deck: serifa italiana condensada */
+.display {
+  font-family: var(--font-serif);
+  font-style: italic;
+  font-weight: 400;
+  letter-spacing: -0.03em;
+  line-height: 0.88;
+  text-transform: uppercase;
+}
+
+/* Rótulo pequeno sublinhado ("FEATURED", "BRANDS"...) */
+.eyebrow {
+  font-weight: 800;
+  font-stretch: 80%;
+  font-size: 0.8rem;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+  display: inline-block;
+  padding-bottom: 2px;
+  border-bottom: 2px solid currentColor;
+}
+
+/* Texto grosso e condensado dos parágrafos do deck */
+.grotesk {
+  font-weight: 700;
+  font-stretch: 78%;
+  letter-spacing: -0.01em;
+  line-height: 1.05;
+}
+
+}
+
+/* Granulado do deck por cima de tudo */
+.grain {
+  position: fixed;
+  inset: -50%;
+  z-index: 60;
+  pointer-events: none;
+  opacity: 0.11;
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='220' height='220'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3' stitchTiles='stitch'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>");
+  animation: grain 1.2s steps(6) infinite;
+}
+
+@keyframes grain {
+  0% { transform: translate(0, 0); }
+  20% { transform: translate(-3%, 2%); }
+  40% { transform: translate(2%, -3%); }
+  60% { transform: translate(-2%, -1%); }
+  80% { transform: translate(3%, 3%); }
+  100% { transform: translate(0, 0); }
+}
+
+/* Manchas de cor desfocadas (laranja/azul) */
+.blob {
+  position: absolute;
+  border-radius: 9999px;
+  filter: blur(90px);
+  opacity: 0.85;
+  pointer-events: none;
+  will-change: transform;
+}
+.blob-amber { background: radial-gradient(circle, var(--color-amber-2) 0%, var(--color-amber) 45%, transparent 70%); }
+.blob-blue { background: radial-gradient(circle, var(--color-sky) 0%, var(--color-royal) 45%, transparent 70%); }
+
+.drift-a { animation: driftA 18s ease-in-out infinite alternate; }
+.drift-b { animation: driftB 22s ease-in-out infinite alternate; }
+@keyframes driftA {
+  from { transform: translate(0, 0) scale(1); }
+  to { transform: translate(-8vw, 6vh) scale(1.15); }
+}
+@keyframes driftB {
+  from { transform: translate(0, 0) scale(1.1); }
+  to { transform: translate(7vw, -5vh) scale(0.95); }
+}
+
+/* Retícula de pontinhos (o "halftone" das artes) */
+.halftone {
+  background-image: radial-gradient(circle, rgba(255, 255, 255, 0.55) 1.1px, transparent 1.6px);
+  background-size: 7px 7px;
+}
+
+/* Halftone recortado no formato da logo */
+.halftone-mark {
+  -webkit-mask: url("/img/logo-mark.png") center / contain no-repeat;
+  mask: url("/img/logo-mark.png") center / contain no-repeat;
+}
+
+/* Halftone recortado em texto gigante (números do Stats) */
+.halftone-text {
+  background-image: radial-gradient(circle, rgba(255, 255, 255, 0.35) 1px, transparent 1.5px);
+  background-size: 6px 6px;
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+/* Animação de entrada ao rolar */
+.reveal {
+  opacity: 0;
+  transform: translateY(40px);
+  transition: opacity 0.9s cubic-bezier(0.2, 0.7, 0.2, 1), transform 0.9s cubic-bezier(0.2, 0.7, 0.2, 1);
+}
+.reveal.is-in {
+  opacity: 1;
+  transform: none;
+}
+
+/* Faixa de logos rodando */
+.marquee {
+  display: flex;
+  width: max-content;
+  animation: marquee 32s linear infinite;
+}
+.marquee:hover { animation-play-state: paused; }
+@keyframes marquee {
+  to { transform: translateX(-50%); }
+}
+
+/* Link com sublinhado que corre */
+.link-line {
+  background: linear-gradient(currentColor, currentColor) 0 100% / 0 2px no-repeat;
+  transition: background-size 0.35s ease;
+}
+.link-line:hover { background-size: 100% 2px; }
+
+@media (prefers-reduced-motion: reduce) {
+  .grain, .drift-a, .drift-b, .marquee { animation: none; }
+  .reveal { opacity: 1; transform: none; transition: none; }
+}
