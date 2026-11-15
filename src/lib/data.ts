@@ -65,10 +65,10 @@ export const stats = [
 
 // Ordem = posição na colagem do Framework (igual ao slide do PDF)
 export const graphics = [
-  { src: "/img/gfx/skins-clean.jpg", alt: "Get exclusive skins campaign" },
-  { src: "/img/gfx/degen-clean.jpg", alt: "Degen apparel campaign" },
-  { src: "/img/gfx/cases-clean.jpg", alt: "New cases campaign" },
-  { src: "/img/gfx/fallen-clean.jpg", alt: "Fallen x Zenith limited edition" },
+  { src: "/img/gfx/skins-solo.jpg", alt: "Get exclusive skins campaign" },
+  { src: "/img/gfx/degen-solo.jpg", alt: "Degen apparel campaign" },
+  { src: "/img/gfx/cases-solo.jpg", alt: "New cases campaign" },
+  { src: "/img/gfx/fallen-solo.jpg", alt: "Fallen x Zenith limited edition" },
 ];
 
 export const cases = [

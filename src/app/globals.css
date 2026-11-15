@@ -167,3 +167,10 @@ body {
   from { width: 0; }
   to { width: 100%; }
 }
+
+/* Artes do Framework flutuando devagar */
+.float-a { animation: floatA 7s ease-in-out infinite; }
+.float-b { animation: floatB 8s ease-in-out infinite; }
+@keyframes floatA { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-12px); } }
+@keyframes floatB { 0%, 100% { transform: translateY(-6px); } 50% { transform: translateY(8px); } }
+@media (prefers-reduced-motion: reduce) { .float-a, .float-b { animation: none; } }
