@@ -110,11 +110,13 @@ export default function ContactModal() {
       {/* fundo escuro com desfoque */}
       <button type="button" aria-label="Close" onClick={close} className="cm-backdrop absolute inset-0 bg-ink/80 backdrop-blur-md" />
 
-      <div className="cm-panel relative w-full max-w-2xl max-h-[100dvh] overflow-y-auto bg-navy ring-1 ring-white/15 sm:max-h-[92dvh]">
+      <div className="cm-panel relative w-full max-w-2xl max-h-[100dvh] overflow-y-auto overflow-x-hidden overscroll-contain bg-navy ring-1 ring-white/15 sm:max-h-[92dvh]">
         {/* manchas e retícula do deck */}
-        <div className="pointer-events-none absolute -right-24 -top-24 h-72 w-72 rounded-full bg-amber/40 blur-[80px]" aria-hidden />
-        <div className="pointer-events-none absolute -bottom-28 -left-20 h-72 w-72 rounded-full bg-royal/50 blur-[80px]" aria-hidden />
-        <div className="halftone halftone-mark pointer-events-none absolute -right-6 bottom-6 h-40 w-52 opacity-20" aria-hidden />
+        <div className="pointer-events-none absolute inset-0 overflow-hidden" aria-hidden>
+          <div className="pointer-events-none absolute -right-24 -top-24 h-72 w-72 rounded-full bg-amber/40 blur-[80px]" aria-hidden />
+          <div className="pointer-events-none absolute -bottom-28 -left-20 h-72 w-72 rounded-full bg-royal/50 blur-[80px]" aria-hidden />
+          <div className="halftone halftone-mark pointer-events-none absolute -right-6 bottom-6 h-40 w-52 opacity-20" aria-hidden />
+        </div>
 
         {/* pixels que cobrem o painel e vão sumindo um a um */}
         <div
