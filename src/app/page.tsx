@@ -280,6 +280,10 @@ function Stats() {
 }
 
 /* ───────────── FRAMEWORK ───────────── */
+// cantos onde ficam os quadradinhos de cada arte (sempre metade pra fora, metade em cima)
+const CORNER_A = ["-left-3 -top-3", "-right-3 -top-3", "-right-3 -bottom-3", "-left-3 -top-3"];
+const CORNER_B = ["-right-3 -bottom-3 hidden", "-right-3 -bottom-3", "-left-3 -top-3 hidden", "-left-3 -bottom-3"];
+
 function Framework() {
   // posições medidas no slide do PDF (em % da área da colagem); z = quem fica na frente, como no slide
   const pos = [
@@ -309,19 +313,15 @@ function Framework() {
             {graphics.map((g, i) => (
               <div
                 key={g.src}
-                className="absolute transition-transform duration-500 hover:-translate-y-2 hover:scale-[1.04] hover:!z-30 shadow-2xl shadow-black/70"
+                className="group absolute transition-transform duration-500 hover:-translate-y-2 hover:scale-[1.04] hover:!z-30"
                 style={{ left: pos[i].left, top: pos[i].top, width: pos[i].width, zIndex: pos[i].z }}
               >
-                <Image src={g.src} alt={g.alt} width={600} height={600} quality={90} className="h-auto w-full ring-1 ring-white/70" />
+                <Image src={g.src} alt={g.alt} width={600} height={600} quality={90} className="h-auto w-full ring-1 ring-white/70 shadow-2xl shadow-black/70" />
+                {/* quadradinhos do site por cima dos cantos da arte (igual às fotos do time) */}
+                <PixelCluster variant={i % 2 ? "b" : "a"} size={14} className={`absolute z-10 ${CORNER_A[i]}`} />
+                <PixelCluster variant={i % 2 ? "a" : "b"} size={14} className={`absolute z-10 ${CORNER_B[i]}`} />
               </div>
             ))}
-            {/* quadradinhos brancos em volta, como no slide */}
-            <PixelCluster variant="a" size={16} className="absolute left-[-5%] top-[10%] z-10" />
-            <PixelCluster variant="c" size={16} className="absolute left-[36%] top-[-4%] z-10" />
-            <PixelCluster variant="b" size={16} className="absolute right-[-5%] top-[2%] z-10" />
-            <PixelCluster variant="a" size={16} className="absolute left-[80%] top-[70%] z-10" />
-            <PixelCluster variant="b" size={16} className="absolute left-[-5%] top-[63%] z-10" />
-            <PixelCluster variant="c" size={16} className="absolute left-[47%] top-[93%] z-10" />
           </div>
         </Reveal>
       </div>
