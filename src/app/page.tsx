@@ -315,11 +315,11 @@ function Framework() {
             {graphics.map((g, i) => (
               <div
                 key={g.src}
-                className="group absolute transition-transform duration-500 ease-out hover:scale-[1.05] hover:!z-30"
+                className="group absolute transition-[transform,filter] duration-500 ease-out hover:scale-[1.04] hover:brightness-110"
                 style={{ left: pos[i].left, top: pos[i].top, width: pos[i].width, zIndex: pos[i].z }}
               >
                 <Image src={g.src} alt={g.alt} width={600} height={600} quality={90} className="art-img h-auto w-full" />
-                {/* no hover a arte inteira vem pra frente com zoom; os pedaços escondidos foram preenchidos na própria arte */}
+                {/* no hover a arte dá zoom mas fica na mesma camada: o pedaço escondido debaixo da vizinha continua escondido */}
                 {/* quadradinhos do site por cima dos cantos da arte (igual às fotos do time) */}
                 <PixelCluster variant={i % 2 ? "b" : "a"} size={14} className={`absolute z-10 scale-[0.6] sm:scale-100 ${CORNER_A[i]}`} />
                 <PixelCluster variant={i % 2 ? "a" : "b"} size={14} className={`absolute z-10 scale-[0.6] sm:scale-100 ${CORNER_B[i]}`} />
