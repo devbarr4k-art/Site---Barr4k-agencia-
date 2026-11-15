@@ -72,7 +72,7 @@ export default function StarsCarousel() {
                   <h3 className="display text-5xl sm:text-6xl normal-case">{s.name}</h3>
                   <p className="mt-2 flex items-center justify-between text-[11px] font-extrabold uppercase tracking-wider">
                     <span className="text-amber">{s.role}</span>
-                    <span className="text-white/60">{s.tag}</span>
+                    <span className="hidden sm:inline text-white/60">{s.tag}</span>
                   </p>
                 </div>
               </div>

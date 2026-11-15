@@ -319,8 +319,8 @@ function Framework() {
                 <Image src={g.src} alt={g.alt} width={600} height={600} quality={90} className="art-img h-auto w-full" />
                 {/* no hover a arte só vem pra frente, sem sair do lugar: o pedaço que ela cobre casa com a arte de baixo */}
                 {/* quadradinhos do site por cima dos cantos da arte (igual às fotos do time) */}
-                <PixelCluster variant={i % 2 ? "b" : "a"} size={14} className={`absolute z-10 ${CORNER_A[i]}`} />
-                <PixelCluster variant={i % 2 ? "a" : "b"} size={14} className={`absolute z-10 ${CORNER_B[i]}`} />
+                <PixelCluster variant={i % 2 ? "b" : "a"} size={14} className={`absolute z-10 scale-[0.6] sm:scale-100 ${CORNER_A[i]}`} />
+                <PixelCluster variant={i % 2 ? "a" : "b"} size={14} className={`absolute z-10 scale-[0.6] sm:scale-100 ${CORNER_B[i]}`} />
               </div>
             ))}
           </div>
