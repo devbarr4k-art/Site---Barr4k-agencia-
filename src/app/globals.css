@@ -167,11 +167,3 @@ body {
   from { width: 0; }
   to { width: 100%; }
 }
-
-/* Colagem do Framework: o zoom é na colagem inteira, centrado na arte do mouse,
-   então ela cresce e as outras acompanham sem desalinhar */
-.collage { transition: transform 0.5s cubic-bezier(0.2, 0.8, 0.2, 1); }
-.collage:has(.art-0:hover) { transform: scale(1.07); transform-origin: 31% 35%; }
-.collage:has(.art-1:hover) { transform: scale(1.07); transform-origin: 73% 22%; }
-.collage:has(.art-2:hover) { transform: scale(1.07); transform-origin: 67% 63%; }
-.collage:has(.art-3:hover) { transform: scale(1.07); transform-origin: 22% 81%; }

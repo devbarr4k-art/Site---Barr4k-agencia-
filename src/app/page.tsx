@@ -309,11 +309,11 @@ function Framework() {
           </Reveal>
         </div>
         <Reveal delay={150} className="lg:col-span-7">
-          <div className="collage relative mx-auto aspect-[698/846] w-full max-w-[540px]">
+          <div className="relative mx-auto aspect-[698/846] w-full max-w-[540px]">
             {graphics.map((g, i) => (
               <div
                 key={g.src}
-                className={`group art-${i} absolute hover:!z-30`}
+                className="group absolute hover:!z-30"
                 style={{ left: pos[i].left, top: pos[i].top, width: pos[i].width, zIndex: pos[i].z }}
               >
                 <Image src={g.src} alt={g.alt} width={600} height={600} quality={90} className="h-auto w-full ring-1 ring-white/70 shadow-2xl shadow-black/70 transition-[filter] duration-300 group-hover:brightness-110" />
