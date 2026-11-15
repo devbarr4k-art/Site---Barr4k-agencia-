@@ -11,8 +11,8 @@ export const openContact = () => window.dispatchEvent(new Event("open-contact"))
 const TOPICS = ["Brand partnership", "Creator management", "Organization", "Event", "Other"];
 const MAX = 1000;
 // grade de pixels que "se desfaz" pra revelar o formulário
-const COLS = 10;
-const ROWS = 12;
+// computador 10x12; celular 6x9 (menos quadradinhos = abertura lisa em celular fraco)
+const GRID = { desk: [10, 12], phone: [6, 9] } as const;
 
 // cor "aleatória" fixa de cada pixel (sem formar listras)
 const pxColor = (i: number) => {
@@ -32,10 +32,15 @@ export default function ContactModal() {
   const firstField = useRef<HTMLInputElement>(null);
 
   // atraso aleatório (mas fixo) de cada pixel
-  const delays = useMemo(() => Array.from({ length: COLS * ROWS }, (_, i) => ((i * 37) % 23) * 22 + (i % COLS) * 8), []);
+  const [[COLS, ROWS], setGrid] = useState<readonly [number, number]>(GRID.desk);
+  const delays = useMemo(
+    () => Array.from({ length: COLS * ROWS }, (_, i) => ((i * 37) % 23) * 22 + (i % COLS) * 8),
+    [COLS, ROWS]
+  );
 
   useEffect(() => {
     const onOpen = () => {
+      setGrid(window.innerWidth < 640 ? GRID.phone : GRID.desk);
       setOpen(true);
       setClosing(false);
     };
@@ -108,19 +113,20 @@ export default function ContactModal() {
       aria-labelledby="contact-title"
     >
       {/* fundo escuro com desfoque */}
-      <button type="button" aria-label="Close" onClick={close} className="cm-backdrop absolute inset-0 bg-ink/80 backdrop-blur-md" />
+      <button type="button" aria-label="Close" onClick={close} className="cm-backdrop absolute inset-0 bg-ink/90 sm:bg-ink/80 sm:backdrop-blur-md" />
 
       <div className="cm-panel relative w-full max-w-2xl max-h-[100dvh] overflow-y-auto overflow-x-hidden overscroll-contain bg-navy ring-1 ring-white/15 sm:max-h-[92dvh]">
         {/* manchas e retícula do deck */}
         <div className="pointer-events-none absolute inset-0 overflow-hidden" aria-hidden>
-          <div className="pointer-events-none absolute -right-24 -top-24 h-72 w-72 rounded-full bg-amber/40 blur-[80px]" aria-hidden />
-          <div className="pointer-events-none absolute -bottom-28 -left-20 h-72 w-72 rounded-full bg-royal/50 blur-[80px]" aria-hidden />
+          {/* manchas feitas com gradiente (bem mais leve que blur no celular) */}
+          <div className="pointer-events-none absolute -right-40 -top-40 h-[26rem] w-[26rem] rounded-full bg-[radial-gradient(circle,rgba(242,162,12,.45),transparent_65%)]" aria-hidden />
+          <div className="pointer-events-none absolute -bottom-44 -left-36 h-[26rem] w-[26rem] rounded-full bg-[radial-gradient(circle,rgba(26,79,230,.55),transparent_65%)]" aria-hidden />
           <div className="halftone halftone-mark pointer-events-none absolute -right-6 bottom-6 h-40 w-52 opacity-20" aria-hidden />
         </div>
 
         {/* pixels que cobrem o painel e vão sumindo um a um */}
         <div
-          className="pointer-events-none absolute inset-0 z-20 grid"
+          className="pointer-events-none absolute inset-0 z-20 grid [contain:strict]"
           style={{ gridTemplateColumns: `repeat(${COLS}, 1fr)`, gridTemplateRows: `repeat(${ROWS}, 1fr)` }}
           aria-hidden
         >
