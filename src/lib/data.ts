@@ -42,17 +42,18 @@ export const stars = [
   { name: "Boltz", role: "Ex-pro · Streamer", tag: "Counter-Strike", photo: "/img/stars/boltz.jpg" },
 ];
 
+// ratio = largura/altura do PNG; url = site da empresa ("#" = falta confirmar com o cliente)
 export const brands = [
-  { name: "CSGOBIG", logo: "/img/brands/csgobig.png", h: 34 },
-  { name: "Rain.gg", logo: "/img/brands/rain.png", h: 30 },
-  { name: "Gamers Club", logo: "/img/brands/gamersclub.png", h: 26 },
-  { name: "Degen.com", logo: "/img/brands/degen.png", h: 20 },
-  { name: "Clash.gg", logo: "/img/brands/clash.png", h: 30 },
-  { name: "CSGOSKINS", logo: "/img/brands/csgoskins.png", h: 28 },
-  { name: "Keydrop", logo: "/img/brands/keydrop.png", h: 36 },
-  { name: "paiN Gaming", logo: "/img/brands/pain.png", h: 44 },
-  { name: "All Star League", logo: "/img/brands/allstar.png", h: 58 },
-  { name: "Partner", logo: "/img/brands/brand3.png", h: 46 },
+  { name: "CSGOBIG", logo: "/img/brands/csgobig.png", h: 34, ratio: 487 / 103, url: "https://csgobig.com" },
+  { name: "Rain.gg", logo: "/img/brands/rain.png", h: 30, ratio: 482 / 93, url: "https://rain.gg" },
+  { name: "Gamers Club", logo: "/img/brands/gamersclub.png", h: 26, ratio: 477 / 72, url: "https://gamersclub.com.br" },
+  { name: "Degen.com", logo: "/img/brands/degen.png", h: 20, ratio: 472 / 49, url: "https://degen.com" },
+  { name: "Clash.gg", logo: "/img/brands/clash.png", h: 30, ratio: 480 / 92, url: "https://clash.gg" },
+  { name: "CSGOSKINS", logo: "/img/brands/csgoskins.png", h: 28, ratio: 475 / 84, url: "https://csgoskins.gg" },
+  { name: "Keydrop", logo: "/img/brands/keydrop.png", h: 36, ratio: 481 / 110, url: "https://key-drop.com" },
+  { name: "paiN Gaming", logo: "/img/brands/pain.png", h: 44, ratio: 135 / 101, url: "https://paingaming.com.br" },
+  { name: "All Star League", logo: "/img/brands/allstar.png", h: 58, ratio: 182 / 179, url: "#" },
+  { name: "Partner", logo: "/img/brands/brand3.png", h: 46, ratio: 115 / 134, url: "#" },
 ];
 
 export const stats = [

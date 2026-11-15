@@ -104,7 +104,7 @@ function Team() {
                   <PixelCluster variant="a" size={16} className="absolute -left-4 -top-4 z-10" />
                   <PixelCluster variant="b" size={16} className="absolute -right-4 -bottom-4 z-10" />
                   <div className="relative aspect-[4/5] overflow-hidden ring-1 ring-white/20 group">
-                    <Image src={m.photo} alt={m.name} fill sizes="(max-width:640px) 100vw, 300px" className="object-cover transition-transform duration-700 group-hover:scale-105" />
+                    <Image src={m.photo} alt={m.name} fill quality={90} sizes="(max-width:640px) 100vw, 300px" className="object-cover transition-transform duration-700 group-hover:scale-105" />
                   </div>
                 </div>
                 <div className="flex flex-col justify-between">
@@ -149,27 +149,25 @@ function Featured() {
     <section id="featured" className="relative overflow-hidden bg-ink py-24 lg:py-32">
       <Blobs variant="bottom" />
       <CornerCrosses />
-      <div className={`${wrap} grid gap-14 lg:grid-cols-12 items-center`}>
-        <div className="lg:col-span-5">
+      <div className={`${wrap} flex flex-col gap-8 lg:flex-row lg:items-end lg:justify-between`}>
+        <div>
           <Reveal><span className="eyebrow">Featured</span></Reveal>
           <Reveal delay={100}>
-            <h2 className="display mt-6 text-6xl sm:text-7xl xl:text-8xl">Stars that work with us</h2>
-          </Reveal>
-          <Reveal delay={200}>
-            <p className="grotesk mt-8 max-w-sm text-xl text-white/85">
-              Each personality has a clear positioning, a strong identity, and connection with the audience. Featuring hundreds of talented names.
-            </p>
-          </Reveal>
-          <Reveal delay={300}>
-            <a href="#creators" className="mt-8 inline-flex items-center gap-2 text-sm font-extrabold uppercase text-amber link-line">
-              See full roster <ArrowUpRight className="h-4 w-4" />
-            </a>
+            <h2 className="display mt-6 text-6xl sm:text-7xl xl:text-8xl">Stars that <span className="block lg:pl-[1.2em]">work with us</span></h2>
           </Reveal>
         </div>
-        <Reveal delay={150} className="lg:col-span-7">
-          <StarsCarousel />
+        <Reveal delay={200} className="lg:max-w-sm">
+          <p className="grotesk text-xl text-white/85">
+            Each personality has a clear positioning, a strong identity, and connection with the audience. Featuring hundreds of talented names.
+          </p>
+          <a href="#creators" className="mt-6 inline-flex items-center gap-2 text-sm font-extrabold uppercase text-amber link-line">
+            See full roster <ArrowUpRight className="h-4 w-4" />
+          </a>
         </Reveal>
       </div>
+      <Reveal delay={150} className="relative z-[2] mt-12">
+        <StarsCarousel />
+      </Reveal>
     </section>
   );
 }
@@ -195,12 +193,12 @@ function Brands() {
         <div className="lg:col-span-6 grid grid-cols-2 gap-x-8 gap-y-10 items-center">
           {brands.slice(0, 7).map((b, i) => (
             <Reveal key={b.name} delay={i * 60} className={i === 6 ? "col-span-2 sm:col-span-1" : ""}>
-              <Image src={b.logo} alt={b.name} width={240} height={60} className="w-auto opacity-90 hover:opacity-100 hover:scale-105 transition" style={{ height: b.h }} />
+              <BrandLogo b={b} />
             </Reveal>
           ))}
           <Reveal delay={420} className="col-span-2 flex items-center gap-10">
             {brands.slice(7).map((b) => (
-              <Image key={b.name} src={b.logo} alt={b.name} width={120} height={120} className="w-auto opacity-90 hover:opacity-100 hover:scale-105 transition" style={{ height: b.h }} />
+              <BrandLogo key={b.name} b={b} />
             ))}
           </Reveal>
         </div>
@@ -210,11 +208,37 @@ function Brands() {
       <div className="relative z-[2] mt-20 border-y border-white/20 bg-ink/40 py-6 backdrop-blur-sm overflow-hidden">
         <div className="marquee items-center gap-16 pr-16">
           {row.map((b, i) => (
-            <Image key={i} src={b.logo} alt="" width={200} height={50} className="w-auto opacity-80" style={{ height: Math.min(b.h, 36) }} />
+            <BrandLogo key={i} b={b} maxH={36} hidden={i >= brands.length} />
           ))}
         </div>
       </div>
     </section>
+  );
+}
+
+/** Logo branca que fica laranja no hover e leva pro site da empresa */
+function BrandLogo({ b, maxH, hidden }: { b: (typeof brands)[number]; maxH?: number; hidden?: boolean }) {
+  const h = maxH ? Math.min(b.h, maxH) : b.h;
+  const external = b.url !== "#";
+  return (
+    <a
+      href={b.url}
+      {...(external ? { target: "_blank", rel: "noopener noreferrer" } : {})}
+      aria-label={b.name}
+      aria-hidden={hidden || undefined}
+      tabIndex={hidden ? -1 : undefined}
+      className="group inline-block py-1"
+    >
+      <span
+        className="block bg-white/90 transition-all duration-300 group-hover:bg-amber group-hover:scale-110 group-hover:drop-shadow-[0_0_18px_rgba(242,162,12,0.55)] group-focus-visible:bg-amber"
+        style={{
+          height: h,
+          width: h * b.ratio,
+          WebkitMask: `url(${b.logo}) center / contain no-repeat`,
+          mask: `url(${b.logo}) center / contain no-repeat`,
+        }}
+      />
+    </a>
   );
 }
 
@@ -254,7 +278,7 @@ function Stats() {
 /* ───────────── FRAMEWORK ───────────── */
 function Framework() {
   const pos = [
-    "left-[2%] top-[14%] w-[44%] -rotate-3",
+    "left-[4%] top-[6%] w-[40%] -rotate-3",
     "right-[0%] top-0 w-[48%] rotate-2",
     "right-[6%] bottom-[2%] w-[34%] -rotate-2",
     "left-0 bottom-0 w-[46%] rotate-1",
@@ -276,12 +300,12 @@ function Framework() {
           </Reveal>
         </div>
         <Reveal delay={150} className="lg:col-span-7">
-          <div className="relative mx-auto aspect-square w-full max-w-[640px]">
+          <div className="relative mx-auto aspect-square w-full max-w-[540px]">
             <PixelCluster variant="c" size={18} className="absolute -top-6 left-[30%] z-20" />
             <PixelCluster variant="b" size={14} className="absolute bottom-[30%] -right-2 z-20" />
             {graphics.map((g, i) => (
               <div key={g.src} className={`absolute ${pos[i]} transition-all duration-500 hover:rotate-0 hover:scale-105 hover:z-30 shadow-2xl shadow-black/60`}>
-                <Image src={g.src} alt={g.alt} width={420} height={420} className="h-auto w-full ring-1 ring-white/15" />
+                <Image src={g.src} alt={g.alt} width={420} height={420} quality={90} className="h-auto w-full ring-1 ring-white/15" />
               </div>
             ))}
           </div>
@@ -317,7 +341,7 @@ function Cases() {
             <Reveal key={c.title} delay={i * 120} as="article" className={i === 1 ? "md:translate-y-10" : ""}>
               <div className="group h-full rounded-2xl border-2 border-white/80 bg-ink/50 p-3 backdrop-blur-sm transition-colors hover:bg-ink/80">
                 <div className="relative aspect-[16/8] overflow-hidden rounded-xl">
-                  <Image src={c.img} alt="" fill sizes="(max-width:768px) 100vw, 33vw" className="object-cover transition-transform duration-700 group-hover:scale-110" />
+                  <Image src={c.img} alt="" fill quality={90} sizes="(max-width:768px) 100vw, 33vw" className="object-cover transition-transform duration-700 group-hover:scale-110" />
                 </div>
                 <h3 className="mt-4 px-1 text-2xl font-black leading-tight [font-stretch:80%]">{c.title}</h3>
                 <p className="mt-2 px-1 pb-2 text-sm text-white/75">{c.text}</p>
