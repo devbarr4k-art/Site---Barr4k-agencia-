@@ -3,7 +3,8 @@
 import { useEffect, useState } from "react";
 import Image from "next/image";
 import { Menu, X, ArrowUpRight } from "lucide-react";
-import { navLinks, CONTACT_EMAIL } from "@/lib/data";
+import { navLinks } from "@/lib/data";
+import { openContact } from "./ContactModal";
 
 export default function Navbar() {
   const [open, setOpen] = useState(false);
@@ -44,12 +45,13 @@ export default function Navbar() {
           ))}
         </nav>
 
-        <a
-          href={`mailto:${CONTACT_EMAIL}`}
+        <button
+          type="button"
+          onClick={openContact}
           className="hidden lg:inline-flex items-center gap-2 border border-white/30 px-4 py-2 text-[13px] font-extrabold uppercase tracking-wide hover:bg-amber hover:text-ink hover:border-amber transition-colors"
         >
           Let&apos;s talk <ArrowUpRight className="h-4 w-4" />
-        </a>
+        </button>
 
         <button
           type="button"
@@ -81,13 +83,16 @@ export default function Navbar() {
               </li>
             ))}
           </ul>
-          <a
-            href={`mailto:${CONTACT_EMAIL}`}
-            onClick={() => setOpen(false)}
+          <button
+            type="button"
+            onClick={() => {
+              setOpen(false);
+              openContact();
+            }}
             className="inline-flex items-center justify-center gap-2 bg-amber text-ink py-4 font-extrabold uppercase"
           >
             Let&apos;s talk <ArrowUpRight className="h-5 w-5" />
-          </a>
+          </button>
         </nav>
       </div>
     </header>

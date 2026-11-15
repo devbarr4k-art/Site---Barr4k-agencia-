@@ -6,6 +6,7 @@ import Navbar from "@/components/Navbar";
 import Reveal from "@/components/Reveal";
 import StarsCarousel from "@/components/StarsCarousel";
 import CountUp from "@/components/CountUp";
+import ContactModal, { ContactButton } from "@/components/ContactModal";
 import { Blobs, CornerCrosses, Cross, PixelCluster } from "@/components/Decor";
 import { team, brands, stats, graphics, cases, CREATORS_SHEET_URL, CONTACT_EMAIL, navLinks } from "@/lib/data";
 
@@ -15,6 +16,7 @@ export default function Home() {
   return (
     <>
       <Navbar />
+      <ContactModal />
       <main id="top">
         <Hero />
         <Team />
@@ -317,7 +319,7 @@ function Framework() {
                 style={{ left: pos[i].left, top: pos[i].top, width: pos[i].width, zIndex: pos[i].z }}
               >
                 <Image src={g.src} alt={g.alt} width={600} height={600} quality={90} className="art-img h-auto w-full" />
-                {/* no hover a arte só vem pra frente, sem sair do lugar: o pedaço que ela cobre casa com a arte de baixo */}
+                {/* no hover a arte inteira vem pra frente com zoom; os pedaços escondidos foram preenchidos na própria arte */}
                 {/* quadradinhos do site por cima dos cantos da arte (igual às fotos do time) */}
                 <PixelCluster variant={i % 2 ? "b" : "a"} size={14} className={`absolute z-10 scale-[0.6] sm:scale-100 ${CORNER_A[i]}`} />
                 <PixelCluster variant={i % 2 ? "a" : "b"} size={14} className={`absolute z-10 scale-[0.6] sm:scale-100 ${CORNER_B[i]}`} />
@@ -412,9 +414,12 @@ function Footer() {
             <p className="grotesk mt-6 max-w-md text-xl text-white/80">
               For brand partnerships, creator management, organizations and events.
             </p>
-            <a href={`mailto:${CONTACT_EMAIL}`} className="mt-8 inline-flex items-center gap-3 bg-amber px-6 py-4 font-extrabold uppercase text-ink hover:bg-paper transition-colors">
-              {CONTACT_EMAIL} <ArrowUpRight className="h-5 w-5" />
-            </a>
+            <div className="mt-8 flex flex-col gap-3 sm:flex-row sm:flex-wrap">
+              <ContactButton />
+              <a href={`mailto:${CONTACT_EMAIL}`} className="inline-flex items-center justify-center gap-3 px-6 py-4 font-extrabold uppercase ring-1 ring-white/30 hover:bg-paper hover:text-ink hover:ring-paper transition-colors">
+                {CONTACT_EMAIL} <ArrowUpRight className="h-5 w-5" />
+              </a>
+            </div>
           </div>
           <div className="lg:col-span-4 lg:col-start-9 grid grid-cols-2 gap-8 content-end">
             <ul className="space-y-2">
