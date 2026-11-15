@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import Image from "next/image";
+import { ArrowLeft, ArrowRight } from "lucide-react";
 import { stars } from "@/lib/data";
 
 const pad = (n: number) => String(n).padStart(2, "0");
@@ -13,11 +14,14 @@ export default function StarsCarousel() {
   const [paused, setPaused] = useState(false);
   const n = stars.length;
 
+  // um timer por carta: depois de um clique o tempo recomeça do zero
   useEffect(() => {
     if (paused) return;
-    const t = setInterval(() => setActive((a) => (a + 1) % n), INTERVAL);
-    return () => clearInterval(t);
-  }, [paused, n]);
+    const t = setTimeout(() => setActive((a) => (a + 1) % n), INTERVAL);
+    return () => clearTimeout(t);
+  }, [paused, n, active]);
+
+  const go = (d: number) => setActive((a) => (a + d + n) % n);
 
   const prev = stars[(active - 1 + n) % n];
   const next = stars[(active + 1) % n];
@@ -36,13 +40,15 @@ export default function StarsCarousel() {
             <article
               key={s.name}
               aria-hidden={d !== 0}
-              className="absolute left-1/2 top-1/2 w-[230px] sm:w-[290px] aspect-[3/4.2]"
+              onClick={() => d !== 0 && go(d)}
+              className={`absolute left-1/2 top-1/2 w-[230px] sm:w-[290px] aspect-[3/4.2] ${d !== 0 && !hidden ? "cursor-pointer" : ""}`}
               style={{
                 transform: `translate(-50%, -50%) translateX(${d * 46}%) translateZ(${-abs * 160}px) rotateY(${-d * 18}deg) rotateZ(${d * 2}deg)`,
                 zIndex: 20 - abs * 2,
                 opacity: hidden ? 0 : 1 - abs * 0.18,
                 filter: `brightness(${1 - Math.min(abs, 2) * 0.28})`,
                 transition: "transform .9s cubic-bezier(.2,.8,.2,1), opacity .9s, filter .9s",
+                pointerEvents: hidden ? "none" : "auto",
               }}
             >
               <div className={`relative h-full w-full overflow-hidden bg-navy-2 ${d === 0 ? "ring-2 ring-amber" : "ring-1 ring-white/20"}`}>
@@ -53,7 +59,7 @@ export default function StarsCarousel() {
                   sizes="300px"
                   quality={90}
                   draggable={false}
-                  className="object-cover object-center scale-[1.12]"
+                  className={`object-cover object-top ${"zoom" in s && s.zoom ? "scale-[1.12]" : ""}`}
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-ink via-ink/20 to-transparent" />
                 <div className="absolute inset-x-0 top-0 flex items-center justify-between p-3 text-[10px] font-extrabold uppercase tracking-wider">
@@ -77,18 +83,22 @@ export default function StarsCarousel() {
 
       {/* Anterior / no centro / próximo */}
       <div className="mt-6 grid grid-cols-3 items-end gap-2 text-center">
-        <div className="justify-self-start text-left">
-          <span className="text-[10px] font-bold uppercase tracking-widest text-white/50">Previous</span>
-          <div className="display text-2xl normal-case text-white/70">{prev.name}</div>
-        </div>
+        <button type="button" onClick={() => go(-1)} className="group justify-self-start text-left">
+          <span className="flex items-center gap-1 text-[10px] font-bold uppercase tracking-widest text-white/50">
+            <ArrowLeft className="h-3 w-3 transition-transform group-hover:-translate-x-1" /> Previous
+          </span>
+          <span className="display block text-2xl normal-case text-white/70 group-hover:text-amber transition-colors">{prev.name}</span>
+        </button>
         <div>
           <span className="text-[10px] font-bold uppercase tracking-widest text-amber">{pad(active + 1)}/{pad(n)}</span>
           <div className="display text-4xl normal-case">{stars[active].name}</div>
         </div>
-        <div className="justify-self-end text-right">
-          <span className="text-[10px] font-bold uppercase tracking-widest text-white/50">Next</span>
-          <div className="display text-2xl normal-case text-white/70">{next.name}</div>
-        </div>
+        <button type="button" onClick={() => go(1)} className="group justify-self-end text-right">
+          <span className="flex items-center justify-end gap-1 text-[10px] font-bold uppercase tracking-widest text-white/50">
+            Next <ArrowRight className="h-3 w-3 transition-transform group-hover:translate-x-1" />
+          </span>
+          <span className="display block text-2xl normal-case text-white/70 group-hover:text-amber transition-colors">{next.name}</span>
+        </button>
       </div>
       {/* barrinha de progresso até a próxima carta */}
       <div className="mx-auto mt-5 h-[2px] w-40 overflow-hidden bg-white/15">

@@ -34,12 +34,12 @@ export const team = [
 ];
 
 export const stars = [
-  { name: "Yuri22", role: "Creator", tag: "Streaming", photo: "/img/stars/yuri22.jpg" },
-  { name: "Jon Vlogs", role: "Creator · Host", tag: "All Stars League", photo: "/img/stars/jonvlogs.jpg" },
-  { name: "Coringa", role: "Streamer", tag: "Twitch", photo: "/img/stars/coringa.jpg" },
-  { name: "Fallen", role: "CS Legend", tag: "Counter-Strike", photo: "/img/stars/fallen.jpg" },
-  { name: "Fer", role: "CS Legend", tag: "Counter-Strike", photo: "/img/stars/fer.jpg" },
-  { name: "Boltz", role: "Ex-pro · Streamer", tag: "Counter-Strike", photo: "/img/stars/boltz.jpg" },
+  { name: "Yuri22", role: "Creator", tag: "Streaming", photo: "/img/stars/yuri22-v2.jpg" },
+  { name: "Jon Vlogs", role: "Creator · Host", tag: "All Stars League", photo: "/img/stars/jonvlogs-v2.jpg" },
+  { name: "Coringa", role: "Streamer", tag: "Twitch", photo: "/img/stars/coringa-v2.jpg" },
+  { name: "Fallen", role: "CS Legend", tag: "Counter-Strike", photo: "/img/stars/fallen-v2.jpg" },
+  { name: "Fer", role: "CS Legend", tag: "Counter-Strike", photo: "/img/stars/fer-v2.jpg" },
+  { name: "Boltz", role: "Ex-pro · Streamer", tag: "Counter-Strike", photo: "/img/stars/boltz-v3.jpg" },
 ];
 
 // ratio = largura/altura do PNG; url = site da empresa ("#" = falta confirmar com o cliente)
