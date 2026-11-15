@@ -167,3 +167,11 @@ body {
   from { width: 0; }
   to { width: 100%; }
 }
+
+/* Artes do Framework: PNG com os pedaços das vizinhas transparentes.
+   A borda branca segue o recorte (em escada, como no PDF), então nenhuma borda de outra caixa invade a arte. */
+.art-img {
+  filter: drop-shadow(1px 0 0 rgba(255, 255, 255, 0.7)) drop-shadow(-1px 0 0 rgba(255, 255, 255, 0.7))
+    drop-shadow(0 1px 0 rgba(255, 255, 255, 0.7)) drop-shadow(0 -1px 0 rgba(255, 255, 255, 0.7))
+    drop-shadow(0 18px 30px rgba(0, 0, 0, 0.6));
+}

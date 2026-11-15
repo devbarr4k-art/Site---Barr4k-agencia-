@@ -16,13 +16,13 @@ export const CONTACT_EMAIL = "contact@bbagency.gg";
 export const team = [
   {
     name: "BOLTZ",
-    photo: "/img/team/boltz.jpg",
+    photo: "/img/team/boltz-v2.jpg",
     bio: "Ricardo “boltz” Prass is a Brazilian CS:GO professional with over 10 years in the competitive scene, known for teams like SK and Immortals, winning multiple tier S titles. Today, he focuses on content creation and streaming, securing major CS gambling partnerships in Brazil.",
     socials: { twitch: "#", youtube: "#", x: "#", instagram: "#" },
   },
   {
     name: "BARR4K",
-    photo: "/img/team/barr4k.jpg",
+    photo: "/img/team/barr4k-v2.jpg",
     bio: "João “barr4k” Scalamandre is a Twitch Partner streamer and car content YouTuber. He is also embedded in the partnerships sector for virtual casino and CS2 gambling platforms, leveraging a strong network and close relationships with major figures in the Brazilian scene.",
     socials: {
       twitch: "https://twitch.tv/barr4k",
@@ -65,10 +65,10 @@ export const stats = [
 
 // Ordem = posição na colagem do Framework (igual ao slide do PDF)
 export const graphics = [
-  { src: "/img/gfx/skins-clean.jpg", alt: "Get exclusive skins campaign" },
-  { src: "/img/gfx/degen-clean.jpg", alt: "Degen apparel campaign" },
-  { src: "/img/gfx/cases-clean.jpg", alt: "New cases campaign" },
-  { src: "/img/gfx/fallen-clean.jpg", alt: "Fallen x Zenith limited edition" },
+  { src: "/img/gfx/skins-cut.png", alt: "Get exclusive skins campaign" },
+  { src: "/img/gfx/degen-cut.png", alt: "Degen apparel campaign" },
+  { src: "/img/gfx/cases-cut.png", alt: "New cases campaign" },
+  { src: "/img/gfx/fallen-cut.png", alt: "Fallen x Zenith limited edition" },
 ];
 
 export const cases = [
