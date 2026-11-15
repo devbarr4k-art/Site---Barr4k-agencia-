@@ -149,25 +149,27 @@ function Featured() {
     <section id="featured" className="relative overflow-hidden bg-ink py-24 lg:py-32">
       <Blobs variant="bottom" />
       <CornerCrosses />
-      <div className={`${wrap} flex flex-col gap-8 lg:flex-row lg:items-end lg:justify-between`}>
-        <div>
+      <div className={`${wrap} grid gap-14 lg:grid-cols-12 items-center`}>
+        <div className="lg:col-span-5">
           <Reveal><span className="eyebrow">Featured</span></Reveal>
           <Reveal delay={100}>
-            <h2 className="display mt-6 text-6xl sm:text-7xl xl:text-8xl">Stars that <span className="block lg:pl-[1.2em]">work with us</span></h2>
+            <h2 className="display mt-6 text-6xl sm:text-7xl xl:text-8xl">Stars that work with us</h2>
+          </Reveal>
+          <Reveal delay={200}>
+            <p className="grotesk mt-8 max-w-sm text-xl text-white/85">
+              Each personality has a clear positioning, a strong identity, and connection with the audience. Featuring hundreds of talented names.
+            </p>
+          </Reveal>
+          <Reveal delay={300}>
+            <a href="#creators" className="mt-8 inline-flex items-center gap-2 text-sm font-extrabold uppercase text-amber link-line">
+              See full roster <ArrowUpRight className="h-4 w-4" />
+            </a>
           </Reveal>
         </div>
-        <Reveal delay={200} className="lg:max-w-sm">
-          <p className="grotesk text-xl text-white/85">
-            Each personality has a clear positioning, a strong identity, and connection with the audience. Featuring hundreds of talented names.
-          </p>
-          <a href="#creators" className="mt-6 inline-flex items-center gap-2 text-sm font-extrabold uppercase text-amber link-line">
-            See full roster <ArrowUpRight className="h-4 w-4" />
-          </a>
+        <Reveal delay={150} className="lg:col-span-7">
+          <StarsCarousel />
         </Reveal>
       </div>
-      <Reveal delay={150} className="relative z-[2] mt-12">
-        <StarsCarousel />
-      </Reveal>
     </section>
   );
 }
@@ -277,11 +279,12 @@ function Stats() {
 
 /* ───────────── FRAMEWORK ───────────── */
 function Framework() {
+  // posições medidas no slide do PDF (em % da área da colagem); z = quem fica na frente
   const pos = [
-    "left-[4%] top-[6%] w-[40%] -rotate-3",
-    "right-[0%] top-0 w-[48%] rotate-2",
-    "right-[6%] bottom-[2%] w-[34%] -rotate-2",
-    "left-0 bottom-0 w-[46%] rotate-1",
+    { left: "8%", top: "15%", width: "39%", z: 1 },
+    { left: "45%", top: "3.5%", width: "47%", z: 3 },
+    { left: "46%", top: "48%", width: "30%", z: 4 },
+    { left: "4%", top: "66%", width: "42%", z: 2 },
   ];
   return (
     <section id="framework" className="relative overflow-hidden bg-ink py-24 lg:py-32">
@@ -300,14 +303,24 @@ function Framework() {
           </Reveal>
         </div>
         <Reveal delay={150} className="lg:col-span-7">
-          <div className="relative mx-auto aspect-square w-full max-w-[540px]">
-            <PixelCluster variant="c" size={18} className="absolute -top-6 left-[30%] z-20" />
-            <PixelCluster variant="b" size={14} className="absolute bottom-[30%] -right-2 z-20" />
+          <div className="relative mx-auto aspect-[250/290] w-full max-w-[580px]">
             {graphics.map((g, i) => (
-              <div key={g.src} className={`absolute ${pos[i]} transition-all duration-500 hover:rotate-0 hover:scale-105 hover:z-30 shadow-2xl shadow-black/60`}>
-                <Image src={g.src} alt={g.alt} width={420} height={420} quality={90} className="h-auto w-full ring-1 ring-white/15" />
+              <div
+                key={g.src}
+                className="absolute transition-transform duration-500 hover:-translate-y-2 hover:scale-[1.04] hover:!z-30 shadow-2xl shadow-black/70"
+                style={{ left: pos[i].left, top: pos[i].top, width: pos[i].width, zIndex: pos[i].z }}
+              >
+                <Image src={g.src} alt={g.alt} width={600} height={600} quality={90} className="h-auto w-full ring-1 ring-white/70" />
               </div>
             ))}
+            {/* quadradinhos brancos em volta, como no slide */}
+            <PixelCluster variant="a" size={16} className="absolute left-[4%] top-[12%] z-10" />
+            <PixelCluster variant="d" size={16} className="absolute left-[3%] top-[30%] z-10" />
+            <PixelCluster variant="c" size={16} className="absolute left-[40%] top-[-1%] z-10" />
+            <PixelCluster variant="b" size={16} className="absolute right-[-2%] top-[22%] z-10" />
+            <PixelCluster variant="a" size={16} className="absolute left-[73%] top-[66%] z-10" />
+            <PixelCluster variant="b" size={16} className="absolute left-[0%] top-[63%] z-10" />
+            <PixelCluster variant="c" size={16} className="absolute left-[36%] bottom-[-3%] z-10" />
           </div>
         </Reveal>
       </div>

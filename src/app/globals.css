@@ -162,3 +162,8 @@ body {
   .grain, .drift-a, .drift-b, .marquee { animation: none; }
   .reveal { opacity: 1; transform: none; transition: none; }
 }
+
+@keyframes starsProgress {
+  from { width: 0; }
+  to { width: 100%; }
+}
