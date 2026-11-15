@@ -49,7 +49,7 @@ export const brands = [
   { name: "Gamers Club", logo: "/img/brands/gamersclub.png", h: 26, ratio: 477 / 72, url: "https://gamersclub.com.br" },
   { name: "Degen.com", logo: "/img/brands/degen.png", h: 20, ratio: 472 / 49, url: "https://degen.com" },
   { name: "Clash.gg", logo: "/img/brands/clash.png", h: 30, ratio: 480 / 92, url: "https://clash.gg" },
-  { name: "CSGOSKINS", logo: "/img/brands/csgoskins.png", h: 28, ratio: 475 / 84, url: "https://csgoskins.gg" },
+  { name: "CSGOSKINS", logo: "/img/brands/csgoskins-v2.png", h: 21, ratio: 475 / 63, url: "https://csgoskins.gg" },
   { name: "Keydrop", logo: "/img/brands/keydrop.png", h: 36, ratio: 481 / 110, url: "https://key-drop.com" },
   { name: "paiN Gaming", logo: "/img/brands/pain-v2.png", h: 44, ratio: 149 / 101, url: "https://www.pain.gg/" },
   { name: "All Star League", logo: "/img/brands/allstar-v2.png", h: 58, ratio: 161 / 151, url: "https://www.instagram.com/allstarleague_cs/" },
