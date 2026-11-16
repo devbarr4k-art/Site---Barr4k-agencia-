@@ -41,7 +41,7 @@ function Hero() {
     <section className="relative min-h-[100svh] overflow-hidden bg-ink flex items-center">
       <SlideBg n={1} />
       {/* BB gigante em pontinhos, como no slide 1 */}
-      <div className="halftone halftone-mark pointer-events-none absolute left-0 top-0 h-full w-[56%] max-sm:w-full opacity-45 [background-position:left_top]" aria-hidden />
+      <div className="halftone halftone-mark pointer-events-none absolute -left-[12vw] top-[8%] h-[95%] w-[80vw] opacity-60" aria-hidden />
       <CornerCrosses />
 
       <div className={`${wrap} grid gap-10 lg:grid-cols-12 items-center pt-28 pb-20`}>

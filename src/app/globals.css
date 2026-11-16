@@ -255,10 +255,3 @@ body {
 @media (prefers-reduced-motion: reduce) {
   .roster-card { animation: none; }
 }
-
-/* BB gigante de mini logos: recortado da capa do PDF (mesmo formato e densidade) */
-.halftone.halftone-mark {
-  background: url("/img/bb-halftone-v3.png") center / contain no-repeat;
-  -webkit-mask: none;
-  mask: none;
-}
