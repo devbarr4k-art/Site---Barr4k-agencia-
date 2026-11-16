@@ -145,7 +145,7 @@ function SlideBg({ n, flip = false }: { n: number; flip?: boolean }) {
         className="absolute inset-0 bg-cover bg-center"
         style={{ backgroundImage: `url(/img/bg/s${n}-v2.jpg)`, transform: flip ? "scaleX(-1)" : undefined }}
       />
-      <div className="grain" />
+      <div className="grain grain-soft" />
     </div>
   );
 }

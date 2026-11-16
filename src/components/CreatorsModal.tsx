@@ -165,7 +165,7 @@ export default function CreatorsModal() {
             </div>
             <div className="pr-14 text-right sm:pr-16">
               <div className="font-black leading-none tabular-nums text-6xl sm:text-7xl">+{count}</div>
-              <div className="display mt-1 text-xl normal-case text-white/70">Creators We Can Bring to Your Product</div>
+              <div className="display mt-1 text-xl normal-case text-white/70">Creators That Match Your Brand &amp; Goals</div>
             </div>
           </div>
 

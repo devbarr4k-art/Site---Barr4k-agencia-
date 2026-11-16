@@ -87,6 +87,11 @@ body {
   mix-blend-mode: multiply;
 }
 
+/* nas seções o grão fica mais leve (no amarelo/azul claro ele aparecia demais).
+   Texturas mais fracas em vez de opacity: opacity isola a camada e quebra o blend (escurecia as cores) */
+.grain-soft::before { background-image: url("/img/grain-add-soft.png"); }
+.grain-soft::after { background-image: url("/img/grain-mul-soft.png"); }
+
 /* Manchas de cor desfocadas (laranja/azul) */
 .blob {
   position: absolute;
