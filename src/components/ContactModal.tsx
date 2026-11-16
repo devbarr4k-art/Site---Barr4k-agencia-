@@ -22,9 +22,6 @@ const pxColor = (i: number) => {
 
 type Status = "idle" | "sending" | "sent" | "error";
 
-// e-mail que recebe o formulário
-const FORM_TO = "dev.barr4k@gmail.com";
-
 export default function ContactModal() {
   const [open, setOpen] = useState(false);
   const [closing, setClosing] = useState(false);
@@ -104,27 +101,15 @@ export default function ContactModal() {
     setStatus("sending");
     setErr("");
     try {
-      // FormSubmit repassa o formulário pro e-mail (o 1º envio manda um e-mail de ativação pra caixa)
-      const r = await fetch(`https://formsubmit.co/ajax/${FORM_TO}`, {
+      const r = await fetch("/api/contact", {
         method: "POST",
-        headers: { "Content-Type": "application/json", Accept: "application/json" },
-        body: JSON.stringify({
-          Name: data.name,
-          Email: data.email,
-          Company: data.company || "-",
-          Topics: data.topics.join(", ") || "-",
-          Message: data.message,
-          _subject: `New contact: ${data.name}${data.company ? ` (${data.company})` : ""} – BB Agency site`,
-          _replyto: data.email,
-          _template: "table",
-          _captcha: "false",
-        }),
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(data),
       });
-      const j = await r.json().catch(() => ({}));
-      if (!r.ok || String(j.success) === "false") throw new Error("fail");
+      if (!r.ok) throw new Error((await r.json().catch(() => ({}))).error || "fail");
       setStatus("sent");
-    } catch {
-      setErr("");
+    } catch (e) {
+      setErr(e instanceof Error && e.message !== "fail" ? e.message : "");
       setStatus("error");
     }
   }
