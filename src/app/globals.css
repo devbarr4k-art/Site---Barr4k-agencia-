@@ -229,3 +229,34 @@ body {
   .cm-backdrop, .cm-panel, .cm-px, .cm-in, .cm-pop, .cm-burst { animation: none !important; }
   .cm-px { opacity: 0; }
 }
+
+/* ───── Popup de creators ───── */
+.roster-card { animation: rosterIn 0.6s cubic-bezier(0.2, 0.8, 0.2, 1) both; }
+@keyframes rosterIn {
+  from { opacity: 0; transform: translateY(24px) scale(0.96); filter: blur(4px); }
+}
+.roster-marquee { animation-duration: 60s; }
+/* brilho laranja que segue o mouse por trás dos cards */
+.roster-grid::before {
+  content: "";
+  position: absolute;
+  left: var(--mx, -999px);
+  top: var(--my, -999px);
+  width: 420px;
+  height: 420px;
+  margin: -210px 0 0 -210px;
+  border-radius: 9999px;
+  background: radial-gradient(circle, rgba(242, 162, 12, 0.22), transparent 65%);
+  pointer-events: none;
+}
+.roster-grid { scrollbar-width: thin; scrollbar-color: var(--color-amber) transparent; }
+@media (prefers-reduced-motion: reduce) {
+  .roster-card { animation: none; }
+}
+
+/* BB gigante de mini logos: recortado da capa do PDF (mesmo formato e densidade) */
+.halftone.halftone-mark {
+  background: url("/img/bb-halftone-v2.png") center / contain no-repeat;
+  -webkit-mask: none;
+  mask: none;
+}

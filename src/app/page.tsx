@@ -7,8 +7,10 @@ import Reveal from "@/components/Reveal";
 import StarsCarousel from "@/components/StarsCarousel";
 import CountUp from "@/components/CountUp";
 import ContactModal, { ContactButton } from "@/components/ContactModal";
+import CreatorsModal, { CreatorsButton } from "@/components/CreatorsModal";
+import ScrollFx from "@/components/ScrollFx";
 import { CornerCrosses, Cross } from "@/components/Decor";
-import { team, brands, stats, cases, CREATORS_SHEET_URL, CONTACT_EMAIL, navLinks } from "@/lib/data";
+import { team, brands, stats, cases, CONTACT_EMAIL, navLinks } from "@/lib/data";
 
 const wrap = "relative z-[2] mx-auto w-full max-w-7xl 2xl:max-w-[1440px] px-4 sm:px-6 lg:px-8";
 
@@ -17,6 +19,7 @@ export default function Home() {
     <>
       <Navbar />
       <ContactModal />
+      <CreatorsModal />
       <main id="top">
         <Hero />
         <Team />
@@ -38,7 +41,7 @@ function Hero() {
     <section className="relative min-h-[100svh] overflow-hidden bg-ink flex items-center">
       <SlideBg n={1} />
       {/* BB gigante em pontinhos, como no slide 1 */}
-      <div className="halftone halftone-mark absolute -left-[12vw] top-[8%] h-[95%] w-[80vw] opacity-60" aria-hidden />
+      <div className="halftone halftone-mark pointer-events-none absolute left-0 top-0 h-full w-[56%] max-sm:w-full opacity-45 [background-position:left_top]" aria-hidden />
       <CornerCrosses />
 
       <div className={`${wrap} grid gap-10 lg:grid-cols-12 items-center pt-28 pb-20`}>
@@ -120,7 +123,7 @@ function Team() {
                       {(Object.keys(m.socials) as (keyof typeof icons)[]).map((k) => {
                         const Icon = icons[k];
                         return (
-                          <a key={k} href={m.socials[k]} target="_blank" rel="noreferrer" aria-label={`${m.name} ${k}`} className="text-white transition-colors hover:text-amber">
+                          <a key={k} href={m.socials[k]} target="_blank" rel="noreferrer" aria-label={`${m.name} ${k}`} className={`text-white transition-colors ${i === 0 ? "hover:text-royal" : "hover:text-amber"}`}>
                             <Icon className="h-6 w-6" />
                           </a>
                         );
@@ -308,15 +311,17 @@ function Framework() {
         </div>
         <Reveal delay={150} className="lg:col-span-7">
           {/* colagem fixa, recortada do slide do PDF (artes, bordas e quadradinhos exatamente como lá) */}
-          <Image
-            src="/img/framework-collage.png"
-            alt="Campaign graphics made by our in-house team"
-            width={1544}
-            height={1840}
-            quality={90}
-            sizes="(max-width:1024px) 92vw, 600px"
-            className="mx-auto h-auto w-full max-w-[600px]"
-          />
+          <ScrollFx>
+            <Image
+              src="/img/framework-collage.png"
+              alt="Campaign graphics made by our in-house team"
+              width={1544}
+              height={1840}
+              quality={90}
+              sizes="(max-width:1024px) 92vw, 600px"
+              className="mx-auto h-auto w-full max-w-[600px]"
+            />
+          </ScrollFx>
         </Reveal>
       </div>
     </section>
@@ -376,7 +381,7 @@ function Creators() {
           <p className="grotesk mt-4 text-xl">Check the real time spreadsheet with all the streamers we manage.</p>
         </Reveal>
         <Reveal delay={150}>
-          <a href={CREATORS_SHEET_URL} target="_blank" rel="noreferrer" className="group block">
+          <CreatorsButton className="group block text-left">
             <span className="display normal-case block border-b-2 border-white pb-2 text-7xl sm:text-8xl transition-colors group-hover:text-amber group-hover:border-amber">
               click here!
             </span>
@@ -384,7 +389,7 @@ function Creators() {
             <span className="mt-6 block w-[230px] sm:w-[300px] transition-transform duration-500 group-hover:-rotate-2 group-hover:scale-[1.03]">
               <Image src="/img/creators-box.png" alt="" width={660} height={720} className="h-auto w-full" />
             </span>
-          </a>
+          </CreatorsButton>
         </Reveal>
       </div>
     </section>

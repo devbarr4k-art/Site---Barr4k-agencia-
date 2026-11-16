@@ -1,3 +1,4 @@
+import NoHashLinks from "@/components/NoHashLinks";
 import type { Metadata } from "next";
 import { Archivo, Instrument_Serif } from "next/font/google";
 import { Analytics } from "@vercel/analytics/react";
@@ -29,6 +30,7 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
       <body className="font-sans antialiased">
         {children}
         <div className="grain" aria-hidden />
+        <NoHashLinks />
         <Analytics />
         <SpeedInsights />
       </body>

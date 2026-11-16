@@ -87,7 +87,7 @@ export default function StarsCarousel() {
           <span className="flex items-center gap-1 text-[10px] font-bold uppercase tracking-widest text-white/50">
             <ArrowLeft className="h-3 w-3 transition-transform group-hover:-translate-x-1" /> Previous
           </span>
-          <span className="display block text-2xl normal-case text-white/70 group-hover:text-amber transition-colors">{prev.name}</span>
+          <span className="display block text-2xl normal-case text-white/70 group-hover:text-royal transition-colors">{prev.name}</span>
         </button>
         <div>
           <span className="text-[10px] font-bold uppercase tracking-widest text-paper">{pad(active + 1)}/{pad(n)}</span>
@@ -97,7 +97,7 @@ export default function StarsCarousel() {
           <span className="flex items-center justify-end gap-1 text-[10px] font-bold uppercase tracking-widest text-white/50">
             Next <ArrowRight className="h-3 w-3 transition-transform group-hover:translate-x-1" />
           </span>
-          <span className="display block text-2xl normal-case text-white/70 group-hover:text-amber transition-colors">{next.name}</span>
+          <span className="display block text-2xl normal-case text-white/70 group-hover:text-royal transition-colors">{next.name}</span>
         </button>
       </div>
       {/* barrinha de progresso até a próxima carta */}
