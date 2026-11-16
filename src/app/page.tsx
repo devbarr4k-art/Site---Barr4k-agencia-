@@ -50,10 +50,13 @@ function Hero() {
             <span className="eyebrow text-amber">Streaming · CS · Partnerships</span>
           </Reveal>
           <Reveal delay={120}>
-            <h1 className="mt-6">
-              <span className="sr-only">BB Agency</span>
-              <Image src="/img/logo-mark.png" alt="" width={293} height={218} priority className="w-[42vw] max-w-[240px] sm:w-60 lg:w-[293px] h-auto" />
-            </h1>
+            <div className="mt-6 flex items-center gap-3 sm:gap-6">
+              <Image src="/img/logo-mark.png" alt="BB" width={293} height={218} priority className="w-[24vw] sm:w-40 lg:w-48 h-auto" />
+              <h1 className="font-serif italic uppercase tracking-[-0.04em] text-[15vw] sm:text-[7rem] lg:text-[8.5rem] leading-[0.82]">
+                BB<sup className="ml-3 align-[0.15em] text-[0.36em] not-italic">®</sup>
+                <span className="block">Agency</span>
+              </h1>
+            </div>
           </Reveal>
           <Reveal delay={240}>
             <p className="grotesk mt-8 max-w-md text-xl sm:text-2xl">
