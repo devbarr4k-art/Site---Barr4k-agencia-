@@ -29,6 +29,7 @@ export default function ContactModal() {
   const [topics, setTopics] = useState<string[]>([]);
   const [msg, setMsg] = useState("");
   const [err, setErr] = useState("");
+  const [pxDone, setPxDone] = useState(false);
   const firstField = useRef<HTMLInputElement>(null);
 
   // atraso aleatório (mas fixo) de cada pixel
@@ -41,12 +42,20 @@ export default function ContactModal() {
   useEffect(() => {
     const onOpen = () => {
       setGrid(window.innerWidth < 640 ? GRID.phone : GRID.desk);
+      setPxDone(false);
       setOpen(true);
       setClosing(false);
     };
     window.addEventListener("open-contact", onOpen);
     return () => window.removeEventListener("open-contact", onOpen);
   }, []);
+
+  // tira os pixels da abertura da tela quando a animação acaba (no celular alguns ficavam presos)
+  useEffect(() => {
+    if (!open) return;
+    const t = setTimeout(() => setPxDone(true), 1200);
+    return () => clearTimeout(t);
+  }, [open]);
 
   useEffect(() => {
     if (!open) return;
@@ -125,7 +134,7 @@ export default function ContactModal() {
         </div>
 
         {/* pixels que cobrem o painel e vão sumindo um a um */}
-        <div
+        {!pxDone && <div
           className="pointer-events-none absolute inset-0 z-20 grid [contain:strict]"
           style={{ gridTemplateColumns: `repeat(${COLS}, 1fr)`, gridTemplateRows: `repeat(${ROWS}, 1fr)` }}
           aria-hidden
@@ -133,7 +142,7 @@ export default function ContactModal() {
           {delays.map((d, i) => (
             <span key={i} className={`cm-px ${pxColor(i)}`} style={{ animationDelay: `${d}ms` }} />
           ))}
-        </div>
+        </div>}
 
         <button
           type="button"
