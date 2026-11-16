@@ -18,17 +18,22 @@ export const team = [
     name: "BOLTZ",
     photo: "/img/team/boltz-frame.png",
     bio: "Ricardo “boltz” Prass is a Brazilian CS:GO professional with over 10 years in the competitive scene, known for teams like SK and Immortals, winning multiple tier S titles. Today, he focuses on content creation and streaming, securing major CS gambling partnerships in Brazil.",
-    socials: { twitch: "#", youtube: "#", x: "#", instagram: "#" },
+    socials: {
+      twitch: "https://www.twitch.tv/boltz",
+      youtube: "https://www.youtube.com/@boltz",
+      x: "https://x.com/boltz",
+      instagram: "https://www.instagram.com/boltzcs/",
+    },
   },
   {
     name: "BARR4K",
     photo: "/img/team/barr4k-frame.png",
     bio: "João “barr4k” Scalamandre is a Twitch Partner streamer and car content YouTuber. He is also embedded in the partnerships sector for virtual casino and CS2 gambling platforms, leveraging a strong network and close relationships with major figures in the Brazilian scene.",
     socials: {
-      twitch: "https://twitch.tv/barr4k",
+      twitch: "https://www.twitch.tv/barr4k",
       youtube: "https://www.youtube.com/@barr4k/",
       x: "https://x.com/jpbarrak",
-      instagram: "https://instagram.com/barr4k",
+      instagram: "https://www.instagram.com/barr4k/",
     },
   },
 ];
