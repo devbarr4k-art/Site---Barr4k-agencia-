@@ -274,3 +274,10 @@ body {
 @media (max-width: 1023px) {
   .halftone-hole { -webkit-mask-image: none; mask-image: none; }
 }
+
+/* barra de rolagem da página nas cores do site */
+html { scrollbar-color: var(--color-amber) var(--color-ink); }
+::-webkit-scrollbar { width: 10px; height: 10px; }
+::-webkit-scrollbar-track { background: var(--color-ink); }
+::-webkit-scrollbar-thumb { background: var(--color-amber); border: 2px solid var(--color-ink); }
+::-webkit-scrollbar-thumb:hover { background: var(--color-amber-2); }
