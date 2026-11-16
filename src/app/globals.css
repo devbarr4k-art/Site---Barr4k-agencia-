@@ -233,3 +233,11 @@ body {
   .cm-backdrop, .cm-panel, .cm-px, .cm-in, .cm-pop, .cm-burst { animation: none !important; }
   .cm-px { opacity: 0; }
 }
+/* arte com recorte (Degen): a borda segue o recorte, senão a linha passa por cima da arte de baixo */
+.art-img.art-cut {
+  outline: none;
+  box-shadow: none;
+  filter: drop-shadow(1px 0 0 rgba(255, 255, 255, 0.7)) drop-shadow(-1px 0 0 rgba(255, 255, 255, 0.7))
+    drop-shadow(0 1px 0 rgba(255, 255, 255, 0.7)) drop-shadow(0 -1px 0 rgba(255, 255, 255, 0.7))
+    drop-shadow(0 18px 30px rgba(0, 0, 0, 0.6));
+}

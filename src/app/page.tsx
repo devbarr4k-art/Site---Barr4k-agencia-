@@ -282,9 +282,8 @@ function Stats() {
 }
 
 /* ───────────── FRAMEWORK ───────────── */
-// cantos onde ficam os quadradinhos de cada arte (sempre metade pra fora, metade em cima)
-const CORNER_A = ["-left-3 -top-3", "-right-3 -top-3", "-right-3 -bottom-3", "-left-3 -top-3"];
-const CORNER_B = ["-right-3 -bottom-3 hidden", "-right-3 -bottom-3", "-left-3 -top-3 hidden", "-left-3 -bottom-3"];
+// quadradinhos brancos medidos no slide do PDF (posição em % da colagem; cada um = 5.44% x 4.49%)
+const FW_SQUARES: [number, number][] = [[36.1,-4.26], [46.85,-4.26], [52.22,-4.26], [41.48,0.24], [41.48,4.73], [89.26,0.24], [94.7,0.24], [83.81,4.73], [94.7,4.73], [100.14,9.22], [15.76,8.87], [4.87,13.36], [10.32,13.36], [4.87,17.85], [-0.57,22.34], [-0.57,26.83], [83.81,35.11], [89.26,39.6], [94.7,39.6], [58.17,44.68], [39.4,57.21], [44.84,57.21], [44.84,61.88], [0.43,63.0], [5.87,63.0], [-5.01,67.49], [-5.01,71.99], [85.24,68.79], [79.8,73.29], [50.29,86.76], [44.84,91.19], [44.84,95.63], [39.4,100.06]];
 
 function Framework() {
   // posições medidas no slide do PDF (em % da área da colagem); z = quem fica na frente, como no slide
@@ -318,12 +317,18 @@ function Framework() {
                 className="group absolute transition-[transform,filter] duration-500 ease-out hover:scale-[1.04] hover:brightness-110"
                 style={{ left: pos[i].left, top: pos[i].top, width: pos[i].width, zIndex: pos[i].z }}
               >
-                <Image src={g.src} alt={g.alt} width={600} height={600} quality={90} className="art-img h-auto w-full" />
+                <Image src={g.src} alt={g.alt} width={600} height={600} quality={90} className={`art-img h-auto w-full ${g.src.endsWith(".png") ? "art-cut" : ""}`} />
                 {/* no hover a arte dá zoom mas fica na mesma camada: o pedaço escondido debaixo da vizinha continua escondido */}
-                {/* quadradinhos do site por cima dos cantos da arte (igual às fotos do time) */}
-                <PixelCluster variant={i % 2 ? "b" : "a"} size={14} className={`absolute z-10 scale-[0.6] sm:scale-100 ${CORNER_A[i]}`} />
-                <PixelCluster variant={i % 2 ? "a" : "b"} size={14} className={`absolute z-10 scale-[0.6] sm:scale-100 ${CORNER_B[i]}`} />
               </div>
+            ))}
+            {/* quadradinhos do site nas mesmas posições do PDF, por cima das artes */}
+            {FW_SQUARES.map(([l, t]) => (
+              <span
+                key={`${l}-${t}`}
+                aria-hidden
+                className="pointer-events-none absolute z-40 bg-white"
+                style={{ left: `${l}%`, top: `${t}%`, width: "5.44%", height: "4.49%" }}
+              />
             ))}
           </div>
         </Reveal>
