@@ -262,7 +262,6 @@ function Stats() {
   return (
     <section id="stats" className="relative overflow-hidden bg-ink py-24 lg:py-32">
       <SlideBg n={5} />
-      <div className="halftone halftone-mark pointer-events-none absolute -left-[6%] top-[6%] hidden h-[90%] w-[58%] opacity-35 sm:block" aria-hidden />
       <CornerCrosses />
       <div className={wrap}>
         <Reveal className="text-center">
