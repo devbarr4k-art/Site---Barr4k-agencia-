@@ -22,7 +22,6 @@ const PLATFORMS = [
 ] as const;
 type PKey = (typeof PLATFORMS)[number]["key"];
 
-const pad3 = (n: number) => String(n).padStart(3, "0");
 const COLS = 12;
 const ROWS = 8;
 
@@ -232,7 +231,6 @@ export default function CreatorsModal() {
                       <span className="absolute -right-1 -top-1 z-[1] h-3 w-3 bg-ink transition-transform group-hover:scale-150" />
                     </div>
                     <div className="min-w-0 flex-1">
-                      <div className="text-[10px] font-extrabold tracking-widest text-white/40 tabular-nums">#{pad3(n)}</div>
                       <div className="truncate text-xl font-black tracking-tight transition-colors group-hover:text-amber">{c.name}</div>
                       <div className="mt-1.5 flex gap-2.5">
                         {PLATFORMS.map(({ key, label, Icon }) =>

@@ -194,7 +194,7 @@ function Brands() {
       </div>
       <CornerCrosses />
       <div className={`${wrap} grid gap-12 lg:grid-cols-12 items-center`}>
-        <div className="lg:col-span-6 lg:text-right">
+        <div className="lg:col-span-6 lg:col-start-6 lg:text-right">
           <Reveal><span className="eyebrow lg:mr-[52%]">Brands</span></Reveal>
           <Reveal delay={100}>
             <h2 className="display mt-3 text-6xl sm:text-7xl lg:text-[5.2rem] [text-shadow:0_2px_24px_rgba(2,10,28,.35)]">Companies that trusted our team:</h2>

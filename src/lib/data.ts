@@ -46,12 +46,12 @@ export const stars = [
   { name: "Fer", role: "CS Legend", tag: "Counter-Strike", photo: "/img/stars/fer-v2.jpg" },
   { name: "Boltz", role: "Ex-pro · Streamer", tag: "Counter-Strike", photo: "/img/stars/boltz-v3.jpg" },
   // fotos de perfil da Twitch; "tag" = onde trabalhamos juntos (confirmar com o cliente)
-  { name: "Luqueta", role: "Streamer", tag: "Twitch", photo: "/img/stars/luqueta.jpg" },
-  { name: "Coldzera", role: "CS Legend", tag: "Counter-Strike", photo: "/img/stars/coldzera.jpg" },
-  { name: "FNX", role: "CS Legend", tag: "Counter-Strike", photo: "/img/stars/fnx.jpg" },
-  { name: "FKS", role: "Streamer", tag: "Twitch", photo: "/img/stars/fks.jpg" },
+  { name: "Luqueta", role: "Streamer", tag: "Twitch", photo: "/img/stars/luqueta-v2.jpg" },
+  { name: "Coldzera", role: "CS Legend", tag: "Counter-Strike", photo: "/img/stars/coldzera-v2.jpg" },
+  { name: "FNX", role: "CS Legend", tag: "Counter-Strike", photo: "/img/stars/fnx-v2.jpg" },
+  { name: "FKS", role: "Streamer", tag: "Twitch", photo: "/img/stars/fks-v2.jpg" },
   { name: "Gordox", role: "Streamer", tag: "Twitch", photo: "/img/stars/gordox.jpg" },
-  { name: "Zigueira", role: "Streamer", tag: "Twitch", photo: "/img/stars/zigueira.jpg" },
+  { name: "Zigueira", role: "Streamer", tag: "Twitch", photo: "/img/stars/zigueira-v2.jpg" },
 ];
 
 // ratio = largura/altura do PNG; url = site da empresa ("#" = falta confirmar com o cliente)
