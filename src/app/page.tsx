@@ -41,7 +41,7 @@ function Hero() {
     <section className="relative min-h-[100svh] overflow-hidden bg-ink flex items-center">
       <SlideBg n={1} />
       {/* BB gigante em pontinhos, como no slide 1 */}
-      <div className="halftone halftone-mark pointer-events-none absolute -left-[12vw] top-[8%] h-[95%] w-[80vw] opacity-60" aria-hidden />
+      <div className="halftone halftone-mark pointer-events-none absolute -left-[14vw] top-[6%] h-[96%] w-[64vw] opacity-45 max-lg:opacity-20" aria-hidden />
       <CornerCrosses />
 
       <div className={`${wrap} grid gap-10 lg:grid-cols-12 items-center pt-28 pb-20`}>
@@ -189,7 +189,7 @@ function Brands() {
     <section id="brands" className="relative overflow-hidden py-24 lg:py-32 bg-royal">
       <SlideBg n={4} />
       {/* BB gigante de mini logos, como no slide */}
-      <div className="halftone halftone-mark pointer-events-none absolute -left-[8%] top-[4%] h-[92%] w-[62%] opacity-60" aria-hidden />
+      <div className="halftone halftone-mark pointer-events-none absolute -left-[8%] top-[4%] h-[92%] w-[62%] opacity-30" aria-hidden />
       <CornerCrosses />
       <div className={`${wrap} grid gap-12 lg:grid-cols-12 items-center`}>
         <div className="lg:col-span-6">
