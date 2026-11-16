@@ -255,3 +255,20 @@ body {
 @media (prefers-reduced-motion: reduce) {
   .roster-card { animation: none; }
 }
+
+/* "b" esticado como no slide (sem manter proporção) */
+.halftone-mark.halftone-stretch {
+  -webkit-mask-size: 100% 100%;
+  mask-size: 100% 100%;
+}
+@media (max-width: 1023px) {
+  .halftone-mark.halftone-stretch { -webkit-mask-size: contain; mask-size: contain; }
+}
+/* vão sem pontinhos atrás do título (no slide o texto fica no vão do "b") */
+.halftone-hole {
+  -webkit-mask-image: radial-gradient(ellipse 24% 30% at 36% 47%, transparent 72%, #000 100%);
+  mask-image: radial-gradient(ellipse 24% 30% at 36% 47%, transparent 72%, #000 100%);
+}
+@media (max-width: 1023px) {
+  .halftone-hole { -webkit-mask-image: none; mask-image: none; }
+}

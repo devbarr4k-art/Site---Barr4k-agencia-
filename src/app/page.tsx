@@ -188,17 +188,19 @@ function Brands() {
   return (
     <section id="brands" className="relative overflow-hidden py-24 lg:py-32 bg-royal">
       <SlideBg n={4} />
-      {/* BB gigante de mini logos, como no slide */}
-      <div className="halftone halftone-mark pointer-events-none absolute -left-[8%] top-[4%] h-[92%] w-[62%] opacity-30" aria-hidden />
+      {/* "b" gigante de mini "b", na mesma posição e proporção do slide de Brands */}
+      <div className="halftone-hole pointer-events-none absolute inset-0" aria-hidden>
+        <div className="halftone halftone-mark halftone-stretch pointer-events-none absolute left-[3%] -top-[35%] h-[170%] w-[44%] opacity-85 max-lg:left-[-20%] max-lg:w-[120%] max-lg:opacity-35" aria-hidden />
+      </div>
       <CornerCrosses />
       <div className={`${wrap} grid gap-12 lg:grid-cols-12 items-center`}>
-        <div className="lg:col-span-6">
-          <Reveal><span className="eyebrow">Brands</span></Reveal>
+        <div className="lg:col-span-6 lg:text-right">
+          <Reveal><span className="eyebrow lg:mr-[52%]">Brands</span></Reveal>
           <Reveal delay={100}>
-            <h2 className="display mt-6 text-6xl sm:text-7xl lg:text-8xl">Companies that trusted our team:</h2>
+            <h2 className="display mt-3 text-6xl sm:text-7xl lg:text-[5.2rem] [text-shadow:0_2px_24px_rgba(2,10,28,.35)]">Companies that trusted our team:</h2>
           </Reveal>
           <Reveal delay={200}>
-            <p className="grotesk mt-6 max-w-xs text-xl">Each partnership was designed for performance and visibility.</p>
+            <p className="grotesk mt-3 text-xl lg:ml-auto lg:max-w-[11rem] lg:text-2xl lg:leading-[1]">Each partnership was designed for performance and visibility.</p>
           </Reveal>
         </div>
         <div className="lg:col-span-6 grid grid-cols-2 gap-x-8 gap-y-10 items-center">
