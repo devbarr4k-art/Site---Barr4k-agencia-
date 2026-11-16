@@ -282,8 +282,10 @@ function Stats() {
 }
 
 /* ───────────── FRAMEWORK ───────────── */
-// quadradinhos brancos medidos no slide do PDF (posição em % da colagem; cada um = 5.44% x 4.49%)
-const FW_SQUARES: [number, number][] = [[36.1,-4.26], [46.85,-4.26], [52.22,-4.26], [41.48,0.24], [41.48,4.73], [89.26,0.24], [94.7,0.24], [83.81,4.73], [94.7,4.73], [100.14,9.22], [15.76,8.87], [4.87,13.36], [10.32,13.36], [4.87,17.85], [-0.57,22.34], [-0.57,26.83], [83.81,35.11], [89.26,39.6], [94.7,39.6], [58.17,44.68], [39.4,57.21], [44.84,57.21], [44.84,61.88], [0.43,63.0], [5.87,63.0], [-5.01,67.49], [-5.01,71.99], [85.24,68.79], [79.8,73.29], [50.29,86.76], [44.84,91.19], [44.84,95.63], [39.4,100.06]];
+// quadradinhos brancos medidos no slide do PDF, presos na arte mais próxima (em % da caixa da arte),
+// assim no zoom eles crescem e se mexem junto com a imagem
+const FW_SQUARES: [number, number][][] = [[[21.19,-9.59],[0.88,0.59],[11.04,0.59],[0.88,10.77],[-9.27,20.95],[-9.27,31.13],[65.3,100.01]],[[-19.89,-9.66],[0.28,-9.66],[10.36,-9.66],[-9.79,0.54],[-9.79,10.73],[79.85,0.54],[90.06,0.54],[69.62,10.73],[90.06,10.73],[100.26,20.91],[69.62,79.63],[79.85,89.81],[90.06,89.81]],[[23.49,-13.44],[-14.37,29.53],[-14.37,45.54],[100.4,69.24],[84.94,84.67]],[[0.96,0.54],[13.1,0.54],[-11.18,12.61],[-11.18,24.71],[112.25,64.41],[100.09,76.32],[100.09,88.26],[87.95,100.16]]];
+const FW_SQ_SIZE: [number, number][] = [[10.15,10.18],[10.21,10.18],[15.45,15.4],[12.14,12.07]];
 
 function Framework() {
   // posições medidas no slide do PDF (em % da área da colagem); z = quem fica na frente, como no slide
@@ -318,17 +320,16 @@ function Framework() {
                 style={{ left: pos[i].left, top: pos[i].top, width: pos[i].width, zIndex: pos[i].z }}
               >
                 <Image src={g.src} alt={g.alt} width={600} height={600} quality={90} className={`art-img h-auto w-full ${g.src.endsWith(".png") ? "art-cut" : ""}`} />
+                {FW_SQUARES[i].map(([l, t]) => (
+                  <span
+                    key={`${l}-${t}`}
+                    aria-hidden
+                    className="pointer-events-none absolute z-10 bg-white"
+                    style={{ left: `${l}%`, top: `${t}%`, width: `${FW_SQ_SIZE[i][0]}%`, height: `${FW_SQ_SIZE[i][1]}%` }}
+                  />
+                ))}
                 {/* no hover a arte dá zoom mas fica na mesma camada: o pedaço escondido debaixo da vizinha continua escondido */}
               </div>
-            ))}
-            {/* quadradinhos do site nas mesmas posições do PDF, por cima das artes */}
-            {FW_SQUARES.map(([l, t]) => (
-              <span
-                key={`${l}-${t}`}
-                aria-hidden
-                className="pointer-events-none absolute z-40 bg-white"
-                style={{ left: `${l}%`, top: `${t}%`, width: "5.44%", height: "4.49%" }}
-              />
             ))}
           </div>
         </Reveal>

@@ -68,7 +68,7 @@ export const graphics = [
   { src: "/img/gfx/skins-v3.jpg", alt: "Get exclusive skins campaign" },
   { src: "/img/gfx/degen-v3.png", alt: "Degen apparel campaign" },
   { src: "/img/gfx/cases-v3.jpg", alt: "New cases campaign" },
-  { src: "/img/gfx/fallen-full.jpg", alt: "Fallen x Zenith limited edition" },
+  { src: "/img/gfx/fallen-v3.png", alt: "Fallen x Zenith limited edition" },
 ];
 
 export const cases = [
