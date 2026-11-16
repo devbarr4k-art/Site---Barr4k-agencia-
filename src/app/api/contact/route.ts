@@ -54,7 +54,7 @@ export async function POST(req: Request) {
     console.error("[contact] gmail falhou", e);
     // TEMP: diagnóstico (remover depois)
     const err = e as { responseCode?: number; message?: string };
-    const dbg = new URL(req.url).searchParams.has("diag") ? { responseCode: err.responseCode, message: err.message?.slice(0, 120), passLen: pass.length, passShape: pass.replace(/[a-z]/g, "").replace(/[A-Z]/g, "A").replace(/[0-9]/g, "9").replace(/[^A9]/g, "#") } : undefined;
+    const dbg = new URL(req.url).searchParams.has("diag") ? { responseCode: err.responseCode, message: err.message?.slice(0, 120), userOk: user === "dev.barr4k@gmail.com", userShape: user.replace(/[a-z0-9]/g, "x"), passLen: pass.length, passShape: pass.replace(/[a-z]/g, "").replace(/[A-Z]/g, "A").replace(/[0-9]/g, "9").replace(/[^A9]/g, "#") } : undefined;
     return Response.json({ error: "", dbg }, { status: 502 });
   }
   return Response.json({ ok: true });
