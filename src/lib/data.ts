@@ -45,10 +45,19 @@ export const stars = [
   { name: "Fallen", role: "CS Legend", tag: "Counter-Strike", photo: "/img/stars/fallen-v2.jpg" },
   { name: "Fer", role: "CS Legend", tag: "Counter-Strike", photo: "/img/stars/fer-v2.jpg" },
   { name: "Boltz", role: "Ex-pro · Streamer", tag: "Counter-Strike", photo: "/img/stars/boltz-v3.jpg" },
+  // fotos de perfil da Twitch; "tag" = onde trabalhamos juntos (confirmar com o cliente)
+  { name: "Luqueta", role: "Streamer", tag: "Twitch", photo: "/img/stars/luqueta.jpg" },
+  { name: "Coldzera", role: "CS Legend", tag: "Counter-Strike", photo: "/img/stars/coldzera.jpg" },
+  { name: "FNX", role: "CS Legend", tag: "Counter-Strike", photo: "/img/stars/fnx.jpg" },
+  { name: "FKS", role: "Streamer", tag: "Twitch", photo: "/img/stars/fks.jpg" },
+  { name: "Gordox", role: "Streamer", tag: "Twitch", photo: "/img/stars/gordox.jpg" },
+  { name: "Zigueira", role: "Streamer", tag: "Twitch", photo: "/img/stars/zigueira.jpg" },
 ];
 
 // ratio = largura/altura do PNG; url = site da empresa ("#" = falta confirmar com o cliente)
 export const brands = [
+  { name: "Polymarket", logo: "/img/brands/polymarket.png", h: 30, ratio: 911 / 166, url: "https://polymarket.com" },
+  { name: "1win", logo: "/img/brands/1win.svg", h: 44, ratio: 76 / 36, url: "https://1win.com" },
   { name: "CSGOBIG", logo: "/img/brands/csgobig.png", h: 34, ratio: 487 / 103, url: "https://csgobig.com" },
   { name: "Rain.gg", logo: "/img/brands/rain.png", h: 30, ratio: 482 / 93, url: "https://rain.gg" },
   { name: "Gamers Club", logo: "/img/brands/gamersclub.png", h: 26, ratio: 477 / 72, url: "https://gamersclub.com.br" },

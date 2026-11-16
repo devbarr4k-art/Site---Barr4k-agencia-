@@ -2,10 +2,9 @@
 
 import { useEffect, useMemo, useRef, useState } from "react";
 import Image from "next/image";
-import { ArrowUpRight, Search, X } from "lucide-react";
+import { Search, X } from "lucide-react";
 import { FaInstagram, FaTwitch, FaYoutube } from "react-icons/fa";
 import { SiKick } from "react-icons/si";
-import { CREATORS_SHEET_URL } from "@/lib/data";
 import { fallbackCreators, type Creator } from "@/lib/creators";
 import avatars from "@/lib/creators-avatars.json";
 
@@ -158,7 +157,7 @@ export default function CreatorsModal() {
             </div>
             <div className="pr-14 text-right sm:pr-16">
               <div className="font-black leading-none tabular-nums text-6xl sm:text-7xl">+{count}</div>
-              <div className="display mt-1 text-xl normal-case text-white/70">creators we manage</div>
+              <div className="display mt-1 text-xl normal-case text-white/70">Creators We Can Bring to Your Product</div>
             </div>
           </div>
 
@@ -258,11 +257,6 @@ export default function CreatorsModal() {
             </ul>
           )}
 
-          <div className="mt-10 flex justify-center">
-            <a href={CREATORS_SHEET_URL} target="_blank" rel="noreferrer" className="link-line inline-flex items-center gap-2 text-xs font-extrabold uppercase text-white/50 hover:text-white">
-              Open the spreadsheet <ArrowUpRight className="h-4 w-4" />
-            </a>
-          </div>
         </div>
         {/* esmaecido no fim da lista */}
         <div className="pointer-events-none absolute inset-x-0 bottom-0 z-10 h-16 bg-gradient-to-t from-navy to-transparent" aria-hidden />

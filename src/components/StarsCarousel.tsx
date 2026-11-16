@@ -5,7 +5,6 @@ import Image from "next/image";
 import { ArrowLeft, ArrowRight } from "lucide-react";
 import { stars } from "@/lib/data";
 
-const pad = (n: number) => String(n).padStart(2, "0");
 const INTERVAL = 2600; // tempo de cada carta no centro (ms)
 
 /** Cartas em leque girando sozinhas em loop infinito (pausa com o mouse em cima) */
@@ -28,7 +27,7 @@ export default function StarsCarousel() {
 
   return (
     <div className="select-none" onMouseEnter={() => setPaused(true)} onMouseLeave={() => setPaused(false)}>
-      <div className="relative mx-auto h-[420px] sm:h-[500px] w-full max-w-[720px] [perspective:1600px]">
+      <div className="relative mx-auto h-[470px] sm:h-[600px] w-full max-w-[860px] [perspective:1600px]">
         {stars.map((s, i) => {
           // distância circular até a carta do centro (por isso o loop não "volta" do fim pro começo)
           let d = i - active;
@@ -41,7 +40,7 @@ export default function StarsCarousel() {
               key={s.name}
               aria-hidden={d !== 0}
               onClick={() => d !== 0 && go(d)}
-              className={`absolute left-1/2 top-1/2 w-[230px] sm:w-[290px] aspect-[3/4.2] ${d !== 0 && !hidden ? "cursor-pointer" : ""}`}
+              className={`absolute left-1/2 top-1/2 w-[260px] sm:w-[350px] aspect-[3/4.2] ${d !== 0 && !hidden ? "cursor-pointer" : ""}`}
               style={{
                 transform: `translate(-50%, -50%) translateX(${d * 46}%) translateZ(${-abs * 160}px) rotateY(${-d * 18}deg) rotateZ(${d * 2}deg)`,
                 zIndex: 20 - abs * 2,
@@ -56,23 +55,17 @@ export default function StarsCarousel() {
                   src={s.photo}
                   alt={s.name}
                   fill
-                  sizes="300px"
+                  sizes="(max-width:640px) 260px, 350px"
                   quality={90}
                   draggable={false}
                   className={`object-cover object-top ${"zoom" in s && s.zoom ? "scale-[1.12]" : ""}`}
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-ink via-ink/20 to-transparent" />
-                <div className="absolute inset-x-0 top-0 flex items-center justify-between p-3 text-[10px] font-extrabold uppercase tracking-wider">
-                  <span className="flex items-center gap-1.5">
-                    <Image src="/img/logo-mark.png" alt="" width={18} height={13} /> BB Agency
-                  </span>
-                  <span className="text-white/60">{pad(i + 1)}</span>
-                </div>
                 <div className="absolute inset-x-0 bottom-0 p-4">
                   <h3 className="display text-5xl sm:text-6xl normal-case">{s.name}</h3>
-                  <p className="mt-2 flex items-center justify-between text-[11px] font-extrabold uppercase tracking-wider">
+                  <p className="mt-2 flex flex-wrap items-center justify-between gap-x-3 gap-y-1 text-[11px] font-extrabold uppercase tracking-wider">
                     <span className="text-amber">{s.role}</span>
-                    <span className="hidden sm:inline text-white/60">{s.tag}</span>
+                    <span className="text-white/60">{s.tag}</span>
                   </p>
                 </div>
               </div>
@@ -90,7 +83,6 @@ export default function StarsCarousel() {
           <span className="display block text-2xl normal-case text-white/70 group-hover:text-royal transition-colors">{prev.name}</span>
         </button>
         <div>
-          <span className="text-[10px] font-bold uppercase tracking-widest text-paper">{pad(active + 1)}/{pad(n)}</span>
           <div className="display text-4xl normal-case">{stars[active].name}</div>
         </div>
         <button type="button" onClick={() => go(1)} className="group justify-self-end text-right">

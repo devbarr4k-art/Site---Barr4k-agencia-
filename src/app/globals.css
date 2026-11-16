@@ -151,6 +151,7 @@ body {
 }
 .marquee:hover { animation-play-state: paused; }
 .stars-marquee { animation-duration: 45s; }
+.brands-marquee { animation-duration: 40s; }
 @keyframes marquee {
   to { transform: translateX(-50%); }
 }
@@ -163,7 +164,8 @@ body {
 .link-line:hover { background-size: 100% 2px; }
 
 @media (prefers-reduced-motion: reduce) {
-  .drift-a, .drift-b, .marquee { animation: none; }
+  /* a faixa de marcas continua rodando: no Windows com "efeitos de animação" desligado ela ficava parada */
+  .drift-a, .drift-b { animation: none; }
   .reveal { opacity: 1; transform: none; transition: none; }
 }
 

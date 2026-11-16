@@ -50,13 +50,10 @@ function Hero() {
             <span className="eyebrow text-amber">Streaming · CS · Partnerships</span>
           </Reveal>
           <Reveal delay={120}>
-            <div className="mt-6 flex items-center gap-3 sm:gap-6">
-              <Image src="/img/logo-mark.png" alt="BB" width={293} height={218} priority className="w-[24vw] sm:w-40 lg:w-48 h-auto" />
-              <h1 className="font-serif italic uppercase tracking-[-0.04em] text-[15vw] sm:text-[7rem] lg:text-[8.5rem] leading-[0.82]">
-                BB<sup className="ml-3 align-[0.15em] text-[0.36em] not-italic">®</sup>
-                <span className="block">Agency</span>
-              </h1>
-            </div>
+            <h1 className="mt-6">
+              <span className="sr-only">BB Agency</span>
+              <Image src="/img/logo-mark.png" alt="" width={293} height={218} priority className="w-[42vw] max-w-[240px] sm:w-60 lg:w-[293px] h-auto" />
+            </h1>
           </Reveal>
           <Reveal delay={240}>
             <p className="grotesk mt-8 max-w-md text-xl sm:text-2xl">
@@ -161,7 +158,7 @@ function Featured() {
         <div className="lg:col-span-5">
           <Reveal><span className="eyebrow">Featured</span></Reveal>
           <Reveal delay={100}>
-            <h2 className="display mt-6 text-6xl sm:text-7xl xl:text-8xl">Stars that work with us</h2>
+            <h2 className="display mt-6 text-6xl sm:text-7xl xl:text-8xl">Stars we have worked with</h2>
           </Reveal>
           <Reveal delay={200}>
             <p className="grotesk mt-8 max-w-sm text-xl text-white/85">
@@ -203,26 +200,13 @@ function Brands() {
             <p className="grotesk mt-3 text-xl lg:ml-auto lg:max-w-[11rem] lg:text-2xl lg:leading-[1]">Each partnership was designed for performance and visibility.</p>
           </Reveal>
         </div>
-        <div className="lg:col-span-6 grid grid-cols-2 gap-x-8 gap-y-10 items-center">
-          {brands.slice(0, 7).map((b, i) => (
-            <Reveal key={b.name} delay={i * 60}>
-              <BrandLogo b={b} />
-            </Reveal>
-          ))}
-          {/* paiN, All Star e Gamdom na coluna da direita, ao lado da keydrop */}
-          <Reveal delay={420} className="flex flex-wrap items-center gap-x-5 gap-y-3 sm:gap-x-8">
-            {brands.slice(7).map((b) => (
-              <BrandLogo key={b.name} b={b} />
-            ))}
-          </Reveal>
-        </div>
       </div>
 
-      {/* Faixa rodando */}
-      <div className="relative z-[2] mt-20 border-y border-white/20 bg-ink/40 py-6 backdrop-blur-sm overflow-hidden">
-        <div className="marquee items-center gap-16 pr-16">
+      {/* Faixa rodando (para com o mouse em cima pra clicar na marca) */}
+      <div className="relative z-[2] mt-16 border-y border-white/20 bg-ink/40 py-8 backdrop-blur-sm overflow-hidden">
+        <div className="marquee brands-marquee items-center gap-20 pr-20">
           {row.map((b, i) => (
-            <BrandLogo key={i} b={b} maxH={36} hidden={i >= brands.length} />
+            <BrandLogo key={i} b={b} maxH={46} hidden={i >= brands.length} />
           ))}
         </div>
       </div>
