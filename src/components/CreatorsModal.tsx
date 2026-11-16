@@ -32,8 +32,16 @@ export default function CreatorsModal() {
   const [q, setQ] = useState("");
   const [filter, setFilter] = useState<PKey | "all">("all");
   const [count, setCount] = useState(0);
+  const [pxDone, setPxDone] = useState(false);
   const searchRef = useRef<HTMLInputElement>(null);
   const gridRef = useRef<HTMLDivElement>(null);
+
+  // tira os pixels da abertura da tela quando a animação acaba (no celular alguns ficavam presos)
+  useEffect(() => {
+    if (!open) return;
+    const t = setTimeout(() => setPxDone(true), 1100);
+    return () => clearTimeout(t);
+  }, [open]);
 
   // lista ao vivo da planilha (cai na cópia salva se falhar)
   useEffect(() => {
@@ -50,6 +58,7 @@ export default function CreatorsModal() {
 
   useEffect(() => {
     const onOpen = () => {
+      setPxDone(false);
       setOpen(true);
       setClosing(false);
     };
@@ -119,11 +128,11 @@ export default function CreatorsModal() {
         <div className="halftone halftone-mark pointer-events-none absolute -right-[8%] -top-[10%] h-[80%] w-[55%] opacity-25" aria-hidden />
 
         {/* pixels que somem revelando o painel */}
-        <div className="pointer-events-none absolute inset-0 z-30 grid [contain:strict]" style={{ gridTemplateColumns: `repeat(${COLS}, 1fr)`, gridTemplateRows: `repeat(${ROWS}, 1fr)` }} aria-hidden>
+        {!pxDone && <div className="pointer-events-none absolute inset-0 z-30 grid [contain:strict]" style={{ gridTemplateColumns: `repeat(${COLS}, 1fr)`, gridTemplateRows: `repeat(${ROWS}, 1fr)` }} aria-hidden>
           {delays.map((d, i) => (
             <span key={i} className={`cm-px ${(Math.imul(i + 3, 2654435761) >>> 0) % 10 < 2 ? "bg-amber" : (Math.imul(i + 3, 2654435761) >>> 0) % 10 < 4 ? "bg-royal" : "bg-paper"}`} style={{ animationDelay: `${d}ms` }} />
           ))}
-        </div>
+        </div>}
 
         {/* faixa de nomes rodando atrás do título */}
         <div className="pointer-events-none absolute inset-x-0 top-6 overflow-hidden opacity-[0.07]" aria-hidden>
