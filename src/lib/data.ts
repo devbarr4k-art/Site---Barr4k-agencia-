@@ -94,3 +94,11 @@ export const cases = [
     img: "/img/cases/case-pain.jpg",
   },
 ];
+
+// Formulário de contato via EmailJS (emailjs.com, conta do Barr4k com o Gmail conectado).
+// Os 3 códigos são públicos. Template HTML pra colar no EmailJS: email/emailjs-template.html
+export const EMAILJS = {
+  serviceId: "service_35rcixl",
+  templateId: "template_7mfl0ts",
+  publicKey: "ljbIGjpG_zjyCf8OW",
+};

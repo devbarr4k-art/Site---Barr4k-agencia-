@@ -1,0 +1,91 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="color-scheme" content="dark">
+<meta name="supported-color-schemes" content="dark">
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;800&family=Instrument+Serif:ital@1&display=swap" rel="stylesheet">
+<title>New deal</title>
+</head>
+<body style="margin:0;padding:0;background:#020a1c">
+  <!-- prévia que aparece na lista de e-mails -->
+  <div style="display:none;max-height:0;overflow:hidden;opacity:0">{{name}} ({{company}}): {{message}}</div>
+
+  <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="background:#020a1c">
+    <tr><td align="center" style="padding:28px 12px">
+
+      <table role="presentation" width="600" cellpadding="0" cellspacing="0" border="0" style="width:100%;max-width:600px;background:#06142e;border:1px solid #1b2f5c">
+
+        <!-- topo -->
+        <tr><td style="padding:20px 28px">
+          <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0"><tr>
+            <td><img src="https://sitebarr4kagencia.vercel.app/img/logo-mark.png" width="44" alt="BB Agency" style="display:block;border:0;height:auto"></td>
+            <td align="right" style="font-family:'Archivo','Helvetica Neue',Helvetica,Arial,sans-serif;font-size:11px;font-weight:800;letter-spacing:3px;text-transform:uppercase;color:#f2a20c">New contact</td>
+          </tr></table>
+        </td></tr>
+
+        <!-- faixa com o degradê do site -->
+        <tr><td style="line-height:0">
+          <img src="https://sitebarr4kagencia.vercel.app/img/email-banner.jpg" width="600" alt="BB Agency" style="display:block;width:100%;max-width:600px;height:auto;border:0">
+        </td></tr>
+
+        <!-- título -->
+        <tr><td style="padding:30px 28px 4px">
+          <div style="font-family:'Instrument Serif',Georgia,'Times New Roman',serif;font-size:50px;line-height:48px;font-style:italic;text-transform:uppercase;letter-spacing:-1.5px;color:#f3efe6">Start a <span style="color:#f2a20c">deal.</span></div>
+          <div style="margin-top:12px;font-family:'Archivo','Helvetica Neue',Helvetica,Arial,sans-serif;font-size:16px;line-height:22px;font-weight:800;color:#c9d0e6">{{name}} wants to talk with BB Agency.</div>
+        </td></tr>
+
+        <!-- temas -->
+        <tr><td style="padding:20px 28px 4px">
+          <div style="margin-bottom:10px;font-family:'Archivo','Helvetica Neue',Helvetica,Arial,sans-serif;font-size:11px;font-weight:800;letter-spacing:3px;text-transform:uppercase;color:#9aa6c4">What it's about</div>
+          <table role="presentation" cellpadding="0" cellspacing="0" border="0"><tr>
+      <td style="padding:0 8px 8px 0">
+        <table role="presentation" cellpadding="0" cellspacing="0" border="0"><tr>
+          <td style="background:#f2a20c;padding:7px 12px;font-family:'Archivo','Helvetica Neue',Helvetica,Arial,sans-serif;font-size:11px;font-weight:800;letter-spacing:1px;text-transform:uppercase;color:#020a1c">{{topics}}</td>
+        </tr></table>
+      </td></tr></table>
+        </td></tr>
+
+        <!-- dados -->
+        <tr><td style="padding:12px 28px 0">
+          <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="background:#0b1d40;border:1px solid #1b2f5c">
+            
+            <tr>
+              <td style="padding:14px 18px;font-family:'Archivo','Helvetica Neue',Helvetica,Arial,sans-serif;font-size:11px;font-weight:800;letter-spacing:2px;text-transform:uppercase;color:#9aa6c4;width:110px">Name</td>
+              <td style="padding:14px 18px;font-family:'Archivo','Helvetica Neue',Helvetica,Arial,sans-serif;font-size:15px;font-weight:800;color:#f3efe6">{{name}}</td>
+            </tr>
+            <tr>
+              <td style="padding:14px 18px;border-top:1px solid #1b2f5c;font-family:'Archivo','Helvetica Neue',Helvetica,Arial,sans-serif;font-size:11px;font-weight:800;letter-spacing:2px;text-transform:uppercase;color:#9aa6c4;width:110px">Email</td>
+              <td style="padding:14px 18px;border-top:1px solid #1b2f5c;font-family:'Archivo','Helvetica Neue',Helvetica,Arial,sans-serif;font-size:15px;font-weight:800;color:#f3efe6"><a href="mailto:{{email}}" style="color:#f2a20c;text-decoration:none">{{email}}</a></td>
+            </tr>
+            <tr>
+              <td style="padding:14px 18px;border-top:1px solid #1b2f5c;font-family:'Archivo','Helvetica Neue',Helvetica,Arial,sans-serif;font-size:11px;font-weight:800;letter-spacing:2px;text-transform:uppercase;color:#9aa6c4;width:110px">Company</td>
+              <td style="padding:14px 18px;border-top:1px solid #1b2f5c;font-family:'Archivo','Helvetica Neue',Helvetica,Arial,sans-serif;font-size:15px;font-weight:800;color:#f3efe6">{{company}}</td>
+            </tr>
+          </table>
+        </td></tr>
+
+        <!-- mensagem -->
+        <tr><td style="padding:24px 28px 0">
+          <div style="font-family:'Archivo','Helvetica Neue',Helvetica,Arial,sans-serif;font-size:11px;font-weight:800;letter-spacing:3px;text-transform:uppercase;color:#f2a20c">&mdash;&nbsp; Message</div>
+          <div style="margin-top:10px;padding:18px;background:#0b1d40;border-left:3px solid #f2a20c;font-family:'Archivo','Helvetica Neue',Helvetica,Arial,sans-serif;font-size:15px;line-height:23px;color:#f3efe6;white-space:pre-wrap">{{message}}</div>
+        </td></tr>
+
+        <!-- ação -->
+        <tr><td style="padding:26px 28px 24px">
+          <a href="mailto:{{email}}?subject=BB%20Agency%20%E2%80%93%20your%20contact" style="display:inline-block;background:#f2a20c;color:#020a1c;font-family:'Archivo','Helvetica Neue',Helvetica,Arial,sans-serif;font-size:14px;font-weight:800;letter-spacing:1px;text-transform:uppercase;text-decoration:none;padding:15px 28px">Reply to {{name}} &nearr;</a>
+        </td></tr>
+
+        <!-- rodapé -->
+        <tr><td style="padding:18px 28px 24px;border-top:1px solid #1b2f5c;font-family:'Archivo','Helvetica Neue',Helvetica,Arial,sans-serif;font-size:12px;line-height:18px;color:#9aa6c4">
+          Replying to this email goes straight to {{email}}.<br>
+          <a href="https://sitebarr4kagencia.vercel.app" style="color:#f2a20c;text-decoration:none">sitebarr4kagencia.vercel.app</a>
+        </td></tr>
+
+      </table>
+
+    </td></tr>
+  </table>
+</body>
+</html>

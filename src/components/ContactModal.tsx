@@ -3,7 +3,7 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import Image from "next/image";
 import { ArrowUpRight, Check, Loader2, X } from "lucide-react";
-import { CONTACT_EMAIL } from "@/lib/data";
+import { EMAILJS, CONTACT_EMAIL } from "@/lib/data";
 
 /** Qualquer botão do site abre o popup com: window.dispatchEvent(new Event("open-contact")) */
 export const openContact = () => window.dispatchEvent(new Event("open-contact"));
@@ -101,12 +101,24 @@ export default function ContactModal() {
     setStatus("sending");
     setErr("");
     try {
-      const r = await fetch("/api/contact", {
+      // EmailJS manda o e-mail (layout salvo no template de lá) pro dev.barr4k@gmail.com
+      const r = await fetch("https://api.emailjs.com/api/v1.0/email/send", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(data),
+        body: JSON.stringify({
+          service_id: EMAILJS.serviceId,
+          template_id: EMAILJS.templateId,
+          user_id: EMAILJS.publicKey,
+          template_params: {
+            name: data.name,
+            email: data.email,
+            company: data.company || "Not informed",
+            topics: data.topics.join(" · ") || "Not specified",
+            message: data.message,
+          },
+        }),
       });
-      if (!r.ok) throw new Error((await r.json().catch(() => ({}))).error || "fail");
+      if (!r.ok) throw new Error("fail");
       setStatus("sent");
     } catch (e) {
       setErr(e instanceof Error && e.message !== "fail" ? e.message : "");
