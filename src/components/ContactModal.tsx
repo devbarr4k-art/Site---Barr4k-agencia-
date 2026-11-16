@@ -124,13 +124,13 @@ export default function ContactModal() {
       {/* fundo escuro com desfoque */}
       <button type="button" aria-label="Close" onClick={close} className="cm-backdrop absolute inset-0 bg-ink/90 sm:bg-ink/80 sm:backdrop-blur-md" />
 
-      <div className="cm-panel relative w-full max-w-2xl max-h-[100dvh] overflow-y-auto overflow-x-hidden overscroll-contain bg-navy ring-1 ring-white/15 sm:max-h-[92dvh]">
+      <div className="cm-panel relative flex w-full max-w-2xl h-[100dvh] max-h-[100dvh] flex-col overflow-hidden bg-navy ring-1 ring-white/15 sm:h-auto sm:max-h-[92dvh]">
         {/* manchas e retícula do deck */}
         <div className="pointer-events-none absolute inset-0 overflow-hidden" aria-hidden>
           {/* manchas feitas com gradiente (bem mais leve que blur no celular) */}
           <div className="pointer-events-none absolute -right-40 -top-40 h-[26rem] w-[26rem] rounded-full bg-[radial-gradient(circle,rgba(242,162,12,.45),transparent_65%)]" aria-hidden />
           <div className="pointer-events-none absolute -bottom-44 -left-36 h-[26rem] w-[26rem] rounded-full bg-[radial-gradient(circle,rgba(26,79,230,.55),transparent_65%)]" aria-hidden />
-          <div className="halftone halftone-mark pointer-events-none absolute -right-6 bottom-6 h-40 w-52 opacity-20" aria-hidden />
+          <div className="halftone halftone-mark pointer-events-none absolute -right-6 top-24 hidden h-40 w-52 opacity-15 sm:block" aria-hidden />
         </div>
 
         {/* pixels que cobrem o painel e vão sumindo um a um */}
@@ -148,12 +148,12 @@ export default function ContactModal() {
           type="button"
           onClick={close}
           aria-label="Close"
-          className="absolute right-4 top-4 z-10 grid h-10 w-10 place-items-center ring-1 ring-white/20 transition hover:rotate-90 hover:bg-amber hover:text-ink hover:ring-amber"
+          className="absolute right-4 top-4 z-10 grid h-10 w-10 place-items-center bg-navy/60 ring-1 ring-white/20 transition hover:rotate-90 hover:bg-amber hover:text-ink hover:ring-amber"
         >
           <X className="h-5 w-5" />
         </button>
 
-        <div className="relative z-[1] p-6 sm:p-10">
+        <div className="relative z-[1] min-h-0 flex-1 overflow-y-auto overflow-x-hidden overscroll-contain p-6 pb-10 sm:p-10">
           {status === "sent" ? (
             <div className="cm-in flex min-h-[420px] flex-col items-center justify-center text-center">
               <div className="relative">
@@ -176,19 +176,19 @@ export default function ContactModal() {
               </button>
             </div>
           ) : (
-            <form onSubmit={submit} className="space-y-6">
+            <form onSubmit={submit} className="space-y-5 sm:space-y-6">
               <div className="cm-in" style={{ animationDelay: "380ms" }}>
                 <span className="eyebrow text-amber">
                   <Image src="/img/logo-mark.png" alt="" width={18} height={13} className="mr-2 inline" />
                   Contact
                 </span>
-                <h2 id="contact-title" className="display mt-5 text-5xl sm:text-7xl">
+                <h2 id="contact-title" className="display mt-5 pr-12 text-5xl sm:pr-0 sm:text-7xl">
                   Start a <span className="text-amber">deal.</span>
                 </h2>
-                <p className="grotesk mt-3 max-w-md text-lg text-white/70">Tell us about your brand or project and we&apos;ll match you with the right creators.</p>
+                <p className="grotesk mt-3 max-w-md text-base text-white/70 sm:text-lg">Tell us about your brand or project and we&apos;ll match you with the right creators.</p>
               </div>
 
-              <div className="grid gap-6 sm:grid-cols-2">
+              <div className="grid gap-3 sm:gap-6 sm:grid-cols-2">
                 <Field delay={460} label="Your name" name="name" required inputRef={firstField} autoComplete="name" />
                 <Field delay={520} label="Email" name="email" type="email" required autoComplete="email" />
                 <div className="sm:col-span-2">
@@ -207,7 +207,7 @@ export default function ContactModal() {
                         type="button"
                         aria-pressed={on}
                         onClick={() => setTopics((cur) => (on ? cur.filter((x) => x !== t) : [...cur, t]))}
-                        className={`px-4 py-2 text-xs font-extrabold uppercase tracking-wider ring-1 transition-all active:scale-95 ${
+                        className={`px-3 py-2 text-[11px] sm:px-4 sm:text-xs font-extrabold uppercase tracking-wider ring-1 transition-all active:scale-95 ${
                           on ? "bg-amber text-ink ring-amber" : "text-white/80 ring-white/25 hover:ring-white/60"
                         }`}
                       >
@@ -224,7 +224,7 @@ export default function ContactModal() {
                   <textarea
                     name="message"
                     required
-                    rows={5}
+                    rows={4}
                     maxLength={MAX}
                     value={msg}
                     onChange={(e) => setMsg(e.target.value)}
