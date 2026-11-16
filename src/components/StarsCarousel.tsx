@@ -90,7 +90,7 @@ export default function StarsCarousel() {
           <span className="display block text-2xl normal-case text-white/70 group-hover:text-amber transition-colors">{prev.name}</span>
         </button>
         <div>
-          <span className="text-[10px] font-bold uppercase tracking-widest text-amber">{pad(active + 1)}/{pad(n)}</span>
+          <span className="text-[10px] font-bold uppercase tracking-widest text-paper">{pad(active + 1)}/{pad(n)}</span>
           <div className="display text-4xl normal-case">{stars[active].name}</div>
         </div>
         <button type="button" onClick={() => go(1)} className="group justify-self-end text-right">
@@ -101,10 +101,10 @@ export default function StarsCarousel() {
         </button>
       </div>
       {/* barrinha de progresso até a próxima carta */}
-      <div className="mx-auto mt-5 h-[2px] w-40 overflow-hidden bg-white/15">
+      <div className="mx-auto mt-5 h-[3px] w-40 overflow-hidden bg-ink/35">
         <div
           key={`${active}-${paused}`}
-          className="h-full bg-amber"
+          className="h-full bg-paper"
           style={{ animation: paused ? "none" : `starsProgress ${INTERVAL}ms linear forwards`, width: paused ? "100%" : undefined }}
         />
       </div>
