@@ -21,7 +21,7 @@ export const team = [
     socials: {
       twitch: "https://www.twitch.tv/boltz",
       youtube: "https://www.youtube.com/@boltz",
-      x: "https://x.com/boltz",
+      x: "https://x.com/Boltz",
       instagram: "https://www.instagram.com/boltzcs/",
     },
   },

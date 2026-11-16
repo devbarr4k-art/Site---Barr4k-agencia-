@@ -260,7 +260,7 @@ function Stats() {
   return (
     <section id="stats" className="relative overflow-hidden bg-ink py-24 lg:py-32">
       <SlideBg n={5} />
-      <div className="halftone halftone-mark pointer-events-none absolute -left-[6%] top-[6%] h-[90%] w-[58%] opacity-35" aria-hidden />
+      <div className="halftone halftone-mark pointer-events-none absolute -left-[6%] top-[6%] hidden h-[90%] w-[58%] opacity-35 sm:block" aria-hidden />
       <CornerCrosses />
       <div className={wrap}>
         <Reveal className="text-center">
@@ -271,7 +271,7 @@ function Stats() {
           {stats.map((s, i) => (
             <Reveal key={s.label} delay={i * 120} className={`relative ${i % 2 ? "sm:text-left sm:pl-10" : "sm:text-right sm:pr-10"}`}>
               {/* número fantasma em pontinhos atrás */}
-              <span className={`halftone-text pointer-events-none absolute -top-10 font-black text-[9rem] sm:text-[12rem] leading-none [font-stretch:75%] ${i % 2 ? "left-0" : "right-0"}`} aria-hidden>
+              <span className={`halftone-text pointer-events-none absolute -top-10 hidden sm:block font-black text-[9rem] sm:text-[12rem] leading-none [font-stretch:75%] ${i % 2 ? "left-0" : "right-0"}`} aria-hidden>
                 {s.value}
               </span>
               <div className="relative">

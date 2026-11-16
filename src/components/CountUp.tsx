@@ -30,7 +30,7 @@ export default function CountUp({ to, duration = 1800 }: { to: number; duration?
         }
       },
       // só começa quando o número já está bem visível (não na borda da tela)
-      { threshold: 0.9, rootMargin: "0px 0px -10% 0px" }
+      { threshold: 0.5, rootMargin: "0px 0px -5% 0px" }
     );
     io.observe(el);
     return () => {
