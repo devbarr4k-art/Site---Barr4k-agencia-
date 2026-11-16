@@ -189,8 +189,8 @@ function Brands() {
     <section id="brands" className="relative overflow-hidden py-24 lg:py-32 bg-royal">
       <SlideBg n={4} />
       {/* "b" gigante de mini "b", na mesma posição e proporção do slide de Brands */}
-      <div className="halftone-hole pointer-events-none absolute inset-0" aria-hidden>
-        <div className="halftone halftone-mark halftone-stretch pointer-events-none absolute left-[3%] -top-[35%] h-[170%] w-[44%] opacity-85 max-lg:left-[-20%] max-lg:w-[120%] max-lg:opacity-35" aria-hidden />
+      <div className="pointer-events-none absolute inset-0" aria-hidden>
+        <div className="halftone halftone-mark halftone-stretch pointer-events-none absolute left-[4%] -top-[35%] h-[170%] w-[44%] opacity-85 max-lg:left-[-20%] max-lg:w-[120%] max-lg:opacity-35" aria-hidden />
       </div>
       <CornerCrosses />
       <div className={`${wrap} grid gap-12 lg:grid-cols-12 items-center`}>

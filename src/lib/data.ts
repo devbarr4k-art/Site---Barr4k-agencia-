@@ -51,7 +51,7 @@ export const stars = [
   { name: "FNX", role: "CS Legend", tag: "Counter-Strike", photo: "/img/stars/fnx-v3.jpg" },
   { name: "FKS", role: "Streamer", tag: "Twitch", photo: "/img/stars/fks-v2.jpg" },
   { name: "Gordox", role: "Streamer", tag: "Twitch", photo: "/img/stars/gordox-v2.jpg" },
-  { name: "Zigueira", role: "Streamer", tag: "Twitch", photo: "/img/stars/zigueira-v2.jpg" },
+  { name: "Zigueira", role: "Streamer", tag: "Twitch", photo: "/img/stars/zigueira-v3.jpg" },
 ];
 
 // ratio = largura/altura do PNG; url = site da empresa ("#" = falta confirmar com o cliente)
