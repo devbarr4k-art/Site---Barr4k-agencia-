@@ -27,7 +27,7 @@ export const team = [
   },
   {
     name: "BARR4K",
-    photo: "/img/team/barr4k-frame.png",
+    photo: "/img/team/barr4k-frame-v2.png",
     bio: "João “barr4k” Scalamandre is a Twitch Partner streamer and car content YouTuber. He is also embedded in the partnerships sector for virtual casino and CS2 gambling platforms, leveraging a strong network and close relationships with major figures in the Brazilian scene.",
     socials: {
       twitch: "https://www.twitch.tv/barr4k",
