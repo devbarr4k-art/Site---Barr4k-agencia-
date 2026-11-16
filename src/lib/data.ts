@@ -63,14 +63,6 @@ export const stats = [
   { prefix: "+", value: 150, suffix: "", label: "Streamers" },
 ];
 
-// Ordem = posição na colagem do Framework (igual ao slide do PDF)
-export const graphics = [
-  { src: "/img/gfx/skins-v3.jpg", alt: "Get exclusive skins campaign" },
-  { src: "/img/gfx/degen-v4.png", alt: "Degen apparel campaign" },
-  { src: "/img/gfx/cases-v3.jpg", alt: "New cases campaign" },
-  { src: "/img/gfx/fallen-v3.png", alt: "Fallen x Zenith limited edition" },
-];
-
 export const cases = [
   {
     title: "Imperial welcomes CSGOSKINS sponsorship.",

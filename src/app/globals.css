@@ -170,12 +170,6 @@ body {
   to { width: 100%; }
 }
 
-/* Artes do Framework: retângulos inteiros com uma borda reta só (sem recorte em escada) */
-.art-img {
-  outline: 1px solid rgba(255, 255, 255, 0.7);
-  outline-offset: -1px;
-  box-shadow: 0 18px 30px rgba(0, 0, 0, 0.6);
-}
 
 /* ───── Popup de contato ───── */
 .cm-backdrop { animation: cmFade 0.35s ease-out both; }
@@ -234,23 +228,4 @@ body {
 @media (prefers-reduced-motion: reduce) {
   .cm-backdrop, .cm-panel, .cm-px, .cm-in, .cm-pop, .cm-burst { animation: none !important; }
   .cm-px { opacity: 0; }
-}
-/* arte com recorte (Degen, Fallen): a borda branca segue o recorte */
-.art-img.art-cut {
-  outline: none;
-  box-shadow: none;
-  filter: drop-shadow(1px 0 0 rgba(255, 255, 255, 0.7)) drop-shadow(-1px 0 0 rgba(255, 255, 255, 0.7))
-    drop-shadow(0 1px 0 rgba(255, 255, 255, 0.7)) drop-shadow(0 -1px 0 rgba(255, 255, 255, 0.7))
-    drop-shadow(0 18px 30px rgba(0, 0, 0, 0.6));
-}
-/* Degen: a borda branca já vem na arte (igual ao PDF), então só a sombra */
-.art-img.art-cut.art-baked {
-  filter: drop-shadow(0 18px 30px rgba(0, 0, 0, 0.6));
-}
-/* quadradinhos do Framework acompanham o zoom da arte que está com o mouse */
-.fw:has(.fw-art-0:hover) .fw-sq-0,
-.fw:has(.fw-art-1:hover) .fw-sq-1,
-.fw:has(.fw-art-2:hover) .fw-sq-2,
-.fw:has(.fw-art-3:hover) .fw-sq-3 {
-  transform: scale(1.04);
 }

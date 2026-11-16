@@ -8,7 +8,7 @@ import StarsCarousel from "@/components/StarsCarousel";
 import CountUp from "@/components/CountUp";
 import ContactModal, { ContactButton } from "@/components/ContactModal";
 import { CornerCrosses, Cross } from "@/components/Decor";
-import { team, brands, stats, graphics, cases, CREATORS_SHEET_URL, CONTACT_EMAIL, navLinks } from "@/lib/data";
+import { team, brands, stats, cases, CREATORS_SHEET_URL, CONTACT_EMAIL, navLinks } from "@/lib/data";
 
 const wrap = "relative z-[2] mx-auto w-full max-w-7xl 2xl:max-w-[1440px] px-4 sm:px-6 lg:px-8";
 
@@ -289,20 +289,7 @@ function Stats() {
 }
 
 /* ───────────── FRAMEWORK ───────────── */
-// quadradinhos brancos medidos no slide do PDF, presos na arte mais próxima (em % da caixa da arte),
-// assim no zoom eles crescem e se mexem junto com a imagem
-const FW_SQUARES: [number, number][][] = [[[20.3,-10.18],[0.0,0.0],[10.15,0.0],[0.0,10.18],[-10.15,20.36],[-10.15,30.54],[65.3,100.0]],[[-20.42,-10.18],[0.0,-10.18],[10.21,-10.18],[-10.21,0.0],[-10.21,10.18],[79.58,0.0],[89.79,0.0],[69.37,10.18],[89.79,10.18],[100.0,20.36],[69.37,79.64],[79.58,89.82],[89.79,89.82]],[[23.49,-15.4],[-15.45,30.8],[-15.45,46.2],[100.0,69.2],[84.55,84.6]],[[0.0,0.0],[12.14,0.0],[-12.14,12.07],[-12.14,24.14],[112.14,63.79],[100.0,75.86],[100.0,87.93],[87.86,100.0]]];
-const FW_RATIO = ["748/746", "744/746", "492/494", "626/630"];
-const FW_SQ_SIZE: [number, number][] = [[10.15,10.18],[10.21,10.18],[15.45,15.4],[12.14,12.07]];
-
 function Framework() {
-  // posições medidas no slide do PDF (em % da área da colagem); z = quem fica na frente, como no slide
-  const pos = [
-    { left: "4.4%", top: "13.1%", width: "53.6%", z: 2 },
-    { left: "46.7%", top: "0%", width: "53.3%", z: 3 },
-    { left: "49.9%", top: "48.6%", width: "35.2%", z: 1 },
-    { left: "0%", top: "62.8%", width: "44.8%", z: 1 },
-  ];
   return (
     <section id="framework" className="relative overflow-hidden bg-ink py-24 lg:py-32">
       <SlideBg n={6} />
@@ -320,43 +307,16 @@ function Framework() {
           </Reveal>
         </div>
         <Reveal delay={150} className="lg:col-span-7">
-          <div className="fw relative mx-auto aspect-[698/846] w-full max-w-[540px]">
-            {graphics.map((g, i) => (
-              <div
-                key={g.src}
-                className={`fw-art-${i} absolute transition-[transform,filter] duration-500 ease-out hover:scale-[1.04] hover:brightness-110`}
-                style={{ left: pos[i].left, top: pos[i].top, width: pos[i].width, zIndex: pos[i].z }}
-              >
-                {/* no hover a arte dá zoom mas fica na mesma camada: o pedaço escondido debaixo da vizinha continua escondido */}
-                <Image src={g.src} alt={g.alt} width={600} height={600} quality={90} className={`art-img h-auto w-full ${g.src.endsWith(".png") ? "art-cut" : ""} ${g.src.includes("degen") ? "art-baked" : ""}`} />
-              </div>
-            ))}
-            {/* quadradinhos (e linhas que faltam na arte) numa camada por cima de tudo, como no PDF.
-                Cada grupo tem a mesma caixa da sua arte e dá o mesmo zoom quando ela recebe o mouse (globals.css .fw-sq-N) */}
-            {graphics.map((g, i) => (
-              <div
-                key={`sq-${g.src}`}
-                aria-hidden
-                className={`fw-sq-${i} pointer-events-none absolute z-40 transition-transform duration-500 ease-out`}
-                style={{ left: pos[i].left, top: pos[i].top, width: pos[i].width, aspectRatio: FW_RATIO[i] }}
-              >
-                {FW_SQUARES[i].map(([l, t]) => (
-                  <span
-                    key={`${l}-${t}`}
-                    className="absolute bg-white shadow-[0_0_0_0.6px_#fff]"
-                    style={{ left: `${l}%`, top: `${t}%`, width: `${FW_SQ_SIZE[i][0]}%`, height: `${FW_SQ_SIZE[i][1]}%` }}
-                  />
-                ))}
-                {/* Degen: a arte não traz a linha de cima nem a da direita */}
-                {i === 1 && (
-                  <>
-                    <span className="absolute inset-x-0 top-0 h-px bg-white/80" />
-                    <span className="absolute inset-y-0 right-0 w-px bg-white/80" />
-                  </>
-                )}
-              </div>
-            ))}
-          </div>
+          {/* colagem fixa, recortada do slide do PDF (artes, bordas e quadradinhos exatamente como lá) */}
+          <Image
+            src="/img/framework-collage.png"
+            alt="Campaign graphics made by our in-house team"
+            width={1544}
+            height={1840}
+            quality={90}
+            sizes="(max-width:1024px) 92vw, 600px"
+            className="mx-auto h-auto w-full max-w-[600px]"
+          />
         </Reveal>
       </div>
     </section>
