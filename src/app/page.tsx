@@ -272,6 +272,10 @@ function Stats() {
         <div className="mt-16 grid gap-y-16 gap-x-10 sm:grid-cols-2">
           {stats.map((s, i) => (
             <Reveal key={s.label} delay={i * 120} className={`relative ${i % 2 ? "sm:text-left sm:pl-10" : "sm:text-right sm:pr-10"}`}>
+              {/* número fantasma em pontinhos atrás */}
+              <span className={`halftone-text pointer-events-none absolute -top-10 hidden sm:block font-black text-[9rem] sm:text-[12rem] leading-none [font-stretch:75%] ${i % 2 ? "left-0" : "right-0"}`} aria-hidden>
+                {s.value}
+              </span>
               <div className="relative">
                 {i >= 2 && <p className="display text-3xl sm:text-4xl">{s.label}</p>}
                 <p className="font-black text-7xl sm:text-8xl lg:text-9xl tracking-tight [font-stretch:80%] leading-[0.9]">
