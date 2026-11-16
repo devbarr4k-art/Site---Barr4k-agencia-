@@ -65,24 +65,26 @@ body {
 }
 
 /* Granulado do deck por cima de tudo */
+/* granulado igual ao do PDF: ruído fino pixel a pixel, só no fundo (textos e quadradinhos ficam limpos) */
 .grain {
-  position: fixed;
-  inset: -50%;
-  z-index: 60;
+  position: absolute;
+  inset: 0;
   pointer-events: none;
-  opacity: 0.55;
-  mix-blend-mode: overlay;
-  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='220' height='220'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3' stitchTiles='stitch'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>");
-  animation: grain 1.2s steps(6) infinite;
 }
-
-@keyframes grain {
-  0% { transform: translate(0, 0); }
-  20% { transform: translate(-3%, 2%); }
-  40% { transform: translate(2%, -3%); }
-  60% { transform: translate(-2%, -1%); }
-  80% { transform: translate(3%, 3%); }
-  100% { transform: translate(0, 0); }
+/* camada que soma luz (+) e camada que escurece (-), pra o grão ter a mesma força no amarelo e no azul-escuro */
+.grain::before,
+.grain::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: url("/img/grain-add.png") 0 0 / 256px 256px repeat;
+  image-rendering: pixelated;
+  mix-blend-mode: plus-lighter;
+}
+.grain::after {
+  background-image: url("/img/grain-mul.png");
+  background-position: 0 0;
+  mix-blend-mode: multiply;
 }
 
 /* Manchas de cor desfocadas (laranja/azul) */
@@ -161,7 +163,7 @@ body {
 .link-line:hover { background-size: 100% 2px; }
 
 @media (prefers-reduced-motion: reduce) {
-  .grain, .drift-a, .drift-b, .marquee { animation: none; }
+  .drift-a, .drift-b, .marquee { animation: none; }
   .reveal { opacity: 1; transform: none; transition: none; }
 }
 
@@ -256,7 +258,7 @@ body {
 
 /* BB gigante de mini logos: recortado da capa do PDF (mesmo formato e densidade) */
 .halftone.halftone-mark {
-  background: url("/img/bb-halftone-v2.png") center / contain no-repeat;
+  background: url("/img/bb-halftone-v3.png") center / contain no-repeat;
   -webkit-mask: none;
   mask: none;
 }

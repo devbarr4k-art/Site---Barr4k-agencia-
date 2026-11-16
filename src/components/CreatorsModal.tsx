@@ -7,6 +7,10 @@ import { FaInstagram, FaTwitch, FaYoutube } from "react-icons/fa";
 import { SiKick } from "react-icons/si";
 import { CREATORS_SHEET_URL } from "@/lib/data";
 import { fallbackCreators, type Creator } from "@/lib/creators";
+import avatars from "@/lib/creators-avatars.json";
+
+// fotos de perfil baixadas da Twitch/YouTube (public/img/creators); sem foto = iniciais
+const AVATARS = avatars as Record<string, string>;
 
 /** Qualquer botão abre o popup com: openCreators() */
 export const openCreators = () => window.dispatchEvent(new Event("open-creators"));
@@ -112,7 +116,8 @@ export default function CreatorsModal() {
 
       <div className="cm-panel relative flex w-full max-w-7xl flex-col overflow-hidden bg-navy ring-1 ring-white/15">
         {/* fundo do slide de Creators + BB gigante de mini logos */}
-        <div className="pointer-events-none absolute inset-0 bg-cover bg-center" style={{ backgroundImage: "url(/img/bg/s8.jpg)" }} aria-hidden />
+        <div className="pointer-events-none absolute inset-0 bg-cover bg-center" style={{ backgroundImage: "url(/img/bg/s8-v2.jpg)" }} aria-hidden />
+        <div className="grain" aria-hidden />
         <div className="halftone halftone-mark pointer-events-none absolute -right-[8%] -top-[10%] h-[80%] w-[55%] opacity-25" aria-hidden />
 
         {/* pixels que somem revelando o painel */}
@@ -199,7 +204,7 @@ export default function CreatorsModal() {
             gridRef.current!.style.setProperty("--mx", `${e.clientX - r.left}px`);
             gridRef.current!.style.setProperty("--my", `${e.clientY - r.top + gridRef.current!.scrollTop}px`);
           }}
-          className="roster-grid relative z-10 mt-6 flex-1 overflow-y-auto overscroll-contain px-5 pb-10 sm:px-10"
+          className="roster-grid relative z-10 mt-4 flex-1 overflow-y-auto overscroll-contain px-5 pb-10 pt-3 sm:px-10"
         >
           {shown.length === 0 ? (
             <div className="grid place-items-center py-24 text-center">
@@ -216,7 +221,16 @@ export default function CreatorsModal() {
                     {/* quadrado com as iniciais, estilo pixel do deck */}
                     <div className={`relative grid h-14 w-14 shrink-0 place-items-center overflow-hidden transition-transform duration-500 group-hover:rotate-[-6deg] ${n % 3 === 0 ? "bg-amber text-ink" : n % 3 === 1 ? "bg-royal" : "bg-paper text-ink"}`}>
                       <span className="display text-3xl normal-case">{c.name.replace(/[^a-z0-9]/gi, "").slice(0, 2) || "?"}</span>
-                      <span className="absolute -right-1 -top-1 h-3 w-3 bg-ink transition-transform group-hover:scale-150" />
+                      {AVATARS[c.name] && (
+                        // eslint-disable-next-line @next/next/no-img-element
+                        <img
+                          src={AVATARS[c.name]}
+                          alt=""
+                          loading="lazy"
+                          className="absolute inset-0 h-full w-full object-cover grayscale-[15%] transition-all duration-500 group-hover:scale-110 group-hover:grayscale-0"
+                        />
+                      )}
+                      <span className="absolute -right-1 -top-1 z-[1] h-3 w-3 bg-ink transition-transform group-hover:scale-150" />
                     </div>
                     <div className="min-w-0 flex-1">
                       <div className="text-[10px] font-extrabold tracking-widest text-white/40 tabular-nums">#{pad3(n)}</div>

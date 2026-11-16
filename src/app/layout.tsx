@@ -29,7 +29,6 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
     <html lang="en" className={`${archivo.variable} ${instrument.variable}`}>
       <body className="font-sans antialiased">
         {children}
-        <div className="grain" aria-hidden />
         <NoHashLinks />
         <Analytics />
         <SpeedInsights />
