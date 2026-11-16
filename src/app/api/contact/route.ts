@@ -33,7 +33,8 @@ export async function POST(req: Request) {
   }
 
   const user = process.env.GMAIL_USER;
-  const pass = process.env.GMAIL_APP_PASSWORD;
+  // senha de app do Google = 16 letras; tira espaços/aspas que vêm junto ao colar
+  const pass = process.env.GMAIL_APP_PASSWORD?.replace(/[\s"'`]/g, "");
   if (!user || !pass) {
     console.error("[contact] GMAIL_USER/GMAIL_APP_PASSWORD não configurados", { name: lead.name, email: lead.email });
     return Response.json({ error: "" }, { status: 503 });
@@ -53,7 +54,7 @@ export async function POST(req: Request) {
     console.error("[contact] gmail falhou", e);
     // TEMP: diagnóstico (remover depois)
     const err = e as { responseCode?: number; message?: string };
-    const dbg = new URL(req.url).searchParams.has("diag") ? { responseCode: err.responseCode, message: err.message?.slice(0, 120), passLen: pass.replace(/\s/g, "").length } : undefined;
+    const dbg = new URL(req.url).searchParams.has("diag") ? { responseCode: err.responseCode, message: err.message?.slice(0, 120), passLen: pass.length, passShape: pass.replace(/[a-z]/g, "").replace(/[A-Z]/g, "A").replace(/[0-9]/g, "9") } : undefined;
     return Response.json({ error: "", dbg }, { status: 502 });
   }
   return Response.json({ ok: true });
