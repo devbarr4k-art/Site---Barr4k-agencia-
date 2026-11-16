@@ -220,7 +220,7 @@ export default function ContactModal() {
                     value={msg}
                     onChange={(e) => setMsg(e.target.value)}
                     placeholder=" "
-                    className="peer w-full resize-none border-b-2 border-white/25 bg-transparent pb-2 pt-6 text-lg outline-none transition-colors focus:border-amber"
+                    className="peer grotesk w-full text-paper placeholder:text-transparent resize-none border-b-2 border-white/25 bg-transparent pb-2 pt-6 text-xl !leading-snug outline-none transition-colors focus:border-amber"
                   />
                   <span className="cm-label">Your message</span>
                 </label>
@@ -300,7 +300,7 @@ function Field({
         maxLength={200}
         autoComplete={autoComplete}
         placeholder=" "
-        className="peer w-full border-b-2 border-white/25 bg-transparent pb-2 pt-6 text-lg outline-none transition-colors focus:border-amber"
+        className="peer grotesk w-full text-paper placeholder:text-transparent border-b-2 border-white/25 bg-transparent pb-2 pt-6 text-xl outline-none transition-colors focus:border-amber"
       />
       <span className="cm-label">
         {label}
