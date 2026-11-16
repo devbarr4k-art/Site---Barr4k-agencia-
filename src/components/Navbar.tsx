@@ -32,8 +32,12 @@ export default function Navbar() {
       <div className="mx-auto flex h-20 max-w-7xl 2xl:max-w-[1440px] items-center justify-between px-4 sm:px-6 lg:px-8">
         <a href="#top" className="flex items-center gap-3" onClick={() => setOpen(false)}>
           <Image src="/img/logo-mark.png" alt="" width={44} height={33} priority />
-          <span className="display text-2xl leading-none normal-case">
-            BB <span className="not-italic font-sans font-extrabold text-sm tracking-tight align-top">AGENCY</span>
+          {/* igual à capa do PDF: "BB ®" em cima e "AGENCY" embaixo, na mesma serifa */}
+          <span className="font-serif italic uppercase leading-[0.8] tracking-[-0.03em] text-paper">
+            <span className="block text-[22px]">
+              BB<span className="ml-1 align-[0.35em] text-[11px] not-italic">®</span>
+            </span>
+            <span className="block text-[22px]">Agency</span>
           </span>
         </a>
 

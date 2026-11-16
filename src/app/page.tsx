@@ -7,7 +7,7 @@ import Reveal from "@/components/Reveal";
 import StarsCarousel from "@/components/StarsCarousel";
 import CountUp from "@/components/CountUp";
 import ContactModal, { ContactButton } from "@/components/ContactModal";
-import { Blobs, CornerCrosses, Cross, PixelCluster } from "@/components/Decor";
+import { CornerCrosses, Cross } from "@/components/Decor";
 import { team, brands, stats, graphics, cases, CREATORS_SHEET_URL, CONTACT_EMAIL, navLinks } from "@/lib/data";
 
 const wrap = "relative z-[2] mx-auto w-full max-w-7xl 2xl:max-w-[1440px] px-4 sm:px-6 lg:px-8";
@@ -36,7 +36,7 @@ export default function Home() {
 function Hero() {
   return (
     <section className="relative min-h-[100svh] overflow-hidden bg-ink flex items-center">
-      <Blobs variant="hero" />
+      <SlideBg n={1} />
       {/* BB gigante em pontinhos, como no slide 1 */}
       <div className="halftone halftone-mark absolute -left-[12vw] top-[8%] h-[95%] w-[80vw] opacity-60" aria-hidden />
       <CornerCrosses />
@@ -49,9 +49,9 @@ function Hero() {
           <Reveal delay={120}>
             <div className="mt-6 flex items-center gap-3 sm:gap-6">
               <Image src="/img/logo-mark.png" alt="BB" width={293} height={218} priority className="w-[24vw] sm:w-40 lg:w-48 h-auto" />
-              <h1 className="display text-[19vw] sm:text-[9rem] lg:text-[11rem] leading-[0.8]">
-                BB<sup className="text-[0.25em] align-top ml-1 not-italic font-sans">®</sup>
-                <span className="block text-[0.62em]">Agency</span>
+              <h1 className="font-serif italic uppercase tracking-[-0.04em] text-[15vw] sm:text-[7rem] lg:text-[8.5rem] leading-[0.82]">
+                BB<sup className="ml-3 align-[0.15em] text-[0.36em] not-italic">®</sup>
+                <span className="block">Agency</span>
               </h1>
             </div>
           </Reveal>
@@ -86,8 +86,7 @@ function Team() {
   return (
     <section id="team" className="relative overflow-hidden bg-ink py-24 lg:py-32">
       <div className="pointer-events-none absolute inset-0 overflow-hidden" aria-hidden>
-        <div className="blob blob-amber drift-a" style={{ width: "50vw", height: "50vw", left: "-18vw", top: "-22vw" }} />
-        <div className="blob blob-blue drift-b" style={{ width: "40vw", height: "40vw", right: "-14vw", top: "20%", opacity: 0.55 }} />
+        <SlideBg n={2} />
       </div>
       <CornerCrosses />
       <div className={wrap}>
@@ -102,28 +101,33 @@ function Team() {
           {team.map((m, i) => (
             <Reveal key={m.name} delay={i * 150}>
               <article className={`flex flex-col gap-6 sm:flex-row ${i === 1 ? "lg:mt-24" : ""}`}>
-                <div className="relative shrink-0 sm:w-[46%]">
-                  <PixelCluster variant="a" size={16} className="absolute -left-4 -top-4 z-10" />
-                  <PixelCluster variant="b" size={16} className="absolute -right-4 -bottom-4 z-10" />
-                  <div className="relative aspect-[4/5] overflow-hidden ring-1 ring-white/20 group">
-                    <Image src={m.photo} alt={m.name} fill quality={90} sizes="(max-width:640px) 100vw, 300px" className="object-cover transition-transform duration-700 group-hover:scale-105" />
-                  </div>
+                {/* foto já com a moldura em degraus e os quadradinhos do PDF (fundo transparente) */}
+                <div className="group relative shrink-0 sm:w-[52%]">
+                  <Image
+                    src={m.photo}
+                    alt={m.name}
+                    width={1030}
+                    height={1356}
+                    quality={90}
+                    sizes="(max-width:640px) 100vw, 340px"
+                    className="h-auto w-full transition-transform duration-700 ease-out group-hover:scale-[1.03]"
+                  />
                 </div>
                 <div className="flex flex-col justify-between">
                   <div>
-                    <h3 className="text-5xl font-black tracking-tight [font-stretch:80%]">{m.name}</h3>
-                    <div className="mt-3 flex gap-3">
+                    <h3 className="text-5xl font-black tracking-tight">{m.name}</h3>
+                    <div className="mt-3 flex gap-4">
                       {(Object.keys(m.socials) as (keyof typeof icons)[]).map((k) => {
                         const Icon = icons[k];
                         return (
-                          <a key={k} href={m.socials[k]} target="_blank" rel="noreferrer" aria-label={`${m.name} ${k}`} className="grid h-9 w-9 place-items-center border border-white/25 hover:bg-amber hover:text-ink hover:border-amber transition-colors">
-                            <Icon className="h-4 w-4" />
+                          <a key={k} href={m.socials[k]} target="_blank" rel="noreferrer" aria-label={`${m.name} ${k}`} className="text-white transition-colors hover:text-amber">
+                            <Icon className="h-6 w-6" />
                           </a>
                         );
                       })}
                     </div>
                   </div>
-                  <p className="mt-6 font-serif text-lg leading-snug text-white/85 sm:text-xl">{m.bio}</p>
+                  <p className="mt-6 font-serif text-xl leading-[1.02] text-white [hyphens:auto] text-justify sm:text-2xl" lang="en">{m.bio}</p>
                 </div>
               </article>
             </Reveal>
@@ -134,22 +138,23 @@ function Team() {
   );
 }
 
-/** Fundo azul do deck com mancha laranja (sem o cinza do degradê direto) */
-function Glow({ flip = false }: { flip?: boolean }) {
+/** Fundo de cada seção = degradê tirado do slide correspondente do PDF (public/img/bg/sN.jpg) */
+function SlideBg({ n, flip = false }: { n: number; flip?: boolean }) {
   return (
-    <div className="pointer-events-none absolute inset-0 overflow-hidden" aria-hidden>
-      <div className="absolute inset-0 bg-gradient-to-br from-royal via-navy-2 to-ink" />
-      <div className="blob blob-amber drift-a" style={{ width: "60vw", height: "60vw", top: "-26vw", ...(flip ? { right: "-20vw" } : { left: "-22vw" }) }} />
-      <div className="blob blob-blue drift-b" style={{ width: "50vw", height: "50vw", bottom: "-24vw", ...(flip ? { left: "-10vw" } : { right: "10vw" }), opacity: 0.6 }} />
-    </div>
+    <div
+      className="pointer-events-none absolute inset-0 bg-cover bg-center"
+      style={{ backgroundImage: `url(/img/bg/s${n}.jpg)`, transform: flip ? "scaleX(-1)" : undefined }}
+      aria-hidden
+    />
   );
 }
+
 
 /* ───────────── FEATURED (carrossel estilo neeve) ───────────── */
 function Featured() {
   return (
     <section id="featured" className="relative overflow-hidden bg-ink py-24 lg:py-32">
-      <Blobs variant="bottom" />
+      <SlideBg n={3} />
       <CornerCrosses />
       <div className={`${wrap} grid gap-14 lg:grid-cols-12 items-center`}>
         <div className="lg:col-span-5">
@@ -181,8 +186,9 @@ function Brands() {
   const row = [...brands, ...brands];
   return (
     <section id="brands" className="relative overflow-hidden py-24 lg:py-32 bg-royal">
-      <Glow />
-      <div className="halftone absolute inset-0 opacity-25 [mask-image:linear-gradient(90deg,black,transparent_70%)]" aria-hidden />
+      <SlideBg n={4} />
+      {/* BB gigante de mini logos, como no slide */}
+      <div className="halftone halftone-mark pointer-events-none absolute -left-[8%] top-[4%] h-[92%] w-[62%] opacity-60" aria-hidden />
       <CornerCrosses />
       <div className={`${wrap} grid gap-12 lg:grid-cols-12 items-center`}>
         <div className="lg:col-span-6">
@@ -252,7 +258,8 @@ function BrandLogo({ b, maxH, hidden }: { b: (typeof brands)[number]; maxH?: num
 function Stats() {
   return (
     <section id="stats" className="relative overflow-hidden bg-ink py-24 lg:py-32">
-      <Blobs variant="left" />
+      <SlideBg n={5} />
+      <div className="halftone halftone-mark pointer-events-none absolute -left-[6%] top-[6%] h-[90%] w-[58%] opacity-35" aria-hidden />
       <CornerCrosses />
       <div className={wrap}>
         <Reveal className="text-center">
@@ -285,6 +292,7 @@ function Stats() {
 // quadradinhos brancos medidos no slide do PDF, presos na arte mais próxima (em % da caixa da arte),
 // assim no zoom eles crescem e se mexem junto com a imagem
 const FW_SQUARES: [number, number][][] = [[[20.3,-10.18],[0.0,0.0],[10.15,0.0],[0.0,10.18],[-10.15,20.36],[-10.15,30.54],[65.3,100.0]],[[-20.42,-10.18],[0.0,-10.18],[10.21,-10.18],[-10.21,0.0],[-10.21,10.18],[79.58,0.0],[89.79,0.0],[69.37,10.18],[89.79,10.18],[100.0,20.36],[69.37,79.64],[79.58,89.82],[89.79,89.82]],[[23.49,-15.4],[-15.45,30.8],[-15.45,46.2],[100.0,69.2],[84.55,84.6]],[[0.0,0.0],[12.14,0.0],[-12.14,12.07],[-12.14,24.14],[112.14,63.79],[100.0,75.86],[100.0,87.93],[87.86,100.0]]];
+const FW_RATIO = ["748/746", "744/746", "492/494", "626/630"];
 const FW_SQ_SIZE: [number, number][] = [[10.15,10.18],[10.21,10.18],[15.45,15.4],[12.14,12.07]];
 
 function Framework() {
@@ -297,7 +305,7 @@ function Framework() {
   ];
   return (
     <section id="framework" className="relative overflow-hidden bg-ink py-24 lg:py-32">
-      <Blobs variant="left" />
+      <SlideBg n={6} />
       <CornerCrosses />
       <div className={`${wrap} grid gap-16 lg:grid-cols-12 items-center`}>
         <div className="lg:col-span-5">
@@ -312,23 +320,40 @@ function Framework() {
           </Reveal>
         </div>
         <Reveal delay={150} className="lg:col-span-7">
-          <div className="relative mx-auto aspect-[698/846] w-full max-w-[540px]">
+          <div className="fw relative mx-auto aspect-[698/846] w-full max-w-[540px]">
             {graphics.map((g, i) => (
               <div
                 key={g.src}
-                className="group absolute transition-[transform,filter] duration-500 ease-out hover:scale-[1.04] hover:brightness-110"
+                className={`fw-art-${i} absolute transition-[transform,filter] duration-500 ease-out hover:scale-[1.04] hover:brightness-110`}
                 style={{ left: pos[i].left, top: pos[i].top, width: pos[i].width, zIndex: pos[i].z }}
               >
+                {/* no hover a arte dá zoom mas fica na mesma camada: o pedaço escondido debaixo da vizinha continua escondido */}
                 <Image src={g.src} alt={g.alt} width={600} height={600} quality={90} className={`art-img h-auto w-full ${g.src.endsWith(".png") ? "art-cut" : ""} ${g.src.includes("degen") ? "art-baked" : ""}`} />
+              </div>
+            ))}
+            {/* quadradinhos (e linhas que faltam na arte) numa camada por cima de tudo, como no PDF.
+                Cada grupo tem a mesma caixa da sua arte e dá o mesmo zoom quando ela recebe o mouse (globals.css .fw-sq-N) */}
+            {graphics.map((g, i) => (
+              <div
+                key={`sq-${g.src}`}
+                aria-hidden
+                className={`fw-sq-${i} pointer-events-none absolute z-40 transition-transform duration-500 ease-out`}
+                style={{ left: pos[i].left, top: pos[i].top, width: pos[i].width, aspectRatio: FW_RATIO[i] }}
+              >
                 {FW_SQUARES[i].map(([l, t]) => (
                   <span
                     key={`${l}-${t}`}
-                    aria-hidden
-                    className="pointer-events-none absolute z-10 bg-white"
+                    className="absolute bg-white shadow-[0_0_0_0.6px_#fff]"
                     style={{ left: `${l}%`, top: `${t}%`, width: `${FW_SQ_SIZE[i][0]}%`, height: `${FW_SQ_SIZE[i][1]}%` }}
                   />
                 ))}
-                {/* no hover a arte dá zoom mas fica na mesma camada: o pedaço escondido debaixo da vizinha continua escondido */}
+                {/* Degen: a arte não traz a linha de cima nem a da direita */}
+                {i === 1 && (
+                  <>
+                    <span className="absolute inset-x-0 top-0 h-px bg-white/80" />
+                    <span className="absolute inset-y-0 right-0 w-px bg-white/80" />
+                  </>
+                )}
               </div>
             ))}
           </div>
@@ -342,7 +367,8 @@ function Framework() {
 function Cases() {
   return (
     <section id="cases" className="relative overflow-hidden py-24 lg:py-32 bg-royal">
-      <Glow flip />
+      <SlideBg n={7} />
+      <div className="halftone halftone-mark pointer-events-none absolute -right-[10%] top-[30%] h-[80%] w-[55%] opacity-35" aria-hidden />
       <CornerCrosses />
       <div className={wrap}>
         <div className="flex flex-col gap-6 lg:flex-row lg:items-end lg:justify-between">
@@ -362,7 +388,7 @@ function Cases() {
         <div className="mt-16 grid gap-6 md:grid-cols-3">
           {cases.map((c, i) => (
             <Reveal key={c.title} delay={i * 120} as="article" className={i === 1 ? "md:translate-y-10" : ""}>
-              <div className="group h-full rounded-2xl border-2 border-white/80 bg-ink/50 p-3 backdrop-blur-sm transition-colors hover:bg-ink/80">
+              <div className="group h-full rounded-2xl border-[3px] border-white bg-white/10 p-3 backdrop-blur-[2px] transition-colors hover:bg-white/20">
                 <div className="relative aspect-[16/8] overflow-hidden rounded-xl">
                   <Image src={c.img} alt="" fill quality={90} sizes="(max-width:768px) 100vw, 33vw" className="object-cover transition-transform duration-700 group-hover:scale-110" />
                 </div>
@@ -381,8 +407,8 @@ function Cases() {
 function Creators() {
   return (
     <section id="creators" className="relative overflow-hidden bg-ink py-28 lg:py-40">
-      <div className="halftone absolute inset-0 opacity-20 [mask-image:radial-gradient(ellipse_at_70%_40%,black,transparent_65%)]" aria-hidden />
-      <Blobs variant="bottom" />
+      <SlideBg n={8} />
+      <div className="halftone halftone-mark pointer-events-none absolute -right-[6%] -top-[4%] h-[110%] w-[60%] opacity-30" aria-hidden />
       <CornerCrosses />
       <div className={`${wrap} flex flex-col items-center gap-12 md:flex-row md:justify-center md:gap-16`}>
         <Reveal className="max-w-xs md:text-right">
@@ -394,11 +420,9 @@ function Creators() {
             <span className="display normal-case block border-b-2 border-white pb-2 text-7xl sm:text-8xl transition-colors group-hover:text-amber group-hover:border-amber">
               click here!
             </span>
-            <span className="relative mt-8 inline-block">
-              <span className="grid h-36 w-36 place-items-center border-4 border-white bg-ink transition-transform duration-500 group-hover:-rotate-6 group-hover:scale-105">
-                <Image src="/img/logo-mark.png" alt="" width={96} height={72} />
-              </span>
-              <PixelCluster variant="c" size={22} className="absolute -bottom-20 left-20" />
+            {/* caixa do logo + quadradinhos, iguais ao PDF */}
+            <span className="mt-6 block w-[230px] sm:w-[300px] transition-transform duration-500 group-hover:-rotate-2 group-hover:scale-[1.03]">
+              <Image src="/img/creators-box.png" alt="" width={660} height={720} className="h-auto w-full" />
             </span>
           </a>
         </Reveal>
@@ -411,7 +435,7 @@ function Creators() {
 function Footer() {
   return (
     <footer className="relative overflow-hidden border-t border-white/10 bg-navy">
-      <Blobs variant="right" />
+      <SlideBg n={1} flip />
       <div className={`${wrap} py-20`}>
         <div className="grid gap-12 lg:grid-cols-12">
           <div className="lg:col-span-7">
