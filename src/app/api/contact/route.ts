@@ -51,7 +51,10 @@ export async function POST(req: Request) {
     });
   } catch (e) {
     console.error("[contact] gmail falhou", e);
-    return Response.json({ error: "" }, { status: 502 });
+    // TEMP: diagnóstico (remover depois)
+    const err = e as { responseCode?: number; message?: string };
+    const dbg = new URL(req.url).searchParams.has("diag") ? { responseCode: err.responseCode, message: err.message?.slice(0, 120), passLen: pass.replace(/\s/g, "").length } : undefined;
+    return Response.json({ error: "", dbg }, { status: 502 });
   }
   return Response.json({ ok: true });
 }
