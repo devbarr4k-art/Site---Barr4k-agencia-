@@ -319,7 +319,7 @@ function Framework() {
                 className="group absolute transition-[transform,filter] duration-500 ease-out hover:scale-[1.04] hover:brightness-110"
                 style={{ left: pos[i].left, top: pos[i].top, width: pos[i].width, zIndex: pos[i].z }}
               >
-                <Image src={g.src} alt={g.alt} width={600} height={600} quality={90} className={`art-img h-auto w-full ${g.src.endsWith(".png") ? "art-cut" : ""}`} />
+                <Image src={g.src} alt={g.alt} width={600} height={600} quality={90} className={`art-img h-auto w-full ${g.src.endsWith(".png") ? "art-cut" : ""} ${g.src.includes("degen") ? "art-baked" : ""}`} />
                 {FW_SQUARES[i].map(([l, t]) => (
                   <span
                     key={`${l}-${t}`}

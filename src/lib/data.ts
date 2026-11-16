@@ -10,7 +10,7 @@ export const navLinks = [
 ];
 
 // Link da planilha em tempo real com os streamers (pedir pro cliente)
-export const CREATORS_SHEET_URL = "#";
+export const CREATORS_SHEET_URL = "https://docs.google.com/spreadsheets/d/1NxQjusKuAPqO8r2ryOV7k76RyN8UZcYl2t6oMCxrU70/edit?gid=203520932#gid=203520932";
 export const CONTACT_EMAIL = "contact@bbagency.gg";
 
 export const team = [
@@ -66,7 +66,7 @@ export const stats = [
 // Ordem = posição na colagem do Framework (igual ao slide do PDF)
 export const graphics = [
   { src: "/img/gfx/skins-v3.jpg", alt: "Get exclusive skins campaign" },
-  { src: "/img/gfx/degen-v3.png", alt: "Degen apparel campaign" },
+  { src: "/img/gfx/degen-v4.png", alt: "Degen apparel campaign" },
   { src: "/img/gfx/cases-v3.jpg", alt: "New cases campaign" },
   { src: "/img/gfx/fallen-v3.png", alt: "Fallen x Zenith limited edition" },
 ];
