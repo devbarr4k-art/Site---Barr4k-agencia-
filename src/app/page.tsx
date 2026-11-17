@@ -6,15 +6,18 @@ import Navbar from "@/components/Navbar";
 import Reveal from "@/components/Reveal";
 import StarsCarousel from "@/components/StarsCarousel";
 import CountUp from "@/components/CountUp";
-import ContactModal, { ContactButton } from "@/components/ContactModal";
+import ContactModal, { ContactButton, OpenContact } from "@/components/ContactModal";
 import CreatorsModal, { CreatorsButton } from "@/components/CreatorsModal";
 import ScrollFx from "@/components/ScrollFx";
 import { CornerCrosses, Cross } from "@/components/Decor";
 import { team, brands, stats, cases, CONTACT_EMAIL, navLinks } from "@/lib/data";
+import { getContent } from "@/lib/content";
+import type { Banner, SiteContent } from "@/lib/content-types";
 
 const wrap = "relative z-[2] mx-auto w-full max-w-7xl 2xl:max-w-[1440px] px-4 sm:px-6 lg:px-8";
 
-export default function Home() {
+export default async function Home() {
+  const content = await getContent();
   return (
     <>
       <Navbar />
@@ -23,10 +26,10 @@ export default function Home() {
       <main id="top">
         <Hero />
         <Team />
-        <Featured />
+        <Featured content={content} />
         <Brands />
         <Stats />
-        <Framework />
+        <Framework content={content} />
         <Cases />
         <Creators />
       </main>
@@ -68,9 +71,9 @@ function Hero() {
               <a href="#featured" className="inline-flex items-center gap-2 bg-paper text-ink px-6 py-3.5 font-extrabold uppercase text-sm hover:bg-amber transition-colors">
                 View creators <ArrowDown className="h-4 w-4" />
               </a>
-              <a href={`mailto:${CONTACT_EMAIL}`} className="inline-flex items-center gap-2 border border-white/40 px-6 py-3.5 font-extrabold uppercase text-sm hover:border-white transition-colors">
+              <OpenContact className="inline-flex items-center gap-2 border border-white/40 px-6 py-3.5 font-extrabold uppercase text-sm hover:border-white transition-colors">
                 Get in touch <ArrowUpRight className="h-4 w-4" />
-              </a>
+              </OpenContact>
             </div>
           </Reveal>
         </div>
@@ -152,7 +155,7 @@ function SlideBg({ n, flip = false }: { n: number; flip?: boolean }) {
 
 
 /* ───────────── FEATURED (carrossel estilo neeve) ───────────── */
-function Featured() {
+function Featured({ content }: { content: SiteContent }) {
   return (
     <section id="featured" className="relative overflow-hidden bg-ink py-24 lg:py-32">
       <SlideBg n={3} />
@@ -175,7 +178,7 @@ function Featured() {
           </Reveal>
         </div>
         <Reveal delay={150} className="lg:col-span-7">
-          <StarsCarousel />
+          <StarsCarousel stars={content.stars} />
         </Reveal>
       </div>
     </section>
@@ -200,7 +203,7 @@ function Brands() {
             <h2 className="display mt-3 text-6xl sm:text-7xl lg:text-[5.2rem] [text-shadow:0_2px_24px_rgba(2,10,28,.35)]">Companies that trusted our team:</h2>
           </Reveal>
           <Reveal delay={200}>
-            <p className="grotesk mt-3 text-xl lg:ml-auto lg:max-w-[11rem] lg:text-2xl lg:leading-[1]">Each partnership was designed for performance and visibility.</p>
+            <p className="grotesk mt-3 text-xl lg:ml-auto lg:max-w-[24rem] lg:text-2xl lg:leading-[1.05]">Each partnership was designed for performance and visibility.</p>
           </Reveal>
         </div>
       </div>
@@ -278,7 +281,7 @@ function Stats() {
 }
 
 /* ───────────── FRAMEWORK ───────────── */
-function Framework() {
+function Framework({ content }: { content: SiteContent }) {
   return (
     <section id="framework" className="relative overflow-hidden bg-ink py-24 lg:py-32">
       <SlideBg n={6} />
@@ -290,27 +293,51 @@ function Framework() {
             <h2 className="display mt-6 text-6xl sm:text-7xl lg:text-8xl">In-house <span className="block pl-[0.6em]">graphics</span></h2>
           </Reveal>
           <Reveal delay={200}>
-            <p className="grotesk mt-8 max-w-sm text-xl text-white/85">
-              We have an in-house media team of designers and editors who elevate brand and creator deals with cohesive, high-impact visual identities that extend campaigns beyond the stream.
-            </p>
+            <p className="grotesk mt-8 max-w-sm whitespace-pre-line text-xl text-white/85">{content.frameworkText}</p>
           </Reveal>
         </div>
         <Reveal delay={150} className="lg:col-span-7">
           {/* colagem fixa, recortada do slide do PDF (artes, bordas e quadradinhos exatamente como lá) */}
           <ScrollFx>
-            <Image
-              src="/img/framework-collage.png"
-              alt="Campaign graphics made by our in-house team"
-              width={1544}
-              height={1840}
-              quality={90}
-              sizes="(max-width:1024px) 92vw, 600px"
-              className="mx-auto h-auto w-full max-w-[600px]"
-            />
+            <div className="relative mx-auto w-full max-w-[600px]">
+              <Image
+                src="/img/framework-collage.png"
+                alt="Campaign graphics made by our in-house team"
+                width={1544}
+                height={1840}
+                quality={90}
+                sizes="(max-width:1024px) 92vw, 600px"
+                className="h-auto w-full"
+              />
+              {/* 2 quadrados extras pros banners animados (trocados pelo /admin) */}
+              <BannerTile b={content.banners[0]} className="left-[58%] top-[79.5%] w-[24%]" />
+              <BannerTile b={content.banners[1]} className="left-[1.5%] top-[0.5%] w-[15%]" />
+              <span className="absolute left-[82%] top-[75.4%] aspect-square w-[4.9%] bg-white" aria-hidden />
+              <span className="absolute left-[53.1%] top-[95.4%] aspect-square w-[4.9%] bg-white" aria-hidden />
+              <span className="absolute left-[16.5%] top-[9.3%] aspect-square w-[3.6%] bg-white" aria-hidden />
+            </div>
           </ScrollFx>
         </Reveal>
       </div>
     </section>
+  );
+}
+
+/** Quadrado da colagem: GIF/vídeo/imagem do painel, ou um BB animado enquanto estiver vazio */
+function BannerTile({ b, className }: { b: Banner; className: string }) {
+  return (
+    <div className={`absolute aspect-square overflow-hidden bg-ink ring-2 ring-white ${className}`}>
+      {b?.kind === "video" ? (
+        <video src={b.src} autoPlay muted loop playsInline preload="metadata" className="h-full w-full object-cover" />
+      ) : b ? (
+        // eslint-disable-next-line @next/next/no-img-element
+        <img src={b.src} alt="" loading="lazy" className="h-full w-full object-cover" />
+      ) : (
+        <div className="banner-idle grid h-full w-full place-items-center" aria-hidden>
+          <Image src="/img/logo-mark.png" alt="" width={120} height={90} className="banner-idle-logo w-[42%] h-auto" />
+        </div>
+      )}
+    </div>
   );
 }
 
@@ -364,7 +391,7 @@ function Creators() {
       <div className={`${wrap} flex flex-col items-center gap-12 md:flex-row md:justify-center md:gap-16`}>
         <Reveal className="max-w-xs md:text-right">
           <span className="eyebrow">Creators</span>
-          <p className="grotesk mt-4 text-xl">Check the real time spreadsheet with all the streamers we manage.</p>
+          <p className="grotesk mt-4 text-xl">Check the real-time spreadsheet with all the streamers we can fit into your product.</p>
         </Reveal>
         <Reveal delay={150}>
           <CreatorsButton className="group block text-left">

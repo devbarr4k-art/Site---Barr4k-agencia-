@@ -3,12 +3,12 @@
 import { useEffect, useState } from "react";
 import Image from "next/image";
 import { ArrowLeft, ArrowRight } from "lucide-react";
-import { stars } from "@/lib/data";
+import type { Star } from "@/lib/content-types";
 
 const INTERVAL = 2600; // tempo de cada carta no centro (ms)
 
 /** Cartas em leque girando sozinhas em loop infinito (pausa com o mouse em cima) */
-export default function StarsCarousel() {
+export default function StarsCarousel({ stars }: { stars: Star[] }) {
   const [active, setActive] = useState(0);
   const [paused, setPaused] = useState(false);
   const n = stars.length;
@@ -37,7 +37,7 @@ export default function StarsCarousel() {
           const hidden = abs > 2;
           return (
             <article
-              key={s.name}
+              key={`${i}-${s.name}`}
               aria-hidden={d !== 0}
               onClick={() => d !== 0 && go(d)}
               className={`absolute left-1/2 top-1/2 w-[260px] sm:w-[350px] aspect-[3/4.2] ${d !== 0 && !hidden ? "cursor-pointer" : ""}`}
@@ -58,7 +58,7 @@ export default function StarsCarousel() {
                   sizes="(max-width:640px) 260px, 350px"
                   quality={90}
                   draggable={false}
-                  className={`object-cover object-top ${"zoom" in s && s.zoom ? "scale-[1.12]" : ""}`}
+                  className="object-cover object-top"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-ink via-ink/20 to-transparent" />
                 <div className="absolute inset-x-0 bottom-0 p-4">

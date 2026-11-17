@@ -71,10 +71,10 @@ export const brands = [
 ];
 
 export const stats = [
-  { prefix: "+", value: 100, suffix: "", label: "Successful campaigns" },
+  { prefix: "+", value: 150, suffix: "", label: "Successful campaigns" },
   { prefix: "+", value: 90, suffix: "M", label: "Total followers" },
   { prefix: "+", value: 300, suffix: "M", label: "Monthly views" },
-  { prefix: "+", value: 150, suffix: "", label: "Streamers" },
+  { prefix: "+", value: 100, suffix: "", label: "Streamers" },
 ];
 
 export const cases = [

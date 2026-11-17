@@ -353,3 +353,12 @@ export function ContactButton({ className = "" }: { className?: string }) {
     </button>
   );
 }
+
+/** Botão qualquer que abre o formulário (mesmo comportamento do "Let's talk" da navbar) */
+export function OpenContact({ className = "", children }: { className?: string; children: React.ReactNode }) {
+  return (
+    <button type="button" onClick={openContact} className={className}>
+      {children}
+    </button>
+  );
+}

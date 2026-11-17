@@ -286,3 +286,13 @@ html { scrollbar-color: var(--color-amber) var(--color-ink); }
 ::-webkit-scrollbar-track { background: var(--color-ink); }
 ::-webkit-scrollbar-thumb { background: var(--color-amber); border: 2px solid var(--color-ink); }
 ::-webkit-scrollbar-thumb:hover { background: var(--color-amber-2); }
+
+/* quadrado de banner vazio: degradê do site se mexendo + BB respirando */
+.banner-idle {
+  background: linear-gradient(135deg, var(--color-navy) 0%, var(--color-royal) 35%, var(--color-amber) 55%, var(--color-navy) 80%);
+  background-size: 300% 300%;
+  animation: bannerIdle 7s ease-in-out infinite alternate;
+}
+.banner-idle-logo { animation: bannerLogo 2.6s ease-in-out infinite; }
+@keyframes bannerIdle { from { background-position: 0% 0%; } to { background-position: 100% 100%; } }
+@keyframes bannerLogo { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.08); } }
