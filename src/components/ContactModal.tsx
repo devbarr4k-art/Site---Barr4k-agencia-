@@ -113,7 +113,7 @@ export default function ContactModal() {
     setStatus("sending");
     setErr("");
     try {
-      // EmailJS manda o e-mail (layout salvo no template de lá) pro dev.barr4k@gmail.com
+      // EmailJS manda o e-mail (layout salvo no template de lá) pro jpbarrak2305@gmail.com (campo "To Email" do template; envia pelo Gmail dev.barr4k)
       const r = await fetch("https://api.emailjs.com/api/v1.0/email/send", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
