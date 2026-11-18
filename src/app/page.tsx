@@ -12,7 +12,7 @@ import ScrollFx from "@/components/ScrollFx";
 import { CornerCrosses, Cross } from "@/components/Decor";
 import { team, brands, stats, cases, CONTACT_EMAIL, navLinks } from "@/lib/data";
 import { getContent } from "@/lib/content";
-import type { Banner, SiteContent } from "@/lib/content-types";
+import type { SiteContent } from "@/lib/content-types";
 
 const wrap = "relative z-[2] mx-auto w-full max-w-7xl 2xl:max-w-[1440px] px-4 sm:px-6 lg:px-8";
 
@@ -309,35 +309,11 @@ function Framework({ content }: { content: SiteContent }) {
                 sizes="(max-width:1024px) 92vw, 600px"
                 className="h-auto w-full"
               />
-              {/* 2 quadrados extras pros banners animados (trocados pelo /admin) */}
-              <BannerTile b={content.banners[0]} className="left-[58%] top-[79.5%] w-[24%]" />
-              <BannerTile b={content.banners[1]} className="left-[1.5%] top-[0.5%] w-[15%]" />
-              <span className="absolute left-[82%] top-[75.4%] aspect-square w-[4.9%] bg-white" aria-hidden />
-              <span className="absolute left-[53.1%] top-[95.4%] aspect-square w-[4.9%] bg-white" aria-hidden />
-              <span className="absolute left-[16.5%] top-[9.3%] aspect-square w-[3.6%] bg-white" aria-hidden />
             </div>
           </ScrollFx>
         </Reveal>
       </div>
     </section>
-  );
-}
-
-/** Quadrado da colagem: GIF/vídeo/imagem do painel, ou um BB animado enquanto estiver vazio */
-function BannerTile({ b, className }: { b: Banner; className: string }) {
-  return (
-    <div className={`absolute aspect-square overflow-hidden bg-ink ring-2 ring-white ${className}`}>
-      {b?.kind === "video" ? (
-        <video src={b.src} autoPlay muted loop playsInline preload="metadata" className="h-full w-full object-cover" />
-      ) : b ? (
-        // eslint-disable-next-line @next/next/no-img-element
-        <img src={b.src} alt="" loading="lazy" className="h-full w-full object-cover" />
-      ) : (
-        <div className="banner-idle grid h-full w-full place-items-center" aria-hidden>
-          <Image src="/img/logo-mark.png" alt="" width={120} height={90} className="banner-idle-logo w-[42%] h-auto" />
-        </div>
-      )}
-    </div>
   );
 }
 
