@@ -1,54 +1,14 @@
 "use client";
 
-import { useRef, useState } from "react";
+import { useState } from "react";
 import Image from "next/image";
-import { upload } from "@vercel/blob/client";
+import { UploadButton } from "./UploadButton";
+import RosterEditor from "./RosterEditor";
 import { ArrowDown, ArrowUp, Check, ExternalLink, ImagePlus, Loader2, LogOut, Plus, Trash2 } from "lucide-react";
 import type { SiteContent, Star } from "@/lib/content-types";
 
 const input = "w-full border border-white/20 bg-ink px-3 py-2.5 text-sm outline-none focus:border-amber";
 const label = "block text-[10px] font-extrabold uppercase tracking-widest text-white/50";
-
-async function sendFile(file: File) {
-  const safe = file.name.toLowerCase().replace(/[^a-z0-9.]+/g, "-");
-  const blob = await upload(`uploads/${safe}`, file, { access: "public", handleUploadUrl: "/api/admin/upload" });
-  return blob.url;
-}
-
-/** Botão que abre o seletor de arquivo e já sobe pro Blob */
-function UploadButton({ accept, onDone, children, className = "" }: { accept: string; onDone: (url: string) => void; children: React.ReactNode; className?: string }) {
-  const ref = useRef<HTMLInputElement>(null);
-  const [busy, setBusy] = useState(false);
-  const [err, setErr] = useState("");
-  return (
-    <>
-      <button type="button" disabled={busy} onClick={() => ref.current?.click()} className={className}>
-        {busy ? <Loader2 className="h-4 w-4 animate-spin" /> : children}
-      </button>
-      {err && <span className="text-xs text-amber">{err}</span>}
-      <input
-        ref={ref}
-        type="file"
-        accept={accept}
-        hidden
-        onChange={async (e) => {
-          const f = e.target.files?.[0];
-          e.target.value = "";
-          if (!f) return;
-          setBusy(true);
-          setErr("");
-          try {
-            onDone(await sendFile(f));
-          } catch {
-            setErr("Upload failed (max 15 MB).");
-          } finally {
-            setBusy(false);
-          }
-        }}
-      />
-    </>
-  );
-}
 
 export default function AdminEditor({ initial }: { initial: SiteContent }) {
   const [c, setC] = useState<SiteContent>(initial);
@@ -72,12 +32,12 @@ export default function AdminEditor({ initial }: { initial: SiteContent }) {
     });
 
   const missingPhoto = c.stars.some((s) => !s.photo);
-  const missingName = c.stars.some((s) => !s.name.trim());
+  const missingName = c.stars.some((s) => !s.name.trim()) || c.creators.some((x) => !x.name.trim());
 
   async function save() {
     if (missingPhoto || missingName) {
       setStatus("error");
-      setMsg("Every star needs a name and a photo.");
+      setMsg("Every star needs a name and a photo, and every creator needs a name.");
       return;
     }
     setStatus("saving");
@@ -196,6 +156,8 @@ export default function AdminEditor({ initial }: { initial: SiteContent }) {
             <Plus className="h-4 w-4" /> Add star
           </button>
         </section>
+
+        <RosterEditor list={c.creators} onChange={(creators) => update((c) => ({ ...c, creators }))} />
 
       </div>
     </div>

@@ -1,12 +1,17 @@
-// Lista de creators: lida da planilha pública do Google (aba "Creators").
-// O site mostra a planilha ao vivo; se ela falhar, usa a cópia em creators-snapshot.json.
+// Lista de creators do roster. Hoje quem manda é o /admin (salvo no Vercel Blob).
+// Antes do primeiro "Save" no painel, a lista vem da planilha do Google (ou da cópia em creators-snapshot.json).
 import snapshot from "./creators-snapshot.json";
+import avatars from "./creators-avatars.json";
 
-export type Creator = { name: string; twitch?: string; kick?: string; youtube?: string; instagram?: string };
+export type Creator = { name: string; twitch?: string; kick?: string; youtube?: string; instagram?: string; photo?: string };
+
+const AVATARS = avatars as Record<string, string>;
+/** coloca a foto baixada da Twitch/YouTube (public/img/creators) em quem ainda não tem */
+export const withAvatars = (list: Creator[]) => list.map((c) => (c.photo || !AVATARS[c.name] ? c : { ...c, photo: AVATARS[c.name] }));
 
 export const SHEET_ID = "1NxQjusKuAPqO8r2ryOV7k76RyN8UZcYl2t6oMCxrU70";
 export const SHEET_GID = "203520932";
-export const fallbackCreators = snapshot as Creator[];
+export const fallbackCreators = withAvatars(snapshot as Creator[]);
 
 /** CSV simples com aspas */
 function parseCsv(text: string): string[][] {
@@ -73,5 +78,5 @@ export async function loadCreators(): Promise<Creator[]> {
   if (!r.ok) throw new Error(`sheet ${r.status}`);
   const list = rowsToCreators(parseCsv(await r.text()));
   if (list.length < 5) throw new Error("sheet vazia");
-  return list;
+  return withAvatars(list);
 }

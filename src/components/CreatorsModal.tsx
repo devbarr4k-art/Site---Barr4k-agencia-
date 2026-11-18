@@ -5,11 +5,7 @@ import Image from "next/image";
 import { Search, X } from "lucide-react";
 import { FaInstagram, FaTwitch, FaYoutube } from "react-icons/fa";
 import { SiKick } from "react-icons/si";
-import { fallbackCreators, type Creator } from "@/lib/creators";
-import avatars from "@/lib/creators-avatars.json";
-
-// fotos de perfil baixadas da Twitch/YouTube (public/img/creators); sem foto = iniciais
-const AVATARS = avatars as Record<string, string>;
+import type { Creator } from "@/lib/creators";
 
 /** Qualquer botão abre o popup com: openCreators() */
 export const openCreators = () => window.dispatchEvent(new Event("open-creators"));
@@ -25,10 +21,10 @@ type PKey = (typeof PLATFORMS)[number]["key"];
 const COLS = 12;
 const ROWS = 8;
 
-export default function CreatorsModal() {
+export default function CreatorsModal({ creators }: { creators: Creator[] }) {
   const [open, setOpen] = useState(false);
   const [closing, setClosing] = useState(false);
-  const [list, setList] = useState<Creator[]>(fallbackCreators);
+  const list = creators; // vem do /admin (sem foto = iniciais)
   const [q, setQ] = useState("");
   const [filter, setFilter] = useState<PKey | "all">("all");
   const [count, setCount] = useState(0);
@@ -41,19 +37,6 @@ export default function CreatorsModal() {
     if (!open) return;
     const t = setTimeout(() => setPxDone(true), 1100);
     return () => clearTimeout(t);
-  }, [open]);
-
-  // lista ao vivo da planilha (cai na cópia salva se falhar)
-  useEffect(() => {
-    if (!open) return;
-    let alive = true;
-    fetch("/api/creators")
-      .then((r) => r.json())
-      .then((d) => alive && Array.isArray(d.creators) && d.creators.length && setList(d.creators))
-      .catch(() => {});
-    return () => {
-      alive = false;
-    };
   }, [open]);
 
   useEffect(() => {
@@ -228,10 +211,10 @@ export default function CreatorsModal() {
                     {/* quadrado com as iniciais, estilo pixel do deck */}
                     <div className={`relative grid h-14 w-14 shrink-0 place-items-center overflow-hidden transition-transform duration-500 group-hover:rotate-[-6deg] ${n % 3 === 0 ? "bg-amber text-ink" : n % 3 === 1 ? "bg-royal" : "bg-paper text-ink"}`}>
                       <span className="display text-3xl normal-case">{c.name.replace(/[^a-z0-9]/gi, "").slice(0, 2) || "?"}</span>
-                      {AVATARS[c.name] && (
+                      {c.photo && (
                         // eslint-disable-next-line @next/next/no-img-element
                         <img
-                          src={AVATARS[c.name]}
+                          src={c.photo}
                           alt=""
                           loading="lazy"
                           className="absolute inset-0 h-full w-full object-cover grayscale-[15%] transition-all duration-500 group-hover:scale-110 group-hover:grayscale-0"

@@ -2,6 +2,7 @@ import "server-only";
 import { get, put } from "@vercel/blob";
 import { unstable_cache } from "next/cache";
 import { stars as defaultStars } from "@/lib/data";
+import { fallbackCreators, loadCreators, type Creator } from "@/lib/creators";
 import { BANNER_SLOTS, type Banner, type SiteContent, type Star } from "@/lib/content-types";
 
 const PATH = "site/content.json";
@@ -10,6 +11,7 @@ export const blobReady = () => Boolean(process.env.BLOB_READ_WRITE_TOKEN);
 
 export const DEFAULT_CONTENT: SiteContent = {
   stars: defaultStars.map(({ name, role, tag, photo }) => ({ name, role, tag, photo })),
+  creators: fallbackCreators,
   frameworkText:
     "We have an in-house media team of designers and editors who elevate brand and creator deals with cohesive, high-impact visual identities that extend campaigns beyond the stream.",
   banners: Array(BANNER_SLOTS).fill(null),
@@ -30,6 +32,26 @@ export function sanitize(raw: unknown): SiteContent {
         .filter((s) => s.name && okUrl(s.photo))
         .slice(0, 40)
     : DEFAULT_CONTENT.stars;
+  const link = (v: unknown) => {
+    const u = str(v, 300);
+    return /^https:\/\/\S+$/i.test(u) ? u : undefined;
+  };
+  const creators: Creator[] = Array.isArray(r.creators)
+    ? r.creators
+        .map((x) => {
+          const o = (x ?? {}) as Record<string, unknown>;
+          const photo = str(o.photo, 400);
+          const c: Creator = { name: str(o.name, 60) };
+          for (const k of ["twitch", "kick", "youtube", "instagram"] as const) {
+            const u = link(o[k]);
+            if (u) c[k] = u;
+          }
+          if (photo && okUrl(photo)) c.photo = photo;
+          return c;
+        })
+        .filter((c) => c.name)
+        .slice(0, 1000)
+    : DEFAULT_CONTENT.creators;
   const banners: Banner[] = Array.from({ length: BANNER_SLOTS }, (_, i) => {
     const b = Array.isArray(r.banners) ? (r.banners[i] as Record<string, unknown> | null) : null;
     const src = b ? str(b.src, 400) : "";
@@ -38,6 +60,7 @@ export function sanitize(raw: unknown): SiteContent {
   });
   return {
     stars: stars.length ? stars : DEFAULT_CONTENT.stars,
+    creators,
     frameworkText: str(r.frameworkText, 600) || DEFAULT_CONTENT.frameworkText,
     banners,
   };
@@ -47,8 +70,11 @@ async function readFresh(): Promise<SiteContent> {
   if (!blobReady()) return DEFAULT_CONTENT;
   try {
     const res = await get(PATH, { access: "public", useCache: false });
-    if (!res || res.statusCode !== 200) return DEFAULT_CONTENT;
-    return sanitize(JSON.parse(await new Response(res.stream).text()));
+    const raw = res && res.statusCode === 200 ? JSON.parse(await new Response(res.stream).text()) : {};
+    const content = sanitize(raw);
+    // ainda não salvou o roster pelo painel: pega a planilha mais recente
+    if (!Array.isArray(raw.creators)) content.creators = await loadCreators().catch(() => fallbackCreators);
+    return content;
   } catch (e) {
     console.error("[content] leitura falhou", e);
     return DEFAULT_CONTENT;

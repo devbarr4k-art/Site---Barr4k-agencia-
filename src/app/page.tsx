@@ -22,7 +22,7 @@ export default async function Home() {
     <>
       <Navbar />
       <ContactModal />
-      <CreatorsModal />
+      <CreatorsModal creators={content.creators} />
       <main id="top">
         <Hero />
         <Team />
