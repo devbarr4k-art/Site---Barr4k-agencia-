@@ -92,12 +92,19 @@ export default function ContactModal() {
       name: String(fd.get("name") || ""),
       email: String(fd.get("email") || ""),
       company: String(fd.get("company") || ""),
+      // aceita "@fulano", "fulano" ou "t.me/fulano"
+      telegram: String(fd.get("telegram") || "").trim().replace(/^(https?:\/\/)?(t\.me|telegram\.me)\//i, "").replace(/^@/, "").replace(/[^\w]/g, ""),
       topics,
       message: msg,
       website: String(fd.get("website") || ""), // isca pra robô
     };
     // robô preencheu a isca: finge que deu certo
     if (data.website) return setStatus("sent");
+    if (!data.email.trim() && !data.telegram) {
+      setErr("Leave your Telegram or email so we can reach you.");
+      setStatus("error");
+      return;
+    }
     setStatus("sending");
     setErr("");
     try {
@@ -111,7 +118,10 @@ export default function ContactModal() {
           user_id: EMAILJS.publicKey,
           template_params: {
             name: data.name,
-            email: data.email,
+            email: data.email || "Not informed",
+            reply_to: data.email || "",
+            telegram: data.telegram ? `@${data.telegram}` : "Not informed",
+            telegram_link: data.telegram ? `https://t.me/${data.telegram}` : "https://telegram.org",
             company: data.company || "Not informed",
             topics: data.topics.join(" · ") || "Not specified",
             message: data.message,
@@ -204,10 +214,12 @@ export default function ContactModal() {
 
               <div className="grid gap-3 sm:gap-6 sm:grid-cols-2">
                 <Field delay={460} label="Your name" name="name" required inputRef={firstField} autoComplete="name" />
-                <Field delay={520} label="Email" name="email" type="email" required autoComplete="email" />
-                <div className="sm:col-span-2">
-                  <Field delay={580} label="Company / brand" name="company" autoComplete="organization" />
-                </div>
+                <Field delay={520} label="Telegram (@username)" name="telegram" autoComplete="off" />
+                <Field delay={560} label="Email" name="email" type="email" autoComplete="email" />
+                <Field delay={600} label="Company / brand" name="company" autoComplete="organization" />
+                <p className="cm-in -mt-1 text-[11px] font-bold text-white/45 sm:col-span-2 sm:-mt-3" style={{ animationDelay: "620ms" }}>
+                  Telegram or email: fill at least one so we can reach you.
+                </p>
               </div>
 
               <fieldset className="cm-in" style={{ animationDelay: "640ms" }}>
