@@ -10,9 +10,9 @@ import ContactModal, { ContactButton, OpenContact } from "@/components/ContactMo
 import CreatorsModal, { CreatorsButton } from "@/components/CreatorsModal";
 import ScrollFx from "@/components/ScrollFx";
 import { CornerCrosses, Cross } from "@/components/Decor";
-import { team, brands, stats, cases, CONTACT_EMAIL, navLinks } from "@/lib/data";
+import { team, stats, cases, CONTACT_EMAIL, navLinks } from "@/lib/data";
 import { getContent } from "@/lib/content";
-import type { SiteContent } from "@/lib/content-types";
+import type { Brand, SiteContent } from "@/lib/content-types";
 
 const wrap = "relative z-[2] mx-auto w-full max-w-7xl 2xl:max-w-[1440px] px-4 sm:px-6 lg:px-8";
 
@@ -27,7 +27,7 @@ export default async function Home() {
         <Hero />
         <Team />
         <Featured content={content} />
-        <Brands />
+        <Brands brands={content.brands} />
         <Stats />
         <Framework content={content} />
         <Cases />
@@ -186,7 +186,7 @@ function Featured({ content }: { content: SiteContent }) {
 }
 
 /* ───────────── BRANDS ───────────── */
-function Brands() {
+function Brands({ brands }: { brands: Brand[] }) {
   const row = [...brands, ...brands];
   return (
     <section id="brands" className="relative overflow-hidden py-24 lg:py-32 bg-royal">
@@ -221,9 +221,9 @@ function Brands() {
 }
 
 /** Logo branca que fica laranja no hover e leva pro site da empresa */
-function BrandLogo({ b, maxH, hidden }: { b: (typeof brands)[number]; maxH?: number; hidden?: boolean }) {
+function BrandLogo({ b, maxH, hidden }: { b: Brand; maxH?: number; hidden?: boolean }) {
   const h = maxH ? Math.min(b.h, maxH) : b.h;
-  const external = b.url !== "#";
+  const external = !!b.url && b.url !== "#";
   return (
     <a
       href={b.url}

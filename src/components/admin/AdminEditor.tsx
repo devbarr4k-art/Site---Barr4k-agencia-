@@ -4,6 +4,7 @@ import { useState } from "react";
 import Image from "next/image";
 import { UploadButton } from "./UploadButton";
 import RosterEditor from "./RosterEditor";
+import BrandsEditor from "./BrandsEditor";
 import { ArrowDown, ArrowUp, Check, ExternalLink, ImagePlus, Loader2, LogOut, Plus, Trash2 } from "lucide-react";
 import type { SiteContent, Star } from "@/lib/content-types";
 
@@ -31,13 +32,13 @@ export default function AdminEditor({ initial }: { initial: SiteContent }) {
       return { ...c, stars: s };
     });
 
-  const missingPhoto = c.stars.some((s) => !s.photo);
-  const missingName = c.stars.some((s) => !s.name.trim()) || c.creators.some((x) => !x.name.trim());
+  const missingPhoto = c.stars.some((s) => !s.photo) || c.brands.some((b) => !b.logo);
+  const missingName = c.stars.some((s) => !s.name.trim()) || c.creators.some((x) => !x.name.trim()) || c.brands.some((b) => !b.name.trim());
 
   async function save() {
     if (missingPhoto || missingName) {
       setStatus("error");
-      setMsg("Every star needs a name and a photo, and every creator needs a name.");
+      setMsg("Something is missing: every star needs a name and photo, every sponsor a name and logo, every creator a name.");
       return;
     }
     setStatus("saving");
@@ -156,6 +157,8 @@ export default function AdminEditor({ initial }: { initial: SiteContent }) {
             <Plus className="h-4 w-4" /> Add star
           </button>
         </section>
+
+        <BrandsEditor list={c.brands} onChange={(brands) => update((c) => ({ ...c, brands }))} />
 
         <RosterEditor list={c.creators} onChange={(creators) => update((c) => ({ ...c, creators }))} />
 

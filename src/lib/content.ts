@@ -1,9 +1,9 @@
 import "server-only";
 import { put } from "@vercel/blob";
 import { unstable_cache } from "next/cache";
-import { stars as defaultStars } from "@/lib/data";
+import { stars as defaultStars, brands as defaultBrands } from "@/lib/data";
 import { fallbackCreators, loadCreators, type Creator } from "@/lib/creators";
-import { BANNER_SLOTS, type Banner, type SiteContent, type Star } from "@/lib/content-types";
+import { BANNER_SLOTS, type Banner, type Brand, type SiteContent, type Star } from "@/lib/content-types";
 
 const PATH = "site/content.json";
 export const CONTENT_TAG = "site-content";
@@ -12,6 +12,7 @@ export const blobReady = () => Boolean(process.env.BLOB_READ_WRITE_TOKEN);
 export const DEFAULT_CONTENT: SiteContent = {
   stars: defaultStars.map(({ name, role, tag, photo }) => ({ name, role, tag, photo })),
   creators: fallbackCreators,
+  brands: defaultBrands.map(({ name, logo, url, h, ratio }) => ({ name, logo, url, h, ratio })),
   frameworkText:
     "We have an in-house media team of designers and editors who elevate brand and creator deals with cohesive, high-impact visual identities that extend campaigns beyond the stream.",
   banners: Array(BANNER_SLOTS).fill(null),
@@ -52,6 +53,16 @@ export function sanitize(raw: unknown): SiteContent {
         .filter((c) => c.name)
         .slice(0, 1000)
     : DEFAULT_CONTENT.creators;
+  const num = (v: unknown, min: number, max: number, def: number) => (typeof v === "number" && isFinite(v) ? Math.min(max, Math.max(min, v)) : def);
+  const brands: Brand[] = Array.isArray(r.brands)
+    ? r.brands
+        .map((x) => {
+          const o = (x ?? {}) as Record<string, unknown>;
+          return { name: str(o.name, 40), logo: str(o.logo, 400), url: link(o.url) ?? "#", h: num(o.h, 12, 80, 32), ratio: num(o.ratio, 0.2, 15, 3) };
+        })
+        .filter((b) => b.name && okUrl(b.logo))
+        .slice(0, 60)
+    : DEFAULT_CONTENT.brands;
   const banners: Banner[] = Array.from({ length: BANNER_SLOTS }, (_, i) => {
     const b = Array.isArray(r.banners) ? (r.banners[i] as Record<string, unknown> | null) : null;
     const src = b ? str(b.src, 400) : "";
@@ -61,6 +72,7 @@ export function sanitize(raw: unknown): SiteContent {
   return {
     stars: stars.length ? stars : DEFAULT_CONTENT.stars,
     creators,
+    brands: brands.length ? brands : DEFAULT_CONTENT.brands,
     frameworkText: str(r.frameworkText, 600) || DEFAULT_CONTENT.frameworkText,
     banners,
   };
@@ -90,7 +102,9 @@ async function readFresh(): Promise<SiteContent> {
 }
 
 /** Conteúdo do site; fica em cache até alguém salvar no /admin */
-export const getContent = unstable_cache(readFresh, ["site-content-v1"], { tags: [CONTENT_TAG] });
+const cached = unstable_cache(readFresh, ["site-content-v2"], { tags: [CONTENT_TAG] });
+// completa com o padrão caso o cache tenha uma versão antiga (sem algum campo novo)
+export const getContent = async (): Promise<SiteContent> => ({ ...DEFAULT_CONTENT, ...(await cached()) });
 export const getContentFresh = readFresh;
 
 export async function saveContent(c: SiteContent) {

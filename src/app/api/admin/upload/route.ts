@@ -12,7 +12,7 @@ export async function POST(req: Request) {
         if (!(await isAdmin())) throw new Error("Not logged in.");
         if (!pathname.startsWith("uploads/")) throw new Error("Invalid path.");
         return {
-          allowedContentTypes: ["image/jpeg", "image/png", "image/webp", "image/gif", "image/avif"],
+          allowedContentTypes: ["image/jpeg", "image/png", "image/webp", "image/gif", "image/avif", "image/svg+xml"],
           maximumSizeInBytes: 15 * 1024 * 1024,
           addRandomSuffix: true,
         };
