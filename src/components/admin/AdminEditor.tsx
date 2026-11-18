@@ -7,6 +7,7 @@ import { useConfirm } from "./Confirm";
 import RosterEditor from "./RosterEditor";
 import BrandsEditor from "./BrandsEditor";
 import CasesEditor from "./CasesEditor";
+import Inbox from "./Inbox";
 import { ArrowDown, ArrowUp, Check, ExternalLink, ImagePlus, Loader2, LogOut, Plus, Trash2 } from "lucide-react";
 import type { SiteContent, Star } from "@/lib/content-types";
 
@@ -19,6 +20,8 @@ export default function AdminEditor({ initial }: { initial: SiteContent }) {
   const [dirty, setDirty] = useState(false);
   const [status, setStatus] = useState<"idle" | "saving" | "saved" | "error">("idle");
   const [msg, setMsg] = useState("");
+  const [tab, setTab] = useState<"inbox" | "site">("inbox");
+  const [newCount, setNewCount] = useState(0);
 
   const update = (fn: (c: SiteContent) => SiteContent) => {
     setC((prev) => fn(prev));
@@ -77,6 +80,7 @@ export default function AdminEditor({ initial }: { initial: SiteContent }) {
             </button>
             <button
               type="button"
+              hidden={tab !== "site"}
               onClick={save}
               disabled={status === "saving" || (!dirty && status !== "error")}
               className="inline-flex items-center gap-2 bg-amber px-5 py-2.5 text-sm font-extrabold uppercase text-ink disabled:opacity-40"
@@ -86,14 +90,34 @@ export default function AdminEditor({ initial }: { initial: SiteContent }) {
             </button>
           </div>
         </div>
-        {(msg || status === "saved") && (
+        {/* abas: mensagens do formulário / conteúdo do site */}
+        <nav className="mx-auto flex max-w-5xl gap-1 px-4 sm:px-6" aria-label="Sections">
+          {([
+            ["inbox", `Inbox${newCount ? ` (${newCount})` : ""}`],
+            ["site", `Site content${dirty ? " •" : ""}`],
+          ] as const).map(([k, t]) => (
+            <button
+              key={k}
+              type="button"
+              onClick={() => setTab(k)}
+              className={`border-b-2 px-3 py-2.5 text-xs font-extrabold uppercase tracking-wider ${tab === k ? "border-amber text-white" : "border-transparent text-white/50 hover:text-white"}`}
+            >
+              {t}
+            </button>
+          ))}
+        </nav>
+        {tab === "site" && (msg || status === "saved") && (
           <p className={`mx-auto max-w-5xl px-4 pb-3 text-sm sm:px-6 ${status === "error" ? "text-amber" : "text-white/70"}`}>
             {status === "saved" ? "Saved! The site updates on the next visit (refresh the page)." : msg}
           </p>
         )}
       </header>
 
-      <div className="mx-auto max-w-5xl space-y-16 px-4 pt-10 sm:px-6">
+      <div className={`mx-auto max-w-5xl px-4 pt-10 sm:px-6 ${tab === "inbox" ? "" : "hidden"}`}>
+        <Inbox onCount={setNewCount} />
+      </div>
+
+      <div className={`mx-auto max-w-5xl space-y-16 px-4 pt-10 sm:px-6 ${tab === "site" ? "" : "hidden"}`}>
         {/* STARS */}
         <section>
           <p className="eyebrow text-amber">Featured</p>

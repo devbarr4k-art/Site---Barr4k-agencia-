@@ -113,8 +113,19 @@ export default function ContactModal() {
     setStatus("sending");
     setErr("");
     try {
-      // EmailJS manda o e-mail (layout salvo no template de lá) pro jpbarrak2305@gmail.com (campo "To Email" do template; envia pelo Gmail dev.barr4k)
-      const r = await fetch("https://api.emailjs.com/api/v1.0/email/send", {
+      // 1) guarda na caixa de entrada do /admin (é isso que vale)
+      const r = await fetch("/api/contact", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ name: data.name, email: data.email, company: data.company, chatApp, chat: data.chat, topics: data.topics, message: data.message }),
+      });
+      if (!r.ok) {
+        const d = (await r.json().catch(() => ({}))) as { error?: string };
+        throw new Error(d.error || "fail");
+      }
+      setStatus("sent");
+      // 2) e-mail de aviso pelo EmailJS (extra; se falhar, a mensagem já está salva)
+      fetch("https://api.emailjs.com/api/v1.0/email/send", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
@@ -134,9 +145,7 @@ export default function ContactModal() {
             message: data.message,
           },
         }),
-      });
-      if (!r.ok) throw new Error("fail");
-      setStatus("sent");
+      }).catch(() => {});
     } catch (e) {
       setErr(e instanceof Error && e.message !== "fail" ? e.message : "");
       setStatus("error");
