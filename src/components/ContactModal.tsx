@@ -3,6 +3,7 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import Image from "next/image";
 import { ArrowUpRight, Check, Loader2, X } from "lucide-react";
+import { FaDiscord, FaTelegramPlane } from "react-icons/fa";
 import { EMAILJS, CONTACT_EMAIL } from "@/lib/data";
 
 /** Qualquer botão do site abre o popup com: window.dispatchEvent(new Event("open-contact")) */
@@ -28,6 +29,7 @@ export default function ContactModal() {
   const [status, setStatus] = useState<Status>("idle");
   const [topics, setTopics] = useState<string[]>([]);
   const [msg, setMsg] = useState("");
+  const [chatApp, setChatApp] = useState<"Telegram" | "Discord">("Telegram");
   const [err, setErr] = useState("");
   const [pxDone, setPxDone] = useState(false);
   const firstField = useRef<HTMLInputElement>(null);
@@ -92,16 +94,19 @@ export default function ContactModal() {
       name: String(fd.get("name") || ""),
       email: String(fd.get("email") || ""),
       company: String(fd.get("company") || ""),
-      // aceita "@fulano", "fulano" ou "t.me/fulano"
-      telegram: String(fd.get("telegram") || "").trim().replace(/^(https?:\/\/)?(t\.me|telegram\.me)\//i, "").replace(/^@/, "").replace(/[^\w]/g, ""),
+      // Telegram: aceita "@fulano", "fulano" ou "t.me/fulano"; Discord: o nome de usuário como veio
+      chat:
+        chatApp === "Telegram"
+          ? String(fd.get("chat") || "").trim().replace(/^(https?:\/\/)?(t\.me|telegram\.me)\//i, "").replace(/^@/, "").replace(/[^\w]/g, "")
+          : String(fd.get("chat") || "").trim().replace(/^@/, "").slice(0, 40),
       topics,
       message: msg,
       website: String(fd.get("website") || ""), // isca pra robô
     };
     // robô preencheu a isca: finge que deu certo
     if (data.website) return setStatus("sent");
-    if (!data.email.trim() && !data.telegram) {
-      setErr("Leave your Telegram or email so we can reach you.");
+    if (!data.email.trim() && !data.chat) {
+      setErr("Leave your Telegram/Discord or email so we can reach you.");
       setStatus("error");
       return;
     }
@@ -120,8 +125,10 @@ export default function ContactModal() {
             name: data.name,
             email: data.email || "Not informed",
             reply_to: data.email || "",
-            telegram: data.telegram ? `@${data.telegram}` : "Not informed",
-            telegram_link: data.telegram ? `https://t.me/${data.telegram}` : "https://telegram.org",
+            // nomes "telegram*" ficaram por causa do template do EmailJS; chat_app diz qual é
+            chat_app: data.chat ? chatApp : "Telegram/Discord",
+            telegram: data.chat ? (chatApp === "Telegram" ? `@${data.chat}` : data.chat) : "Not informed",
+            telegram_link: !data.chat ? "https://www.bbagency.net" : chatApp === "Telegram" ? `https://t.me/${data.chat}` : "https://discord.com/app",
             company: data.company || "Not informed",
             topics: data.topics.join(" · ") || "Not specified",
             message: data.message,
@@ -214,11 +221,31 @@ export default function ContactModal() {
 
               <div className="grid gap-3 sm:gap-6 sm:grid-cols-2">
                 <Field delay={460} label="Your name" name="name" required inputRef={firstField} autoComplete="name" />
-                <Field delay={520} label="Telegram (@username)" name="telegram" autoComplete="off" />
+                <div className="relative">
+                  {/* escolhe onde a pessoa quer ser chamada */}
+                  <div className="cm-in absolute right-0 -top-3 z-[1] flex gap-1" style={{ animationDelay: "520ms" }} role="radiogroup" aria-label="Contact app">
+                    {([
+                      ["Telegram", FaTelegramPlane],
+                      ["Discord", FaDiscord],
+                    ] as const).map(([app, Icon]) => (
+                      <button
+                        key={app}
+                        type="button"
+                        role="radio"
+                        aria-checked={chatApp === app}
+                        onClick={() => setChatApp(app)}
+                        className={`inline-flex h-6 items-center gap-1 px-2 text-[10px] font-extrabold uppercase tracking-wider ring-1 transition-colors ${chatApp === app ? "bg-amber text-ink ring-amber" : "text-white/60 ring-white/25 hover:text-white hover:ring-white/60"}`}
+                      >
+                        <Icon className="h-3 w-3" /> {app}
+                      </button>
+                    ))}
+                  </div>
+                  <Field delay={520} label={`${chatApp} username`} name="chat" autoComplete="off" />
+                </div>
                 <Field delay={560} label="Email" name="email" type="email" autoComplete="email" />
                 <Field delay={600} label="Company / brand" name="company" autoComplete="organization" />
                 <p className="cm-in -mt-1 text-[11px] font-bold text-white/45 sm:col-span-2 sm:-mt-3" style={{ animationDelay: "620ms" }}>
-                  Telegram or email: fill at least one so we can reach you.
+                  Telegram/Discord or email: fill at least one so we can reach you.
                 </p>
               </div>
 
