@@ -3,6 +3,7 @@ import { adminConfigured, isAdmin } from "@/lib/admin-auth";
 import { blobReady, getContentFresh } from "@/lib/content";
 import AdminLogin from "@/components/admin/AdminLogin";
 import AdminEditor from "@/components/admin/AdminEditor";
+import { ConfirmProvider } from "@/components/admin/Confirm";
 
 export const metadata: Metadata = { title: "BB Agency · Dashboard", robots: { index: false, follow: false }, other: { google: "notranslate" } };
 export const dynamic = "force-dynamic";
@@ -27,7 +28,9 @@ export default async function AdminPage() {
       ) : !(await isAdmin()) ? (
         <AdminLogin />
       ) : (
-        <AdminEditor initial={await getContentFresh()} />
+        <ConfirmProvider>
+          <AdminEditor initial={await getContentFresh()} />
+        </ConfirmProvider>
       )}
     </main>
   );

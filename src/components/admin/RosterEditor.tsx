@@ -6,6 +6,7 @@ import { FaInstagram, FaTwitch, FaYoutube } from "react-icons/fa";
 import { SiKick } from "react-icons/si";
 import type { Creator } from "@/lib/creators";
 import { UploadButton } from "./UploadButton";
+import { useConfirm } from "./Confirm";
 
 const LINKS = [
   { key: "twitch", Icon: FaTwitch, ph: "https://twitch.tv/..." },
@@ -19,6 +20,7 @@ const field = "w-full min-w-0 border border-white/15 bg-ink px-2.5 py-2 text-sm 
 
 /** Lista do popup "See full roster": nome, foto (opcional) e links das redes */
 export default function RosterEditor({ list, onChange }: { list: Creator[]; onChange: (list: Creator[]) => void }) {
+  const ask = useConfirm();
   const [q, setQ] = useState("");
   const [page, setPage] = useState(0);
 
@@ -102,7 +104,7 @@ export default function RosterEditor({ list, onChange }: { list: Creator[]; onCh
               )}
               <button
                 type="button"
-                onClick={() => confirm(`Remove ${c.name || "this creator"}?`) && onChange(list.filter((_, j) => j !== i))}
+                onClick={async () => (await ask(`Remove ${c.name || "this creator"}?`)) && onChange(list.filter((_, j) => j !== i))}
                 className="p-2 text-white/60 hover:text-amber"
                 aria-label="Remove"
               >

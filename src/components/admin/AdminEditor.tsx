@@ -3,6 +3,7 @@
 import { useState } from "react";
 import Image from "next/image";
 import { UploadButton } from "./UploadButton";
+import { useConfirm } from "./Confirm";
 import RosterEditor from "./RosterEditor";
 import BrandsEditor from "./BrandsEditor";
 import { ArrowDown, ArrowUp, Check, ExternalLink, ImagePlus, Loader2, LogOut, Plus, Trash2 } from "lucide-react";
@@ -12,6 +13,7 @@ const input = "w-full border border-white/20 bg-ink px-3 py-2.5 text-sm outline-
 const label = "block text-[10px] font-extrabold uppercase tracking-widest text-white/50";
 
 export default function AdminEditor({ initial }: { initial: SiteContent }) {
+  const ask = useConfirm();
   const [c, setC] = useState<SiteContent>(initial);
   const [dirty, setDirty] = useState(false);
   const [status, setStatus] = useState<"idle" | "saving" | "saved" | "error">("idle");
@@ -139,7 +141,7 @@ export default function AdminEditor({ initial }: { initial: SiteContent }) {
                   </button>
                   <button
                     type="button"
-                    onClick={() => confirm(`Remove ${s.name || "this star"}?`) && update((c) => ({ ...c, stars: c.stars.filter((_, j) => j !== i) }))}
+                    onClick={async () => (await ask(`Remove ${s.name || "this star"}?`)) && update((c) => ({ ...c, stars: c.stars.filter((_, j) => j !== i) }))}
                     className="p-2 text-white/60 hover:text-amber"
                     aria-label="Remove"
                   >

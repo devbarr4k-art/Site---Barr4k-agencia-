@@ -3,6 +3,7 @@
 import { ArrowDown, ArrowUp, ImagePlus, Plus, Trash2 } from "lucide-react";
 import type { Brand } from "@/lib/content-types";
 import { UploadButton } from "./UploadButton";
+import { useConfirm } from "./Confirm";
 
 const field = "w-full border border-white/20 bg-ink px-3 py-2.5 text-sm outline-none focus:border-amber";
 const label = "block text-[10px] font-extrabold uppercase tracking-widest text-white/50";
@@ -35,6 +36,7 @@ function Preview({ b }: { b: Brand }) {
 }
 
 export default function BrandsEditor({ list, onChange }: { list: Brand[]; onChange: (list: Brand[]) => void }) {
+  const ask = useConfirm();
   const set = (i: number, patch: Partial<Brand>) => onChange(list.map((b, j) => (j === i ? { ...b, ...patch } : b)));
   const move = (i: number, d: number) => {
     const j = i + d;
@@ -95,7 +97,7 @@ export default function BrandsEditor({ list, onChange }: { list: Brand[]; onChan
               </button>
               <button
                 type="button"
-                onClick={() => confirm(`Remove ${b.name || "this sponsor"}?`) && onChange(list.filter((_, j) => j !== i))}
+                onClick={async () => (await ask(`Remove ${b.name || "this sponsor"}?`)) && onChange(list.filter((_, j) => j !== i))}
                 className="p-2 text-white/60 hover:text-amber"
                 aria-label="Remove"
               >
