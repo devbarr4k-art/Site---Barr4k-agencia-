@@ -232,7 +232,7 @@ export default function ContactModal() {
                 <Field delay={460} label="Your name" name="name" required inputRef={firstField} autoComplete="name" />
                 <div className="relative">
                   {/* escolhe onde a pessoa quer ser chamada */}
-                  <div className="cm-in absolute right-0 -top-3 z-[1] flex gap-1" style={{ animationDelay: "520ms" }} role="radiogroup" aria-label="Contact app">
+                  <div className="cm-in absolute right-0 -top-3 z-[1] flex gap-1" style={{ animationDelay: "520ms" }} translate="no" role="radiogroup" aria-label="Contact app">
                     {([
                       ["Telegram", FaTelegramPlane],
                       ["Discord", FaDiscord],
@@ -249,7 +249,7 @@ export default function ContactModal() {
                       </button>
                     ))}
                   </div>
-                  <Field delay={520} label={`${chatApp} username`} name="chat" autoComplete="off" />
+                  <Field delay={520} label="Username" name="chat" autoComplete="off" />
                 </div>
                 <Field delay={560} label="Email" name="email" type="email" autoComplete="email" />
                 <Field delay={600} label="Company / brand" name="company" autoComplete="organization" />

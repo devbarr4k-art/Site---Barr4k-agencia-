@@ -207,6 +207,10 @@ body {
 .cm-label {
   position: absolute;
   left: 0;
+  max-width: 100%;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
   top: 1.5rem;
   pointer-events: none;
   font-weight: 800;
