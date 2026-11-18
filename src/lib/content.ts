@@ -1,5 +1,5 @@
 import "server-only";
-import { get, put } from "@vercel/blob";
+import { put } from "@vercel/blob";
 import { unstable_cache } from "next/cache";
 import { stars as defaultStars } from "@/lib/data";
 import { fallbackCreators, loadCreators, type Creator } from "@/lib/creators";
@@ -66,11 +66,19 @@ export function sanitize(raw: unknown): SiteContent {
   };
 }
 
+/** https://<loja>.public.blob.vercel-storage.com/site/content.json */
+function publicUrl() {
+  const id = (process.env.BLOB_STORE_ID ?? "").replace(/^store_/, "") || (process.env.BLOB_READ_WRITE_TOKEN ?? "").split("_")[3];
+  return `https://${id.toLowerCase()}.public.blob.vercel-storage.com/${PATH}`;
+}
+
 async function readFresh(): Promise<SiteContent> {
   if (!blobReady()) return DEFAULT_CONTENT;
   try {
-    const res = await get(PATH, { access: "public", useCache: false });
-    const raw = res && res.statusCode === 200 ? JSON.parse(await new Response(res.stream).text()) : {};
+    // o link público fica 60 s no cache da CDN; o ?v= força a versão que acabou de ser salva
+    const res = await fetch(`${publicUrl()}?v=${Date.now()}`, { cache: "no-store" });
+    if (!res.ok && res.status !== 404) throw new Error(`blob ${res.status}`);
+    const raw = res.ok ? await res.json() : {};
     const content = sanitize(raw);
     // ainda não salvou o roster pelo painel: pega a planilha mais recente
     if (!Array.isArray(raw.creators)) content.creators = await loadCreators().catch(() => fallbackCreators);
