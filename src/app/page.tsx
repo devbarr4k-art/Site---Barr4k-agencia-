@@ -10,9 +10,9 @@ import ContactModal, { ContactButton, OpenContact } from "@/components/ContactMo
 import CreatorsModal, { CreatorsButton } from "@/components/CreatorsModal";
 import ScrollFx from "@/components/ScrollFx";
 import { CornerCrosses, Cross } from "@/components/Decor";
-import { team, stats, cases, CONTACT_EMAIL, navLinks } from "@/lib/data";
+import { team, stats, CONTACT_EMAIL, navLinks } from "@/lib/data";
 import { getContent } from "@/lib/content";
-import type { Brand, SiteContent } from "@/lib/content-types";
+import type { Brand, Case, SiteContent } from "@/lib/content-types";
 
 const wrap = "relative z-[2] mx-auto w-full max-w-7xl 2xl:max-w-[1440px] px-4 sm:px-6 lg:px-8";
 
@@ -30,7 +30,7 @@ export default async function Home() {
         <Brands brands={content.brands} />
         <Stats />
         <Framework content={content} />
-        <Cases />
+        <Cases cases={content.cases} />
         <Creators />
       </main>
       <Footer />
@@ -318,7 +318,7 @@ function Framework({ content }: { content: SiteContent }) {
 }
 
 /* ───────────── CASES ───────────── */
-function Cases() {
+function Cases({ cases }: { cases: Case[] }) {
   return (
     <section id="cases" className="relative overflow-hidden py-24 lg:py-32 bg-royal">
       <SlideBg n={7} />
@@ -341,7 +341,7 @@ function Cases() {
 
         <div className="mt-16 grid gap-6 md:grid-cols-3">
           {cases.map((c, i) => (
-            <Reveal key={c.title} delay={i * 120} as="article" className={i === 1 ? "md:translate-y-10" : ""}>
+            <Reveal key={`${i}-${c.title}`} delay={(i % 3) * 120} as="article" className={i % 3 === 1 ? "md:translate-y-10" : ""}>
               <div className="group h-full rounded-2xl border-[3px] border-white bg-white/10 p-3 backdrop-blur-[2px] transition-colors hover:bg-white/20">
                 <div className="relative aspect-[16/8] overflow-hidden rounded-xl">
                   <Image src={c.img} alt="" fill quality={90} sizes="(max-width:768px) 100vw, 33vw" className="object-cover transition-transform duration-700 group-hover:scale-110" />

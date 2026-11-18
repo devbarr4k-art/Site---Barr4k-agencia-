@@ -3,10 +3,13 @@ import type { Creator } from "@/lib/creators";
 export type Star = { name: string; role: string; tag: string; photo: string };
 /** Patrocinador da faixa de Brands. h = altura da logo em px no PC, ratio = largura/altura do arquivo */
 export type Brand = { name: string; logo: string; url: string; h: number; ratio: number };
+/** Card da seção "ORGs and Events" */
+export type Case = { title: string; text: string; img: string };
 export type Banner = { src: string; kind: "image" | "video" } | null;
 export type SiteContent = {
   stars: Star[];
   brands: Brand[];
+  cases: Case[];
   /** lista do popup "See full roster" */
   creators: Creator[];
   frameworkText: string;

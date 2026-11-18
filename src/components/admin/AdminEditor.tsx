@@ -6,6 +6,7 @@ import { UploadButton } from "./UploadButton";
 import { useConfirm } from "./Confirm";
 import RosterEditor from "./RosterEditor";
 import BrandsEditor from "./BrandsEditor";
+import CasesEditor from "./CasesEditor";
 import { ArrowDown, ArrowUp, Check, ExternalLink, ImagePlus, Loader2, LogOut, Plus, Trash2 } from "lucide-react";
 import type { SiteContent, Star } from "@/lib/content-types";
 
@@ -34,13 +35,13 @@ export default function AdminEditor({ initial }: { initial: SiteContent }) {
       return { ...c, stars: s };
     });
 
-  const missingPhoto = c.stars.some((s) => !s.photo) || c.brands.some((b) => !b.logo);
-  const missingName = c.stars.some((s) => !s.name.trim()) || c.creators.some((x) => !x.name.trim()) || c.brands.some((b) => !b.name.trim());
+  const missingPhoto = c.stars.some((s) => !s.photo) || c.brands.some((b) => !b.logo) || c.cases.some((x) => !x.img);
+  const missingName = c.stars.some((s) => !s.name.trim()) || c.creators.some((x) => !x.name.trim()) || c.brands.some((b) => !b.name.trim()) || c.cases.some((x) => !x.title.trim());
 
   async function save() {
     if (missingPhoto || missingName) {
       setStatus("error");
-      setMsg("Something is missing: every star needs a name and photo, every sponsor a name and logo, every creator a name.");
+      setMsg("Something is missing: every star needs a name and photo, every sponsor a name and logo, every case a title and image, every creator a name.");
       return;
     }
     setStatus("saving");
@@ -161,6 +162,8 @@ export default function AdminEditor({ initial }: { initial: SiteContent }) {
         </section>
 
         <BrandsEditor list={c.brands} onChange={(brands) => update((c) => ({ ...c, brands }))} />
+
+        <CasesEditor list={c.cases} onChange={(cases) => update((c) => ({ ...c, cases }))} />
 
         <RosterEditor list={c.creators} onChange={(creators) => update((c) => ({ ...c, creators }))} />
 
