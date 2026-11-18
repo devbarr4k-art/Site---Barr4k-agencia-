@@ -4,7 +4,7 @@ import { useRef, useState } from "react";
 import Image from "next/image";
 import { upload } from "@vercel/blob/client";
 import { ArrowDown, ArrowUp, Check, ExternalLink, ImagePlus, Loader2, LogOut, Plus, Trash2 } from "lucide-react";
-import type { Banner, SiteContent, Star } from "@/lib/content-types";
+import type { SiteContent, Star } from "@/lib/content-types";
 
 const input = "w-full border border-white/20 bg-ink px-3 py-2.5 text-sm outline-none focus:border-amber";
 const label = "block text-[10px] font-extrabold uppercase tracking-widest text-white/50";
@@ -16,7 +16,7 @@ async function sendFile(file: File) {
 }
 
 /** Botão que abre o seletor de arquivo e já sobe pro Blob */
-function UploadButton({ accept, onDone, children, className = "" }: { accept: string; onDone: (url: string, file: File) => void; children: React.ReactNode; className?: string }) {
+function UploadButton({ accept, onDone, children, className = "" }: { accept: string; onDone: (url: string) => void; children: React.ReactNode; className?: string }) {
   const ref = useRef<HTMLInputElement>(null);
   const [busy, setBusy] = useState(false);
   const [err, setErr] = useState("");
@@ -38,9 +38,9 @@ function UploadButton({ accept, onDone, children, className = "" }: { accept: st
           setBusy(true);
           setErr("");
           try {
-            onDone(await sendFile(f), f);
+            onDone(await sendFile(f));
           } catch {
-            setErr("Upload failed (max 60 MB).");
+            setErr("Upload failed (max 15 MB).");
           } finally {
             setBusy(false);
           }
@@ -70,7 +70,6 @@ export default function AdminEditor({ initial }: { initial: SiteContent }) {
       [s[i], s[j]] = [s[j], s[i]];
       return { ...c, stars: s };
     });
-  const setBanner = (i: number, b: Banner) => update((c) => ({ ...c, banners: c.banners.map((x, j) => (j === i ? b : x)) }));
 
   const missingPhoto = c.stars.some((s) => !s.photo);
   const missingName = c.stars.some((s) => !s.name.trim());
@@ -198,53 +197,6 @@ export default function AdminEditor({ initial }: { initial: SiteContent }) {
           </button>
         </section>
 
-        {/* FRAMEWORK */}
-        <section>
-          <p className="eyebrow text-amber">Framework</p>
-          <h2 className="display mt-2 text-4xl">In-house graphics</h2>
-          <span className={`${label} mt-6`}>Text</span>
-          <textarea
-            className={`${input} mt-1 min-h-32`}
-            maxLength={600}
-            value={c.frameworkText}
-            onChange={(e) => update((c) => ({ ...c, frameworkText: e.target.value }))}
-          />
-
-          <p className="mt-8 text-sm text-white/60">Animated banners: the 2 extra squares in the collage. GIF, MP4/WebM video or image, square works best.</p>
-          <div className="mt-4 grid gap-4 sm:grid-cols-2">
-            {c.banners.map((b, i) => (
-              <div key={i} className="border border-white/10 bg-navy/60 p-3">
-                <span className={label}>Square {i + 1}</span>
-                <div className="relative mt-2 aspect-square overflow-hidden bg-ink ring-1 ring-white/15">
-                  {b ? (
-                    b.kind === "video" ? (
-                      <video src={b.src} autoPlay muted loop playsInline className="h-full w-full object-cover" />
-                    ) : (
-                      // eslint-disable-next-line @next/next/no-img-element
-                      <img src={b.src} alt="" className="h-full w-full object-cover" />
-                    )
-                  ) : (
-                    <span className="absolute inset-0 grid place-items-center text-xs font-bold uppercase text-white/40">Empty (shows the BB placeholder)</span>
-                  )}
-                </div>
-                <div className="mt-3 flex items-center gap-2">
-                  <UploadButton
-                    accept="image/*,video/mp4,video/webm"
-                    onDone={(url, f) => setBanner(i, { src: url, kind: f.type.startsWith("video/") ? "video" : "image" })}
-                    className="inline-flex items-center gap-1.5 border border-white/20 px-3 py-2 text-xs font-extrabold uppercase hover:border-amber hover:text-amber"
-                  >
-                    <ImagePlus className="h-4 w-4" /> {b ? "Replace" : "Upload"}
-                  </UploadButton>
-                  {b && (
-                    <button type="button" onClick={() => setBanner(i, null)} className="p-2 text-white/60 hover:text-amber" aria-label="Remove banner">
-                      <Trash2 className="h-4 w-4" />
-                    </button>
-                  )}
-                </div>
-              </div>
-            ))}
-          </div>
-        </section>
       </div>
     </div>
   );
