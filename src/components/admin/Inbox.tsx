@@ -2,7 +2,7 @@
 
 import { useCallback, useEffect, useState } from "react";
 import { Copy, Loader2, Mail, RefreshCw, Trash2 } from "lucide-react";
-import { FaDiscord, FaTelegramPlane } from "react-icons/fa";
+import { FaDiscord, FaTelegramPlane, FaWhatsapp } from "react-icons/fa";
 import { useConfirm } from "./Confirm";
 
 type Lead = {
@@ -11,7 +11,7 @@ type Lead = {
   name: string;
   email: string;
   company: string;
-  chatApp: "Telegram" | "Discord";
+  chatApp: "Telegram" | "Discord" | "WhatsApp";
   chat: string;
   topics: string[];
   message: string;
@@ -100,8 +100,8 @@ export default function Inbox({ onCount }: { onCount?: (n: number) => void }) {
         <ul className="mt-6 space-y-3">
           {leads?.map((l) => {
             const isNew = !!seen && l.at > seen;
-            const ChatIcon = l.chatApp === "Discord" ? FaDiscord : FaTelegramPlane;
-            const chatLabel = l.chatApp === "Telegram" ? `@${l.chat}` : l.chat;
+            const ChatIcon = l.chatApp === "Discord" ? FaDiscord : l.chatApp === "WhatsApp" ? FaWhatsapp : FaTelegramPlane;
+            const chatLabel = l.chatApp === "Telegram" ? `@${l.chat}` : l.chatApp === "WhatsApp" ? `+${l.chat}` : l.chat;
             return (
               <li key={l.id} className={`border bg-navy/60 p-4 sm:p-5 ${isNew ? "border-amber" : "border-white/10"}`}>
                 <div className="flex flex-wrap items-start justify-between gap-3">
@@ -121,9 +121,9 @@ export default function Inbox({ onCount }: { onCount?: (n: number) => void }) {
                 {/* como responder */}
                 <div className="mt-3 flex flex-wrap gap-2">
                   {l.chat &&
-                    (l.chatApp === "Telegram" ? (
-                      <a href={`https://t.me/${l.chat}`} target="_blank" rel="noreferrer" className="inline-flex items-center gap-2 bg-amber px-3 py-2 text-xs font-extrabold uppercase text-ink hover:bg-amber-2">
-                        <ChatIcon className="h-4 w-4" /> Telegram {chatLabel}
+                    (l.chatApp !== "Discord" ? (
+                      <a href={l.chatApp === "WhatsApp" ? `https://wa.me/${l.chat}` : `https://t.me/${l.chat}`} target="_blank" rel="noreferrer" className="inline-flex items-center gap-2 bg-amber px-3 py-2 text-xs font-extrabold uppercase text-ink hover:bg-amber-2">
+                        <ChatIcon className="h-4 w-4" /> {l.chatApp} {chatLabel}
                       </a>
                     ) : (
                       <button type="button" onClick={() => copy(l.chat)} className="inline-flex items-center gap-2 bg-amber px-3 py-2 text-xs font-extrabold uppercase text-ink hover:bg-amber-2" title="Copy username">

@@ -9,7 +9,7 @@ export type Lead = {
   name: string;
   email: string;
   company: string;
-  chatApp: "Telegram" | "Discord";
+  chatApp: "Telegram" | "Discord" | "WhatsApp";
   chat: string;
   topics: string[];
   message: string;
@@ -24,7 +24,7 @@ export function cleanLead(raw: unknown): Omit<Lead, "id" | "at"> | null {
     name: str(r.name, 120),
     email: str(r.email, 200),
     company: str(r.company, 200),
-    chatApp: (r.chatApp === "Discord" ? "Discord" : "Telegram") as Lead["chatApp"],
+    chatApp: (r.chatApp === "Discord" || r.chatApp === "WhatsApp" ? r.chatApp : "Telegram") as Lead["chatApp"],
     chat: str(r.chat, 60).replace(/^@/, ""),
     topics: Array.isArray(r.topics) ? r.topics.filter((t): t is string => typeof t === "string").slice(0, 6).map((t) => t.slice(0, 40)) : [],
     message: str(r.message, 2000),
