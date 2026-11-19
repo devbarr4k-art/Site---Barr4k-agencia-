@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import Image from "next/image";
-import { Menu, X, ArrowUpRight } from "lucide-react";
+import { Menu, X, ArrowUpRight, ArrowRight } from "lucide-react";
 import { navLinks } from "@/lib/data";
 import { openContact } from "./ContactModal";
 
@@ -43,12 +43,27 @@ export default function Navbar() {
           ))}
         </nav>
 
+        {/* animação estilo kr3w.gg: botão branco; o quadrado azul da seta cresce e enche o botão,
+            a seta sai e outra entra, e o texto rola pra cima já em branco */}
         <button
           type="button"
           onClick={openContact}
-          className="hidden lg:inline-flex items-center gap-2 border border-white/30 px-4 py-2 text-[13px] font-extrabold uppercase tracking-wide hover:bg-amber hover:text-ink hover:border-amber transition-colors"
+          className="group relative hidden h-11 items-center gap-3 overflow-hidden bg-paper pl-[5px] pr-5 text-[13px] font-extrabold uppercase tracking-wide text-ink lg:inline-flex"
         >
-          Let&apos;s talk <ArrowUpRight className="h-4 w-4" />
+          <span
+            className="absolute bottom-[5px] left-[5px] top-[5px] w-8 bg-royal transition-[width] duration-500 ease-[cubic-bezier(.7,0,.2,1)] group-hover:w-[calc(100%-10px)]"
+            aria-hidden
+          />
+          <span className="relative grid h-8 w-8 shrink-0 place-items-center overflow-hidden text-white" aria-hidden>
+            <ArrowRight className="h-4 w-4 transition-transform duration-500 ease-[cubic-bezier(.7,0,.2,1)] group-hover:translate-x-[200%]" />
+            <ArrowRight className="absolute h-4 w-4 -translate-x-[200%] transition-transform duration-500 ease-[cubic-bezier(.7,0,.2,1)] group-hover:translate-x-0" />
+          </span>
+          <span className="relative block h-4 overflow-hidden leading-4">
+            <span className="block transition-transform duration-500 ease-[cubic-bezier(.7,0,.2,1)] group-hover:-translate-y-full">Let&apos;s talk</span>
+            <span className="absolute inset-x-0 top-0 block translate-y-full text-white transition-transform duration-500 ease-[cubic-bezier(.7,0,.2,1)] group-hover:translate-y-0" aria-hidden>
+              Let&apos;s talk
+            </span>
+          </span>
         </button>
 
         <button
