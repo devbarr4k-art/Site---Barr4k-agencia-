@@ -9,6 +9,7 @@ import CountUp from "@/components/CountUp";
 import ContactModal, { ContactButton, OpenContact } from "@/components/ContactModal";
 import CreatorsModal, { CreatorsButton } from "@/components/CreatorsModal";
 import ScrollFx from "@/components/ScrollFx";
+import SmoothScroll from "@/components/SmoothScroll";
 import { CornerCrosses, Cross } from "@/components/Decor";
 import { team, stats, CONTACT_EMAIL, navLinks } from "@/lib/data";
 import { getContent } from "@/lib/content";
@@ -23,6 +24,7 @@ export default async function Home() {
       <Navbar />
       <ContactModal />
       <CreatorsModal creators={content.creators} />
+      <SmoothScroll />
       <main id="top">
         <Hero />
         <Team />

@@ -10,8 +10,12 @@ export default function NoHashLinks() {
   useEffect(() => {
     const clean = () => history.replaceState(null, "", location.pathname + location.search);
     const go = (id: string, smooth: boolean) => {
-      if (id === "top" || !id) return window.scrollTo({ top: 0, behavior: smooth ? "smooth" : "auto" });
-      document.getElementById(id)?.scrollIntoView({ behavior: smooth ? "smooth" : "auto" });
+      const target = id === "top" || !id ? 0 : document.getElementById(id);
+      if (target === null) return;
+      // com a rolagem suave (Lenis) ligada, ela faz o caminho (ela já respeita o scroll-padding do menu fixo)
+      if (window.__lenis) return window.__lenis.scrollTo(target, { immediate: !smooth, duration: 1.4 });
+      if (target === 0) return window.scrollTo({ top: 0, behavior: smooth ? "smooth" : "auto" });
+      target.scrollIntoView({ behavior: smooth ? "smooth" : "auto" });
     };
     if (location.hash) {
       const id = decodeURIComponent(location.hash.slice(1));
