@@ -6,7 +6,8 @@ import Navbar from "@/components/Navbar";
 import Reveal from "@/components/Reveal";
 import StarsCarousel from "@/components/StarsCarousel";
 import CountUp from "@/components/CountUp";
-import ContactModal, { ContactButton, OpenContact } from "@/components/ContactModal";
+import ContactModal from "@/components/ContactModal";
+import ContactCta from "@/components/ContactCta";
 import CreatorsModal, { CreatorsButton } from "@/components/CreatorsModal";
 import ScrollFx from "@/components/ScrollFx";
 import SmoothScroll from "@/components/SmoothScroll";
@@ -70,12 +71,10 @@ function Hero() {
           </Reveal>
           <Reveal delay={360}>
             <div className="mt-10 flex flex-wrap gap-3">
-              <a href="#featured" className="inline-flex items-center gap-2 bg-paper text-ink px-6 py-3.5 font-extrabold uppercase text-sm hover:bg-amber transition-colors">
+              <a href="#featured" className="inline-flex h-14 items-center gap-2 bg-paper text-ink px-6 font-extrabold uppercase text-sm hover:bg-amber transition-colors">
                 View creators <ArrowDown className="h-4 w-4" />
               </a>
-              <OpenContact className="inline-flex items-center gap-2 border border-white/40 px-6 py-3.5 font-extrabold uppercase text-sm hover:border-white transition-colors">
-                Get in touch <ArrowUpRight className="h-4 w-4" />
-              </OpenContact>
+              <ContactCta label="Get in touch" />
             </div>
           </Reveal>
         </div>
@@ -401,7 +400,7 @@ function Footer() {
               For brand partnerships, creator management, organizations and events.
             </p>
             <div className="mt-8 flex flex-col gap-3 sm:flex-row sm:flex-wrap">
-              <ContactButton />
+              <ContactCta label="Send a message" />
               <a href={`mailto:${CONTACT_EMAIL}`} className="inline-flex items-center justify-center gap-3 px-6 py-4 font-extrabold uppercase ring-1 ring-white/30 hover:bg-paper hover:text-ink hover:ring-paper transition-colors">
                 {CONTACT_EMAIL} <ArrowUpRight className="h-5 w-5" />
               </a>

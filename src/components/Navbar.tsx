@@ -2,9 +2,9 @@
 
 import { useEffect, useState } from "react";
 import Image from "next/image";
-import { Menu, X, ArrowUpRight, ArrowRight } from "lucide-react";
+import { Menu, X } from "lucide-react";
 import { navLinks } from "@/lib/data";
-import { openContact } from "./ContactModal";
+import ContactCta from "./ContactCta";
 
 export default function Navbar() {
   const [open, setOpen] = useState(false);
@@ -43,28 +43,7 @@ export default function Navbar() {
           ))}
         </nav>
 
-        {/* animação estilo kr3w.gg: botão branco; o quadrado azul da seta cresce e enche o botão,
-            a seta sai e outra entra, e o texto rola pra cima já em branco */}
-        <button
-          type="button"
-          onClick={openContact}
-          className="group relative hidden h-11 items-center gap-3 overflow-hidden bg-paper pl-[5px] pr-5 text-[13px] font-extrabold uppercase tracking-wide text-ink lg:inline-flex"
-        >
-          <span
-            className="absolute bottom-[5px] left-[5px] top-[5px] w-8 bg-royal transition-[width] duration-500 ease-[cubic-bezier(.7,0,.2,1)] group-hover:w-[calc(100%-10px)]"
-            aria-hidden
-          />
-          <span className="relative grid h-8 w-8 shrink-0 place-items-center overflow-hidden text-white" aria-hidden>
-            <ArrowRight className="h-4 w-4 transition-transform duration-500 ease-[cubic-bezier(.7,0,.2,1)] group-hover:translate-x-[200%]" />
-            <ArrowRight className="absolute h-4 w-4 -translate-x-[200%] transition-transform duration-500 ease-[cubic-bezier(.7,0,.2,1)] group-hover:translate-x-0" />
-          </span>
-          <span className="relative block h-4 overflow-hidden leading-4">
-            <span className="block transition-transform duration-500 ease-[cubic-bezier(.7,0,.2,1)] group-hover:-translate-y-full">Let&apos;s talk</span>
-            <span className="absolute inset-x-0 top-0 block translate-y-full text-white transition-transform duration-500 ease-[cubic-bezier(.7,0,.2,1)] group-hover:translate-y-0" aria-hidden>
-              Let&apos;s talk
-            </span>
-          </span>
-        </button>
+        <ContactCta label="Let's talk" size="sm" className="hidden lg:inline-flex" />
 
         <button
           type="button"
@@ -96,16 +75,7 @@ export default function Navbar() {
               </li>
             ))}
           </ul>
-          <button
-            type="button"
-            onClick={() => {
-              setOpen(false);
-              openContact();
-            }}
-            className="inline-flex items-center justify-center gap-2 bg-amber text-ink py-4 font-extrabold uppercase"
-          >
-            Let&apos;s talk <ArrowUpRight className="h-5 w-5" />
-          </button>
+          <ContactCta label="Let's talk" onClick={() => setOpen(false)} className="w-full" />
         </nav>
       </div>
     </header>
