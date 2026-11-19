@@ -5,14 +5,13 @@ import { FaXTwitter } from "react-icons/fa6";
 import Navbar from "@/components/Navbar";
 import Reveal from "@/components/Reveal";
 import StarsCarousel from "@/components/StarsCarousel";
+import CountUp from "@/components/CountUp";
 import ContactModal, { ContactButton, OpenContact } from "@/components/ContactModal";
 import CreatorsModal, { CreatorsButton } from "@/components/CreatorsModal";
 import ScrollFx from "@/components/ScrollFx";
 import SmoothScroll from "@/components/SmoothScroll";
-import StackFx from "@/components/StackFx";
-import StatsScene from "@/components/StatsScene";
 import { CornerCrosses, Cross } from "@/components/Decor";
-import { team, CONTACT_EMAIL, navLinks } from "@/lib/data";
+import { team, stats, CONTACT_EMAIL, navLinks } from "@/lib/data";
 import { getContent } from "@/lib/content";
 import type { Brand, Case, SiteContent } from "@/lib/content-types";
 
@@ -26,7 +25,6 @@ export default async function Home() {
       <ContactModal />
       <CreatorsModal creators={content.creators} />
       <SmoothScroll />
-      <StackFx />
       <main id="top">
         <Hero />
         <Team />
@@ -45,7 +43,7 @@ export default async function Home() {
 /* ───────────── HERO ───────────── */
 function Hero() {
   return (
-    <section data-stack className="relative min-h-[100svh] overflow-hidden bg-ink flex items-center">
+    <section className="relative min-h-[100svh] overflow-hidden bg-ink flex items-center">
       <SlideBg n={1} />
       {/* BB gigante em pontinhos, como no slide 1 */}
       <div className="halftone halftone-mark pointer-events-none absolute -left-[14vw] top-[6%] h-[96%] w-[64vw] opacity-45 max-lg:opacity-20" aria-hidden />
@@ -90,7 +88,7 @@ function Hero() {
 function Team() {
   const icons = { twitch: FaTwitch, youtube: FaYoutube, x: FaXTwitter, instagram: FaInstagram } as const;
   return (
-    <section id="team" data-stack className="relative overflow-hidden bg-ink py-24 lg:py-32">
+    <section id="team" className="relative overflow-hidden bg-ink py-24 lg:py-32">
       <div className="pointer-events-none absolute inset-0 overflow-hidden" aria-hidden>
         <SlideBg n={2} />
       </div>
@@ -161,7 +159,7 @@ function SlideBg({ n, flip = false }: { n: number; flip?: boolean }) {
 /* ───────────── FEATURED (carrossel estilo neeve) ───────────── */
 function Featured({ content }: { content: SiteContent }) {
   return (
-    <section id="featured" data-stack className="relative overflow-hidden bg-ink py-24 lg:py-32">
+    <section id="featured" className="relative overflow-hidden bg-ink py-24 lg:py-32">
       <SlideBg n={3} />
       <CornerCrosses />
       <div className={`${wrap} grid gap-14 lg:grid-cols-12 items-center`}>
@@ -193,7 +191,7 @@ function Featured({ content }: { content: SiteContent }) {
 function Brands({ brands }: { brands: Brand[] }) {
   const row = [...brands, ...brands];
   return (
-    <section id="brands" data-stack className="relative overflow-hidden py-24 lg:py-32 bg-royal">
+    <section id="brands" className="relative overflow-hidden py-24 lg:py-32 bg-royal">
       <SlideBg n={4} />
       {/* "b" gigante de mini "b", na mesma posição e proporção do slide de Brands */}
       <div className="pointer-events-none absolute inset-0" aria-hidden>
@@ -251,24 +249,34 @@ function BrandLogo({ b, maxH, hidden }: { b: Brand; maxH?: number; hidden?: bool
   );
 }
 
-/* ───────────── STATS (presa na tela, números entram com a rolagem) ───────────── */
+/* ───────────── STATS ───────────── */
 function Stats() {
   return (
-    <section id="stats" data-stack data-anchor-end className="relative bg-ink">
-      {/* fundo preso junto com o conteúdo (a seção é bem mais alta que a tela) */}
-      <div className="pointer-events-none absolute inset-0" aria-hidden>
-        <div className="relative overflow-hidden sm:sticky sm:top-0 sm:h-[100svh] max-sm:absolute max-sm:inset-0">
-          <SlideBg n={5} />
-          <CornerCrosses />
-        </div>
-      </div>
+    <section id="stats" className="relative overflow-hidden bg-ink py-24 lg:py-32">
+      <SlideBg n={5} />
+      <CornerCrosses />
       <div className={wrap}>
-        <StatsScene>
-          <Reveal className="text-center">
-            <span className="eyebrow">Stats</span>
-            <p className="display normal-case mt-2 text-3xl">Numbers don&apos;t lie!</p>
-          </Reveal>
-        </StatsScene>
+        <Reveal className="text-center">
+          <span className="eyebrow">Stats</span>
+          <p className="display normal-case mt-2 text-3xl">Numbers don&apos;t lie!</p>
+        </Reveal>
+        <div className="mt-16 grid gap-y-16 gap-x-10 sm:grid-cols-2">
+          {stats.map((s, i) => (
+            <Reveal key={s.label} delay={i * 120} className={`relative ${i % 2 ? "sm:text-left sm:pl-10" : "sm:text-right sm:pr-10"}`}>
+              {/* número fantasma em pontinhos atrás */}
+              <span className={`halftone-text pointer-events-none absolute -top-10 hidden sm:block font-black text-[9rem] sm:text-[12rem] leading-none [font-stretch:75%] ${i % 2 ? "left-0" : "right-0"}`} aria-hidden>
+                {s.value}
+              </span>
+              <div className="relative">
+                {i >= 2 && <p className="display text-3xl sm:text-4xl">{s.label}</p>}
+                <p className="font-black text-7xl sm:text-8xl lg:text-9xl tracking-tight [font-stretch:80%] leading-[0.9]">
+                  {s.prefix}<CountUp to={s.value} />{s.suffix}
+                </p>
+                {i < 2 && <p className="display text-3xl sm:text-4xl">{s.label}</p>}
+              </div>
+            </Reveal>
+          ))}
+        </div>
       </div>
     </section>
   );
@@ -277,7 +285,7 @@ function Stats() {
 /* ───────────── FRAMEWORK ───────────── */
 function Framework({ content }: { content: SiteContent }) {
   return (
-    <section id="framework" data-stack className="relative overflow-hidden bg-ink py-24 lg:py-32">
+    <section id="framework" className="relative overflow-hidden bg-ink py-24 lg:py-32">
       <SlideBg n={6} />
       <CornerCrosses />
       <div className={`${wrap} grid gap-16 lg:grid-cols-12 items-center`}>
@@ -314,7 +322,7 @@ function Framework({ content }: { content: SiteContent }) {
 /* ───────────── CASES ───────────── */
 function Cases({ cases }: { cases: Case[] }) {
   return (
-    <section id="cases" data-stack className="relative overflow-hidden py-24 lg:py-32 bg-royal">
+    <section id="cases" className="relative overflow-hidden py-24 lg:py-32 bg-royal">
       <SlideBg n={7} />
       <div className="halftone halftone-mark pointer-events-none absolute -right-[10%] top-[30%] h-[80%] w-[55%] opacity-35" aria-hidden />
       <CornerCrosses />
@@ -354,7 +362,7 @@ function Cases({ cases }: { cases: Case[] }) {
 /* ───────────── CREATORS (planilha) ───────────── */
 function Creators() {
   return (
-    <section id="creators" data-stack className="relative overflow-hidden bg-ink py-28 lg:py-40">
+    <section id="creators" className="relative overflow-hidden bg-ink py-28 lg:py-40">
       <SlideBg n={8} />
       <div className="halftone halftone-mark pointer-events-none absolute -right-[6%] -top-[4%] h-[110%] w-[60%] opacity-30" aria-hidden />
       <CornerCrosses />
@@ -382,7 +390,7 @@ function Creators() {
 /* ───────────── FOOTER / CONTATO ───────────── */
 function Footer() {
   return (
-    <footer data-stack className="relative overflow-hidden border-t border-white/10 bg-navy">
+    <footer className="relative overflow-hidden border-t border-white/10 bg-navy">
       <SlideBg n={1} flip />
       <div className={`${wrap} py-20`}>
         <div className="grid gap-12 lg:grid-cols-12">

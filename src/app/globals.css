@@ -302,17 +302,3 @@ html { scrollbar-color: var(--color-amber) var(--color-ink); }
 ::-webkit-scrollbar-track { background: var(--color-ink); }
 ::-webkit-scrollbar-thumb { background: var(--color-amber); border: 2px solid var(--color-ink); }
 ::-webkit-scrollbar-thumb:hover { background: var(--color-amber-2); }
-
-/* Seções empilhadas (StackFx.tsx): a de trás escurece conforme a próxima cobre */
-[data-stack] {
-  isolation: isolate;
-}
-[data-stack]::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  z-index: 40;
-  pointer-events: none;
-  background: var(--color-ink);
-  opacity: calc(var(--cover, 0) * 0.6);
-}
