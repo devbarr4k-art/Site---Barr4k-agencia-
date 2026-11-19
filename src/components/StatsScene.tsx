@@ -25,7 +25,9 @@ export default function StatsScene({ children }: { children: React.ReactNode }) 
       const r = el.getBoundingClientRect();
       const vh = window.innerHeight;
       const pinned = r.height > vh * 1.5;
-      setQ(reduce ? 1 : clamp(pinned ? -r.top / (r.height - vh) : (vh * 0.85 - r.top) / (r.height * 0.9)));
+      // presa: 0 quando a seção aparece embaixo da tela → 1 no fim da parte presa
+      // (assim os números já vão entrando enquanto ela sobe, e não depois que prende)
+      setQ(reduce ? 1 : clamp(pinned ? (vh - r.top) / r.height : (vh * 0.85 - r.top) / (r.height * 0.9)));
     };
     const on = () => (raf ||= requestAnimationFrame(update));
     update();
@@ -39,13 +41,16 @@ export default function StatsScene({ children }: { children: React.ReactNode }) 
   }, []);
 
   return (
-    // sm+: 260vh de altura com o miolo preso; celular: altura normal
-    <div ref={ref} className="relative sm:h-[260vh]">
+    // sm+: 170vh de altura com o miolo preso; celular: altura normal
+    <div ref={ref} className="relative sm:h-[170vh]">
       <div className="relative flex flex-col justify-center py-24 sm:sticky sm:top-0 sm:h-[100svh] sm:py-0">
         {children}
         <div className="mt-16 grid gap-x-10 gap-y-16 sm:mt-12 sm:grid-cols-2 lg:mt-16">
           {stats.map((s, i) => {
-            const t = ease(clamp((q - 0.04 - i * 0.17) / 0.3));
+            // entrada: os 4 estão na tela quando a seção encosta no topo (q ≈ 0.6);
+            // contagem: termina já com a seção presa
+            const t = ease(clamp((q - 0.12 - i * 0.08) / 0.24));
+            const n = ease(clamp((q - 0.12 - i * 0.08) / 0.45));
             const side = i % 2 ? 1 : -1;
             return (
               <div
@@ -65,7 +70,7 @@ export default function StatsScene({ children }: { children: React.ReactNode }) 
                   {i >= 2 && <p className="display text-3xl sm:text-4xl">{s.label}</p>}
                   <p className="font-black text-7xl tracking-tight [font-stretch:80%] leading-[0.9] sm:text-8xl lg:text-9xl">
                     {s.prefix}
-                    <span className="tabular-nums">{Math.round(s.value * t)}</span>
+                    <span className="tabular-nums">{Math.round(s.value * n)}</span>
                     {s.suffix}
                   </p>
                   {i < 2 && <p className="display text-3xl sm:text-4xl">{s.label}</p>}
