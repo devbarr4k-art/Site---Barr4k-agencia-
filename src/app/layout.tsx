@@ -21,7 +21,7 @@ const instrument = Instrument_Serif({
 export const metadata: Metadata = {
   title: "BB Agency",
   description:
-    "Operating since 2021, BB Agency was created within the streaming industry. Specializing in CS gambling partnerships, creators and events.",
+    "Operating since 2021, BB Agency was created within the streaming industry. Specializing in CS gambling and virtual casinos: partnerships, creators and events.",
 };
 
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {

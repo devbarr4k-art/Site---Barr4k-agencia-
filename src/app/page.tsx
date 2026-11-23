@@ -66,7 +66,7 @@ function Hero() {
           </Reveal>
           <Reveal delay={240}>
             <p className="grotesk mt-8 max-w-md text-xl sm:text-2xl">
-              Operating since 2021, we are an agency created within the streaming industry. Specializing in CS gambling.
+              Operating since 2021, we are an agency created within the streaming industry. Specializing in CS gambling and virtual casinos.
             </p>
           </Reveal>
           <Reveal delay={360}>
