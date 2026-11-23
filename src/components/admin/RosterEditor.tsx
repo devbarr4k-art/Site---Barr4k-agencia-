@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useMemo, useRef, useState } from "react";
 import { ArrowDown, ArrowUp, ChevronLeft, ChevronRight, Plus, Search, Trash2, User } from "lucide-react";
 import { FaInstagram, FaTwitch, FaYoutube } from "react-icons/fa";
 import { SiKick } from "react-icons/si";
@@ -23,6 +23,10 @@ export default function RosterEditor({ list, onChange }: { list: Creator[]; onCh
   const ask = useConfirm();
   const [q, setQ] = useState("");
   const [page, setPage] = useState(0);
+  const [note, setNote] = useState("");
+  const [addAt, setAddAt] = useState("1");
+  const [newAt, setNewAt] = useState(-1);
+  const noteTimer = useRef(0);
 
   const shown = useMemo(() => {
     const s = q.trim().toLowerCase();
@@ -41,17 +45,40 @@ export default function RosterEditor({ list, onChange }: { list: Creator[]; onCh
     const [c] = l.splice(i, 1);
     l.splice(j, 0, c);
     onChange(l);
+    flash(`${c.name || "Creator"} moved to position ${j + 1}. Click Save to apply.`);
   };
+  // aviso do que mudou (some sozinho depois de uns segundos)
+  const flash = (t: string) => {
+    setNote(t);
+    window.clearTimeout(noteTimer.current);
+    noteTimer.current = window.setTimeout(() => setNote(""), 5000);
+  };
+  /** Adiciona um creator vazio na posição escolhida ("at #") e abre a página onde ele entrou */
+  function addCreator() {
+    const n = parseInt(addAt, 10);
+    const j = Math.max(0, Math.min(list.length, (Number.isFinite(n) ? n : 1) - 1));
+    const l = [...list];
+    l.splice(j, 0, { name: "" });
+    setQ("");
+    setPage(Math.floor(j / PER_PAGE));
+    setNewAt(j);
+    onChange(l);
+  }
 
   return (
     <section>
       <p className="eyebrow text-amber">Creators</p>
       <h2 className="display mt-2 text-4xl">Full roster</h2>
       <p className="mt-2 text-sm text-white/60">
-        The list in the &ldquo;See full roster&rdquo; popup ({list.length} creators). Only the name is required; empty links are hidden. No photo = initials. The number on the left is the position: type a new one and press Enter to move.
+        The list in the &ldquo;See full roster&rdquo; popup ({list.length} creators). Only the name is required; empty links are hidden. No photo = initials.
       </p>
 
-      <div className="mt-6 flex flex-col gap-3 sm:flex-row">
+      {/* como mudar a ordem (ele não tinha percebido que o número é editável) */}
+      <p className="mt-4 border-l-2 border-amber bg-amber/10 px-3 py-2 text-sm text-white/85">
+        <b className="text-amber">Change the order:</b> click the <b>#</b> number of a creator, type the position you want (e.g. 50) and press <b>Enter</b>. Then click <b>Save</b>.
+      </p>
+
+      <div className="mt-4 flex flex-col gap-3 sm:flex-row">
         <label className="flex flex-1 items-center gap-2 border border-white/20 bg-ink px-3">
           <Search className="h-4 w-4 text-white/50" />
           <input value={q} onChange={(e) => {
@@ -59,18 +86,27 @@ export default function RosterEditor({ list, onChange }: { list: Creator[]; onCh
               setPage(0);
             }} placeholder="Search a creator..." className="w-full bg-transparent py-2.5 text-sm outline-none" />
         </label>
-        <button
-          type="button"
-          onClick={() => {
-            setQ("");
-            setPage(0);
-            onChange([{ name: "" }, ...list]);
-          }}
-          className="inline-flex items-center justify-center gap-2 border border-dashed border-white/30 px-4 py-2.5 text-sm font-extrabold uppercase hover:border-amber hover:text-amber"
-        >
-          <Plus className="h-4 w-4" /> Add creator
-        </button>
+        <div className="flex items-stretch border border-dashed border-white/30">
+          <button type="button" onClick={addCreator} className="inline-flex flex-1 items-center justify-center gap-2 px-4 py-2.5 text-sm font-extrabold uppercase hover:text-amber">
+            <Plus className="h-4 w-4" /> Add creator
+          </button>
+          {/* em qual posição entra o novo */}
+          <label className="flex items-center gap-1.5 border-l border-dashed border-white/30 px-3 text-[11px] font-extrabold uppercase text-white/50">
+            at #
+            <input
+              value={addAt}
+              inputMode="numeric"
+              onChange={(e) => setAddAt(e.target.value.replace(/\D/g, "").slice(0, 4))}
+              onKeyDown={(e) => e.key === "Enter" && (e.preventDefault(), addCreator())}
+              onFocus={(e) => e.target.select()}
+              aria-label="Position of the new creator"
+              className="w-12 border border-white/20 bg-ink py-1.5 text-center text-sm text-white outline-none focus:border-amber"
+            />
+          </label>
+        </div>
       </div>
+
+      {note && <p className="mt-3 text-sm font-bold text-amber">{note}</p>}
 
       <ul className="mt-4 divide-y divide-white/10 border border-white/10 bg-navy/60">
         {pageItems.map(({ c, i }) => (
@@ -95,7 +131,7 @@ export default function RosterEditor({ list, onChange }: { list: Creator[]; onCh
                 value={c.name}
                 maxLength={60}
                 placeholder="Name"
-                autoFocus={!c.name && i === 0}
+                autoFocus={!c.name && i === newAt}
                 onChange={(e) => set(i, { name: e.target.value })}
               />
             </div>
@@ -170,6 +206,8 @@ function PositionInput({ pos, max, onMove }: { pos: number; max: number; onMove:
     setV(String(pos));
   };
   return (
+    <label className="relative flex h-10 w-14 shrink-0 cursor-text items-center border border-amber/50 bg-ink hover:border-amber has-[:focus]:border-amber has-[:focus]:bg-amber/10">
+      <span className="pointer-events-none absolute left-1.5 text-[11px] font-extrabold text-amber">#</span>
     <input
       type="text"
       inputMode="numeric"
@@ -179,8 +217,9 @@ function PositionInput({ pos, max, onMove }: { pos: number; max: number; onMove:
       onKeyDown={(e) => e.key === "Enter" && (e.preventDefault(), commit())}
       onFocus={(e) => e.target.select()}
       aria-label="Position"
-      title="Position in the list"
-      className="h-10 w-12 shrink-0 border border-white/15 bg-ink text-center text-sm font-extrabold tabular-nums text-white/70 outline-none focus:border-amber focus:text-white"
+      title="Position: type a number and press Enter to move this creator"
+      className="peer h-10 w-full bg-transparent pl-4 pr-1 text-center text-sm font-extrabold tabular-nums text-white outline-none"
     />
+    </label>
   );
 }
