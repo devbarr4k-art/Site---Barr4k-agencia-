@@ -2,6 +2,7 @@
 
 import { useEffect, useMemo, useRef, useState } from "react";
 import Image from "next/image";
+import Lenis from "lenis";
 import { Search, X } from "lucide-react";
 import { FaInstagram, FaTwitch, FaYoutube } from "react-icons/fa";
 import { SiKick } from "react-icons/si";
@@ -31,6 +32,7 @@ export default function CreatorsModal({ creators }: { creators: Creator[] }) {
   const [pxDone, setPxDone] = useState(false);
   const searchRef = useRef<HTMLInputElement>(null);
   const gridRef = useRef<HTMLDivElement>(null);
+  const contentRef = useRef<HTMLDivElement>(null);
 
   // tira os pixels da abertura da tela quando a animação acaba (no celular alguns ficavam presos)
   useEffect(() => {
@@ -62,6 +64,15 @@ export default function CreatorsModal({ creators }: { creators: Creator[] }) {
       clearTimeout(t);
     };
      
+  }, [open]);
+
+  // rolagem suave (a mesma da home) dentro da lista do popup
+  useEffect(() => {
+    const el = gridRef.current;
+    const content = contentRef.current;
+    if (!open || !el || !content || window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+    const lenis = new Lenis({ wrapper: el, content, autoRaf: true, lerp: 0.08 });
+    return () => lenis.destroy();
   }, [open]);
 
   // contador subindo até o total
@@ -196,6 +207,8 @@ export default function CreatorsModal({ creators }: { creators: Creator[] }) {
           }}
           className="roster-grid relative z-10 mt-4 flex-1 overflow-y-auto overscroll-contain px-5 pb-10 pt-3 sm:px-10"
         >
+          {/* miolo que muda de altura com a busca/filtro: o Lenis observa ele pra saber até onde rola */}
+          <div ref={contentRef}>
           {shown.length === 0 ? (
             <div className="grid place-items-center py-24 text-center">
               <div className="display text-5xl normal-case text-white/60">No creator found.</div>
@@ -246,7 +259,7 @@ export default function CreatorsModal({ creators }: { creators: Creator[] }) {
               ))}
             </ul>
           )}
-
+          </div>
         </div>
         {/* esmaecido no fim da lista */}
         <div className="pointer-events-none absolute inset-x-0 bottom-0 z-10 h-16 bg-gradient-to-t from-navy to-transparent" aria-hidden />
