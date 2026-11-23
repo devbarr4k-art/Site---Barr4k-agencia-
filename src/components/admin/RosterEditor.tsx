@@ -1,7 +1,7 @@
 "use client";
 
 import { useMemo, useState } from "react";
-import { ChevronLeft, ChevronRight, Plus, Search, Trash2, User } from "lucide-react";
+import { ArrowDown, ArrowUp, ChevronLeft, ChevronRight, Plus, Search, Trash2, User } from "lucide-react";
 import { FaInstagram, FaTwitch, FaYoutube } from "react-icons/fa";
 import { SiKick } from "react-icons/si";
 import type { Creator } from "@/lib/creators";
@@ -33,13 +33,22 @@ export default function RosterEditor({ list, onChange }: { list: Creator[]; onCh
   const pageItems = shown.slice(cur * PER_PAGE, (cur + 1) * PER_PAGE);
 
   const set = (i: number, patch: Partial<Creator>) => onChange(list.map((c, j) => (j === i ? { ...c, ...patch } : c)));
+  /** Move o creator da posição i pra posição "to" (0 = primeiro) */
+  const moveTo = (i: number, to: number) => {
+    const j = Math.max(0, Math.min(list.length - 1, to));
+    if (j === i) return;
+    const l = [...list];
+    const [c] = l.splice(i, 1);
+    l.splice(j, 0, c);
+    onChange(l);
+  };
 
   return (
     <section>
       <p className="eyebrow text-amber">Creators</p>
       <h2 className="display mt-2 text-4xl">Full roster</h2>
       <p className="mt-2 text-sm text-white/60">
-        The list in the &ldquo;See full roster&rdquo; popup ({list.length} creators). Only the name is required; empty links are hidden. No photo = initials.
+        The list in the &ldquo;See full roster&rdquo; popup ({list.length} creators). Only the name is required; empty links are hidden. No photo = initials. The number on the left is the position: type a new one and press Enter to move.
       </p>
 
       <div className="mt-6 flex flex-col gap-3 sm:flex-row">
@@ -65,8 +74,10 @@ export default function RosterEditor({ list, onChange }: { list: Creator[]; onCh
 
       <ul className="mt-4 divide-y divide-white/10 border border-white/10 bg-navy/60">
         {pageItems.map(({ c, i }) => (
-          <li key={i} className="grid gap-2 p-3 lg:grid-cols-[auto_minmax(0,1.1fr)_repeat(4,minmax(0,1fr))_auto] lg:items-center">
+          <li key={i} className="grid gap-2 p-3 lg:grid-cols-[auto_auto_minmax(0,1.1fr)_repeat(4,minmax(0,1fr))_auto] lg:items-center">
             <div className="flex items-center gap-2 lg:contents">
+              {/* posição na lista do site: digita o número e aperta Enter (ou sai do campo) */}
+              <PositionInput key={`${i}-${list.length}`} pos={i + 1} max={list.length} onMove={(n) => moveTo(i, n - 1)} />
               <UploadButton
                 accept="image/*"
                 onDone={(url) => set(i, { photo: url })}
@@ -97,6 +108,12 @@ export default function RosterEditor({ list, onChange }: { list: Creator[]; onCh
               ))}
             </div>
             <div className="flex justify-end gap-1">
+              <button type="button" onClick={() => moveTo(i, i - 1)} disabled={i === 0} className="p-2 text-white/60 hover:text-white disabled:opacity-20" aria-label="Move up">
+                <ArrowUp className="h-4 w-4" />
+              </button>
+              <button type="button" onClick={() => moveTo(i, i + 1)} disabled={i === list.length - 1} className="p-2 text-white/60 hover:text-white disabled:opacity-20" aria-label="Move down">
+                <ArrowDown className="h-4 w-4" />
+              </button>
               {c.photo && (
                 <button type="button" onClick={() => set(i, { photo: undefined })} className="px-2 py-1 text-[10px] font-bold uppercase text-white/50 hover:text-amber">
                   No photo
@@ -140,5 +157,30 @@ export default function RosterEditor({ list, onChange }: { list: Creator[]; onCh
         </nav>
       )}
     </section>
+  );
+}
+
+/** Número da posição; muda ao apertar Enter ou sair do campo */
+function PositionInput({ pos, max, onMove }: { pos: number; max: number; onMove: (n: number) => void }) {
+  const [v, setV] = useState(String(pos));
+  const commit = () => {
+    const n = parseInt(v, 10);
+    if (Number.isFinite(n) && n >= 1 && n !== pos) onMove(Math.min(n, max));
+    // a linha continua na mesma posição da tela (agora com outro creator), então volta pro número dela
+    setV(String(pos));
+  };
+  return (
+    <input
+      type="text"
+      inputMode="numeric"
+      value={v}
+      onChange={(e) => setV(e.target.value.replace(/\D/g, "").slice(0, 4))}
+      onBlur={commit}
+      onKeyDown={(e) => e.key === "Enter" && (e.preventDefault(), commit())}
+      onFocus={(e) => e.target.select()}
+      aria-label="Position"
+      title="Position in the list"
+      className="h-10 w-12 shrink-0 border border-white/15 bg-ink text-center text-sm font-extrabold tabular-nums text-white/70 outline-none focus:border-amber focus:text-white"
+    />
   );
 }
